@@ -1,28 +1,27 @@
 @use 'fonts' as *;
 @use 'variables' as *;
 
-
-// breakpoints 
+// breakpoints
 .container {
-    width: 100%;
-    margin: 0 auto;
-    max-width: 346px;
-    padding: 0 16px;
-  
-    @media (min-width: $breakpoints-m) {
-      max-width: 696px;
-      padding: 0 36px;
-    }
-    // @media (min-width: $breakpoints-l) {
-    //   max-width: 936px;
-    //   padding: 0 36px;
-    // }
-    // @media (min-width: $breakpoints-xl) {
-    //   max-width: 1216px;
-    //   padding: 0 112px;
-    // }
-    @media (min-width: $breakpoints-xxl) {
-      max-width: 1680px;
-      padding: 0 120px;
-    }
+  width: 100%;
+  margin: 0 auto;
+  max-width: 346px;
+  padding: 0 16px;
+
+  @media (min-width: $breakpoints-m) {
+    max-width: 696px;
+    padding: 0 36px;
   }
+  // @media (min-width: $breakpoints-l) {
+  //   max-width: 936px;
+  //   padding: 0 36px;
+  // }
+  // @media (min-width: $breakpoints-xl) {
+  //   max-width: 1216px;
+  //   padding: 0 112px;
+  // }
+  @media (min-width: $breakpoints-xxl) {
+    max-width: 1440px;
+    padding: 0 96px;
+  }
+}
