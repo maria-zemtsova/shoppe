@@ -75,7 +75,7 @@ const iconLinks: IconLink[] = [
 </template>
 
 <style lang="scss">
-@use '/assets/scss/variables' as *;
+//@use '/assets/scss/variables' as *;
 @use '/assets/scss/fonts' as *;
 
 .header {
@@ -87,7 +87,7 @@ const iconLinks: IconLink[] = [
     &__nav {
         display: flex;
         align-items: center;
-        gap: 96px;
+        gap: 48px;
     }
 
     &__list {
@@ -98,19 +98,17 @@ const iconLinks: IconLink[] = [
     }
 
     &__list-menu {
-        gap: 64px;
-        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 24px;
     }
 
     &__list-menu::after {
         content: '';
-        position: absolute;
-        right: -48px;
-        top: 50%;
-        transform: translateY(-50%);
         width: 1px;
         height: 17px;
         background: $dark-gray;
+        margin-left: 24px;
     }
 
     &__list-icons {

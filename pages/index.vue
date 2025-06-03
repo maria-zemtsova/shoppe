@@ -1,7 +1,6 @@
-<script setup>
-import HeaderComponent from '~/components/HeaderComponent.vue';
-</script>
+<script setup lang="ts">
+definePageMeta({
 
-<template>
-    <HeaderComponent />
-</template>
+})
+
+</script>
