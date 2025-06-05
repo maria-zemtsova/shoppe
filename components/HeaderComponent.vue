@@ -52,7 +52,7 @@ const iconLinks: IconLink[] = [
 </script>
 
 <template>
-    <header class="header container">
+    <header class="header">
         <HeaderLogo />
         <nav class="header__nav">
             <ul class="header__list header__list-menu">
