@@ -8,9 +8,12 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     placeholder: 'email',
+    withButton: true, // По умолчанию кнопка отображается
 });
 
 const email = ref('');
+const errorMessage = ref('');
+const isSuccess = ref(false);
 
 const isValidEmail = (email: string): boolean => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -18,24 +21,53 @@ const isValidEmail = (email: string): boolean => {
 
 const handleSubmit = (): void => {
     const trimmedEmail = email.value.trim();
+    errorMessage.value = '';
+    isSuccess.value = false;
 
-    if (!trimmedEmail || !isValidEmail(trimmedEmail)) {
+    // Валидации
+    if (!trimmedEmail) {
+        errorMessage.value = 'Required field.';
+        return;
+    }
+    if (!isValidEmail(trimmedEmail)) {
+        errorMessage.value = 'Invalid address';
         return;
     }
 
+    // Проверка на существующий email
     const storedEmails = JSON.parse(localStorage.getItem(props.storageKey) || '[]');
+    if (storedEmails.includes(trimmedEmail)) {
+        errorMessage.value = 'The email address already exists';
+        return;
+    }
+
+    // Сохраняем и показываем успех
     storedEmails.push(trimmedEmail);
     localStorage.setItem(props.storageKey, JSON.stringify(storedEmails));
+    email.value = '';
+    isSuccess.value = true;
 };
 </script>
 
 <template>
-    <form class="newsletter" @submit.prevent="handleSubmit">
-        <input v-model="email" :placeholder="placeholder" type="email" required class="newsletter__input">
-        <button type="submit" class="newsletter__button" aria-label="send email">
-            <span class="visually-hidden">send</span>
-        </button>
-    </form>
+    <section>
+
+
+        <form class="newsletter" @submit.prevent="handleSubmit">
+            <div class="newsletter__wrapper">
+                <input v-model="email" :placeholder="placeholder" type="email" class="newsletter__input"
+                    @input="errorMessage = ''">
+                <button type="submit" class="newsletter__button" aria-label="Submit email" formnovalidate />
+            </div>
+
+        </form>
+        <div v-if="errorMessage" class="newsletter__error">
+            {{ errorMessage }}
+        </div>
+        <div v-if="isSuccess" class="newsletter__success">
+            The email has been successfully sent.
+        </div>
+    </section>
 </template>
 <style lang="scss">
 .newsletter {
@@ -45,12 +77,12 @@ const handleSubmit = (): void => {
     align-items: center;
     border-bottom: 1px solid $black;
     padding-bottom: 13px;
+    font-family: $font-dm-sans;
 
     &__input {
         width: 245px;
         padding: 0;
         border: none;
-        font-family: $font-dm-sans;
         font-size: 16px;
         color: $dark-gray
     }
@@ -58,6 +90,7 @@ const handleSubmit = (): void => {
     &__input:focus {
         outline: none;
         box-shadow: none;
+        color: $black
     }
 
     &__button {
@@ -67,6 +100,18 @@ const handleSubmit = (): void => {
         border: none;
         background-image: url(/assets/arrow.svg);
         background-repeat: no-repeat;
+    }
+
+    &__error {
+        font-size: 8px;
+        margin-top: 8px;
+        color: $red;
+    }
+
+    &__success {
+        font-size: 8px;
+        margin-top: 8px;
+        color: #43c16b;
     }
 
 }

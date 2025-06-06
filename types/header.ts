@@ -8,7 +8,7 @@ export interface MenuLink {
 
 export interface IconLink {
   id: number
-  component: DefineComponent<{}, {}, any>
+  component: DefineComponent
   label: string
   path: string
 }

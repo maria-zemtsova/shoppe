@@ -1,12 +1,12 @@
 <script setup lang="ts">
 
-import type { FooterLink, Social } from '~/types/footer';
-import { InputFooter } from '#components';
-import Facebook from './icons/Facebook.vue';
-import Instagram from './icons/Instagram.vue';
-import Twitter from './icons/Twitter.vue';
 import type { DefineComponent } from 'vue';
-const footerLinks: FooterLink[] = [
+
+import type { LinksText } from '~/types/linksText';
+import type { Social } from '~/types/socials';
+import { InputFooter } from '#components';
+import { FacebookIcon, TwitterIcon, InstagramIcon } from '~/components/icons/index';
+const footerLinks: LinksText[] = [
     {
         id: 1,
         path: '/contact',
@@ -26,19 +26,19 @@ const footerLinks: FooterLink[] = [
 const footerSocials: Social[] = [
     {
         id: 1,
-        component: Facebook as DefineComponent,
+        component: FacebookIcon as DefineComponent,
         label: 'facebook',
         path: '/fb'
     },
     {
         id: 2,
-        component: Instagram as DefineComponent,
+        component: InstagramIcon as DefineComponent,
         label: 'instagram',
         path: '/insta'
     },
     {
         id: 3,
-        component: Twitter as DefineComponent,
+        component: TwitterIcon as DefineComponent,
         label: 'twwiter',
         path: '/tw'
     },
@@ -58,7 +58,7 @@ const footerSocials: Social[] = [
         </div>
 
         <div class="footer__wrapper">
-            <InputFooter placeholder="Give an email, get the newsletter." />
+            <InputFooter placeholder="Give an email, get the newsletter." storage-key="newsletterEmails" />
             <ul class="footer__socials">
                 <li v-for="item in footerSocials" :key="item.id">
                     <NuxtLink class="footer__socials-link" :to="item.path">

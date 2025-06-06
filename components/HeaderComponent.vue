@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import HeaderLogo from './icons/HeaderLogo.vue';
-import type { MenuLink, IconLink } from '@/types/header';
-import IconSearch from './icons/IconSearch.vue';
-import IconShopping from './icons/IconShopping.vue';
-import IconUser from './icons/IconUser.vue';
+import type { LinksText } from '~/types/linksText';
+import type { Social } from '~/types/socials';
+import { SearchIcon, UserIcon, ShoppingIcon } from '~/components/icons/index';
 import type { DefineComponent } from 'vue';
 
 
 
-const menuLinks: MenuLink[] = [
+
+const menuLinks: LinksText[] = [
     {
         id: 1,
         path: '/shop',
@@ -26,26 +26,26 @@ const menuLinks: MenuLink[] = [
     }
 ];
 
-const iconLinks: IconLink[] = [
+const iconLinks: Social[] = [
     {
         id: 1,
         path: '/',
         label: 'search',
-        component: IconSearch as DefineComponent
+        component: SearchIcon as DefineComponent
 
     },
     {
         id: 2,
         path: '/',
         label: 'shopping',
-        component: IconShopping as DefineComponent
+        component: ShoppingIcon as DefineComponent
     },
 
     {
         id: 3,
         path: '/',
         label: 'user',
-        component: IconUser as DefineComponent
+        component: UserIcon as DefineComponent
 
     },
 ]
