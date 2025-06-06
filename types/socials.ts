@@ -1,12 +1,6 @@
 import type { DefineComponent } from 'vue'
 
-export interface MenuLink {
-  id: number
-  path: string
-  label: string
-}
-
-export interface IconLink {
+export interface Social {
   id: number
   component: DefineComponent
   label: string
