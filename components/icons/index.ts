@@ -10,4 +10,4 @@ import SearchIcon from '~/components/icons/SearchIcon.vue'
 import ShoppingIcon from '~/components/icons/ShoppingIcon.vue'
 import UserIcon from '~/components/icons/UserIcon.vue'
 
-export default { FacebookIcon, TwitterIcon, InstagramIcon, SearchIcon, ShoppingIcon, UserIcon }
+export { FacebookIcon, TwitterIcon, InstagramIcon, SearchIcon, ShoppingIcon, UserIcon }

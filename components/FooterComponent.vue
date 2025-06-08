@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import type { DefineComponent } from 'vue';
+import LinksList from "~/components/LinksList.vue";
 
 import type { LinksText } from '~/types/linksText';
 import type { Social } from '~/types/socials';
@@ -48,24 +49,21 @@ const footerSocials: Social[] = [
 <template>
     <footer class="footer">
         <div class="footer__wrapper">
-            <ul class="footer__nav">
-                <li v-for="item in footerLinks" :key="item.id" class="footer__nav-item">
-                    <NuxtLink class="footer__nav-link" :to="item.path">{{ item.label }}</NuxtLink>
-                </li>
-            </ul>
+            <LinksList :items="footerLinks" list-class="footer__nav" item-class="footer__nav-item"
+                link-class="footer__nav-link" />
             <p class="footer__copyright"> <span>© 2021 Shelly.</span> Terms of use <span>and</span> privacy policy.</p>
-
         </div>
 
         <div class="footer__wrapper">
             <InputFooter placeholder="Give an email, get the newsletter." storage-key="newsletterEmails" />
-            <ul class="footer__socials">
+            <LinksList :items="footerSocials" list-class="footer__socials" link-class="footer__socials-link" />
+            <!-- <ul class="footer__socials">
                 <li v-for="item in footerSocials" :key="item.id">
                     <NuxtLink class="footer__socials-link" :to="item.path">
                         <component :is="item.component" />
                     </NuxtLink>
                 </li>
-            </ul>
+            </ul> -->
         </div>
     </footer>
 </template>
@@ -99,6 +97,7 @@ const footerSocials: Social[] = [
         color: $dark-gray;
         text-decoration: none;
         text-transform: uppercase;
+        cursor: pointer;
     }
 
     &__nav-link:hover {

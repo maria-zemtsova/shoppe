@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import HeaderLogo from './icons/HeaderLogo.vue';
-import type { LinksText } from '~/types/linksText';
-import type { Social } from '~/types/socials';
-import { SearchIcon, UserIcon, ShoppingIcon } from '~/components/icons/index';
+// import type { LinksText } from '~/types/linksText';
+// import type { Social } from '~/types/socials';
+import type { LinkItem } from '~/types/links';
+import { UserIcon, ShoppingIcon, SearchIcon } from '~/components/icons/index';
 import type { DefineComponent } from 'vue';
+import LinksList from '~/components/LinksList.vue';
 
 
 
 
-const menuLinks: LinksText[] = [
+const menuLinks: LinkItem[] = [
     {
         id: 1,
         path: '/shop',
@@ -26,7 +28,7 @@ const menuLinks: LinksText[] = [
     }
 ];
 
-const iconLinks: Social[] = [
+const iconLinks: LinkItem[] = [
     {
         id: 1,
         path: '/',
@@ -55,18 +57,9 @@ const iconLinks: Social[] = [
     <header class="header">
         <HeaderLogo />
         <nav class="header__nav">
-            <ul class="header__list header__list-menu">
-                <li v-for="item in menuLinks" :key="item.id" class="menu__item">
-                    <NuxtLink class="menu__link" :to="item.path">{{ item.label }}</NuxtLink>
-                </li>
-            </ul>
-            <ul class="header__list header__list-icons">
-                <li v-for="item in iconLinks" :key="item.id">
-                    <NuxtLink :to="item.path">
-                        <component :is="item.component" />
-                    </NuxtLink>
-                </li>
-            </ul>
+            <LinksList :items="menuLinks" class="header__list" list-class="header__list-menu" item-class="menu__item"
+                link-class="menu__link" />
+            <LinksList :items="iconLinks" class="header__list" list-class="header__list-icons" />
         </nav>
 
     </header>

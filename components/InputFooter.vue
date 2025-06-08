@@ -8,7 +8,6 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     placeholder: 'email',
-    withButton: true, // По умолчанию кнопка отображается
 });
 
 const email = ref('');
@@ -34,14 +33,14 @@ const handleSubmit = (): void => {
         return;
     }
 
-    // Проверка на существующий email
+
     const storedEmails = JSON.parse(localStorage.getItem(props.storageKey) || '[]');
     if (storedEmails.includes(trimmedEmail)) {
         errorMessage.value = 'The email address already exists';
         return;
     }
 
-    // Сохраняем и показываем успех
+
     storedEmails.push(trimmedEmail);
     localStorage.setItem(props.storageKey, JSON.stringify(storedEmails));
     email.value = '';
