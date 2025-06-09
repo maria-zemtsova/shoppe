@@ -7,13 +7,15 @@ defineProps<{
     itemClass?: string;
     linkClass?: string;
 }>();
-
 </script>
+
 <template>
     <ul :class="listClass">
         <li v-for="item in items" :key="item.id" :class="itemClass">
-            <NuxtLink v-if="item.component" :class="linkClass" :to="item.path" />
-            <NuxtLink v-else :class="linkClass">{{ item.label }}</NuxtLink>
+            <NuxtLink :to="item.path" :class="linkClass">
+                <component :is="item.component" v-if="item.component" />
+                <span v-else>{{ item.label }}</span>
+            </NuxtLink>
         </li>
     </ul>
 </template>

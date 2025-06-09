@@ -2,12 +2,10 @@
 
 import type { DefineComponent } from 'vue';
 import LinksList from "~/components/LinksList.vue";
-
-import type { LinksText } from '~/types/linksText';
-import type { Social } from '~/types/socials';
-import { InputFooter } from '#components';
+import type { LinkItem } from '~/types/links';
+import BaseInput from '~/components/ui/BaseInput.vue';
 import { FacebookIcon, TwitterIcon, InstagramIcon } from '~/components/icons/index';
-const footerLinks: LinksText[] = [
+const footerLinks: LinkItem[] = [
     {
         id: 1,
         path: '/contact',
@@ -24,7 +22,7 @@ const footerLinks: LinksText[] = [
         label: 'shipping and returns'
     },
 ]
-const footerSocials: Social[] = [
+const footerSocials: LinkItem[] = [
     {
         id: 1,
         component: FacebookIcon as DefineComponent,
@@ -45,6 +43,7 @@ const footerSocials: Social[] = [
     },
 ]
 
+const { email, errorMessage, isSuccess, handleSubmit } = useEmailSubscribe('newsletterEmails');
 </script>
 <template>
     <footer class="footer">
@@ -55,15 +54,16 @@ const footerSocials: Social[] = [
         </div>
 
         <div class="footer__wrapper">
-            <InputFooter placeholder="Give an email, get the newsletter." storage-key="newsletterEmails" />
+            <form @submit.prevent="handleSubmit">
+                <BaseInput v-model="email" class="newsletter" type="email"
+                    placeholder="Give an email, get the newsletter." :error="errorMessage">
+                    <button class="newsletter__button" formnovalidate />
+                </BaseInput>
+                <div v-if="isSuccess" class="newsletter__success">
+                    The email has been successfully sent.
+                </div>
+            </form>
             <LinksList :items="footerSocials" list-class="footer__socials" link-class="footer__socials-link" />
-            <!-- <ul class="footer__socials">
-                <li v-for="item in footerSocials" :key="item.id">
-                    <NuxtLink class="footer__socials-link" :to="item.path">
-                        <component :is="item.component" />
-                    </NuxtLink>
-                </li>
-            </ul> -->
         </div>
     </footer>
 </template>
@@ -128,6 +128,25 @@ const footerSocials: Social[] = [
 
     &__socials-link path:hover {
         fill: $black;
+    }
+}
+
+.newsletter {
+
+    &__button {
+        width: 25px;
+        height: 9px;
+        background-color: transparent;
+        border: none;
+        background-image: url(/assets/arrow.svg);
+        background-repeat: no-repeat;
+    }
+
+    &__success {
+        font-family: $font-dm-sans;
+        font-size: 8px;
+        margin-top: 8px;
+        color: #43c16b;
     }
 
 }
