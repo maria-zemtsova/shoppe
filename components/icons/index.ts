@@ -9,5 +9,19 @@ import InstagramIcon from '~/components/icons/InstagramIcon.vue'
 import SearchIcon from '~/components/icons/SearchIcon.vue'
 import ShoppingIcon from '~/components/icons/ShoppingIcon.vue'
 import UserIcon from '~/components/icons/UserIcon.vue'
+import LogoutIcon from './LogoutIcon.vue'
 
-export { FacebookIcon, TwitterIcon, InstagramIcon, SearchIcon, ShoppingIcon, UserIcon }
+import BurgerIcon from './BurgerIcon.vue'
+import CloseIcon from './CloseIcon.vue'
+
+export {
+  FacebookIcon,
+  TwitterIcon,
+  InstagramIcon,
+  SearchIcon,
+  ShoppingIcon,
+  UserIcon,
+  BurgerIcon,
+  CloseIcon,
+  LogoutIcon
+}

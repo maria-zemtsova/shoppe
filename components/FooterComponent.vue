@@ -150,4 +150,10 @@ const { email, errorMessage, isSuccess, handleSubmit } = useEmailSubscribe('news
     }
 
 }
+
+@media (max-width: 600px) {
+    .footer {
+        display: none;
+    }
+}
 </style>

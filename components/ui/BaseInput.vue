@@ -13,13 +13,14 @@ defineEmits(['update:modelValue']);
 
 <template>
 
-    <div class="input__wrapper">
-        <input class="input" :type="type" :placeholder="placeholder" :value="modelValue"
-            @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
-        <slot />
+    <div>
+        <div class="input__wrapper">
+            <input class="input" :type="type" :placeholder="placeholder" :value="modelValue"
+                @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
+            <slot />
+        </div>
+        <span v-if="error" class="error-message">{{ error }}</span>
     </div>
-    <span v-if="error" class="error-message">{{ error }}</span>
-
 
 </template>
 
