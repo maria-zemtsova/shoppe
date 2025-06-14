@@ -12,16 +12,29 @@
     max-width: 696px;
     padding: 0 36px;
   }
-  // @media (min-width: $breakpoints-l) {
-  //   max-width: 936px;
-  //   padding: 0 36px;
-  // }
-  // @media (min-width: $breakpoints-xl) {
-  //   max-width: 1216px;
-  //   padding: 0 112px;
-  // }
+  @media (min-width: $breakpoints-l) {
+    max-width: 936px;
+    padding: 0 36px;
+  }
+  @media (min-width: $breakpoints-xl) {
+    max-width: 1216px;
+    padding: 0 112px;
+  }
   @media (min-width: $breakpoints-xxl) {
-    max-width: 1440px;
+    max-width: 1300px;
     padding: 0 96px;
   }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }
