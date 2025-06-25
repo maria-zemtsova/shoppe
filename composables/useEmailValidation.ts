@@ -39,6 +39,6 @@ export const useEmailSubscribe = (storageKey: string) => {
     email,
     errorMessage,
     isSuccess,
-    handleSubmit
+    handleSubmit,
   }
 }

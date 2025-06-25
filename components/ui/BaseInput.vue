@@ -1,58 +1,70 @@
 <script setup lang="ts">
+  interface Props {
+    type?: string
+    placeholder?: string
+    modelValue?: string
+    error?: string
+  }
 
-defineProps<
-    {
-        type?: string
-        placeholder?: string
-        modelValue?: string
-        error?: string;
-    }>()
-defineEmits(['update:modelValue']);
+  const props = defineProps<Props>()
+  const emit = defineEmits<{
+    (e: 'update:modelValue', value: string): void
+  }>()
 </script>
 
-
 <template>
-
-    <div>
-        <div class="input__wrapper">
-            <input class="input" :type="type" :placeholder="placeholder" :value="modelValue"
-                @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
-            <slot />
-        </div>
-        <span v-if="error" class="error-message">{{ error }}</span>
+  <div>
+    <div class="input__wrapper">
+      <input
+        class="input"
+        :type="props.type"
+        :placeholder="props.placeholder"
+        :value="props.modelValue"
+        @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      />
+      <slot />
     </div>
-
+    <span v-if="props.error" class="error-message">{{ props.error }}</span>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.input__wrapper {
-    min-width: 396px;
+  .input__wrapper {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid $black;
+    justify-content: space-between;
     padding-bottom: 13px;
     font-family: $font-dm-sans;
-}
+    border-bottom: 1px solid $black;
 
-.input {
+    @media (width <= 600px) {
+      min-width: 288px;
+      max-width: 288px;
+    }
+  }
+
+  .input {
     width: 245px;
     padding: 0;
-    border: none;
     font-size: 16px;
-    color: $dark-gray
-}
+    color: $dark-gray;
+    border: none;
 
-.input:focus {
+    @media (width <= 600px) {
+      font-size: 12px;
+    }
+  }
+
+  .input:focus {
+    color: $black;
     outline: none;
     box-shadow: none;
-    color: $black
-}
+  }
 
-.error-message {
-    font-family: $font-dm-sans;
-    font-size: 8px;
+  .error-message {
     margin-top: 8px;
+    font-family: $font-dm-sans;
+    font-size: 12px;
     color: $red;
-}
+  }
 </style>

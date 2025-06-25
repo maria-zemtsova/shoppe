@@ -17,24 +17,28 @@
     padding: 0 36px;
   }
   @media (min-width: $breakpoints-xl) {
-    max-width: 1216px;
-    padding: 0 112px;
+    max-width: 1200px;
+    padding: 0 60px;
   }
-  @media (min-width: $breakpoints-xxl) {
-    max-width: 1300px;
-    padding: 0 96px;
-  }
+  // @media (min-width: $breakpoints-xxl) {
+  //   max-width: 1300px;max-width
+  //   padding: 0 96px;padding
+  // }
 }
 
 .visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
-  margin: -1px;
-  border: 0;
   padding: 0;
-  white-space: nowrap;
-  clip-path: inset(100%);
-  clip: rect(0 0 0 0);
+  margin: -1px;
   overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+}
+
+body {
+  margin: 0;
 }

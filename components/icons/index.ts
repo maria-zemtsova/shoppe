@@ -23,5 +23,5 @@ export {
   UserIcon,
   BurgerIcon,
   CloseIcon,
-  LogoutIcon
+  LogoutIcon,
 }

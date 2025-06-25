@@ -1,16 +1,13 @@
 <script setup lang="ts">
-definePageMeta({
-
-})
-
+  definePageMeta({})
 </script>
 
 <template>
-    <div />
+  <div />
 </template>
 
 <style scoped>
-div {
+  div {
     height: 200px;
-}
+  }
 </style>
