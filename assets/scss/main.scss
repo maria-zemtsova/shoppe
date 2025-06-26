@@ -4,9 +4,9 @@
 // breakpoints
 .container {
   width: 100%;
-  margin: 0 auto;
   max-width: 346px;
   padding: 0 16px;
+  margin: 0 auto;
 
   @media (min-width: $breakpoints-m) {
     max-width: 696px;
@@ -21,8 +21,8 @@
     padding: 0 60px;
   }
   // @media (min-width: $breakpoints-xxl) {
-  //   max-width: 1300px;max-width
-  //   padding: 0 96px;padding
+  //   max-width: 1300px;max-widthmax-width
+  //   padding: 0 96px;paddingpadding
   // }
 }
 

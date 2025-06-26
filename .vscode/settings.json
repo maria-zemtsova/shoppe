@@ -1,10 +1,22 @@
 {
+  // Настройки форматирования
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
+  "files.autoSave": "onFocusChange",
+
+  // Настройки линтинга
+  "eslint.useFlatConfig": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
   },
+
+  // Специфичные настройки для Vue
   "[vue]": {
     "editor.defaultFormatter": "Vue.volar"
-  }
+  },
+
+  // Настройки Stylelint
+  "stylelint.validate": ["css", "scss", "vue"],
+  "stylelint.enable": true
 }
