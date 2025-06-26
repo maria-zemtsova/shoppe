@@ -5,7 +5,13 @@ import tsParser from '@typescript-eslint/parser'
 import vue from 'eslint-plugin-vue'
 import vueParser from 'vue-eslint-parser'
 import globals from 'globals'
-import vueGlobals from 'vue-eslint-parser'
+
+// Вручную определяем Vue-глобалы
+const vueGlobals = {
+  ref: 'readonly',
+  computed: 'readonly',
+  reactive: 'readonly',
+}
 
 export default [
   js.configs.recommended,
@@ -28,10 +34,10 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...vueGlobals.environments.env.globals,
-        ref: 'readonly',
-        computed: 'readonly',
-        reactive: 'readonly',
+        ...vueGlobals,
+        // ref: 'readonly',
+        // computed: 'readonly',
+        // reactive: 'readonly',
       },
     },
 

@@ -4,6 +4,7 @@
   import type { LinkItem } from '~/types/links'
   import BaseInput from '~/components/ui/BaseInput.vue'
   import { FacebookIcon, TwitterIcon, InstagramIcon } from '~/components/icons/index'
+  import { useEmailSubscribe } from '~/composables/useEmailValidation'
   const footerLinks: LinkItem[] = [
     {
       id: 1,
@@ -92,7 +93,7 @@
     padding-top: 37px;
     border-top: 1px solid $light-gray;
 
-    @media (width <= 900px) {
+    @media (width <=900px) {
       display: flex;
       flex-direction: column;
       gap: 35px;
@@ -107,7 +108,7 @@
       padding: 0;
       list-style: none;
 
-      @media (width <= 600px) {
+      @media (width <=600px) {
         flex-direction: column;
         gap: 8px;
         order: 2;
@@ -123,7 +124,7 @@
       text-decoration: none;
       cursor: pointer;
 
-      @media (width <= 600px) {
+      @media (width <=600px) {
         font-size: 12px;
         line-height: 20px;
       }
@@ -142,7 +143,7 @@
       font-size: 16px;
       color: $dark-gray;
 
-      @media (width <= 600px) {
+      @media (width <=600px) {
         order: 4;
         font-size: 12px;
         line-height: 20px;
@@ -157,7 +158,7 @@
       grid-row: 1/2;
       grid-column: 2/3;
 
-      @media (width <= 600px) {
+      @media (width <=600px) {
         order: 1;
       }
     }
@@ -175,7 +176,7 @@
         line-height: 20px;
         color: $black;
 
-        @media (width <= 600px) {
+        @media (width <=600px) {
           display: block;
         }
       }
@@ -185,12 +186,12 @@
         width: 47px;
         border: 1px $black solid;
 
-        @media (width <= 600px) {
+        @media (width <=600px) {
           display: block;
         }
       }
 
-      @media (width <= 600px) {
+      @media (width <=600px) {
         order: 2;
       }
     }
@@ -206,7 +207,7 @@
       margin: 0;
       list-style: none;
 
-      @media (width <= 600px) {
+      @media (width <=600px) {
         justify-self: start;
       }
     }
@@ -226,7 +227,7 @@
       font-size: 12px;
       line-height: 20px;
 
-      @media (width <= 600px) {
+      @media (width <=600px) {
         display: block;
       }
     }
