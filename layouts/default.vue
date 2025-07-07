@@ -1,7 +1,12 @@
 <script lang="ts" setup>
-import HeaderComponent from '~/components/HeaderComponent.vue';
+  import HeaderComponent from '~/components/HeaderComponent.vue'
+  import FooterComponent from '~/components/FooterComponent.vue'
 </script>
 
 <template>
-    <HeaderComponent/>
+  <div class="container">
+    <HeaderComponent />
+    <NuxtPage />
+    <FooterComponent />
+  </div>
 </template>

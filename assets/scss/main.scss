@@ -4,24 +4,41 @@
 // breakpoints
 .container {
   width: 100%;
-  margin: 0 auto;
   max-width: 346px;
   padding: 0 16px;
+  margin: 0 auto;
 
   @media (min-width: $breakpoints-m) {
     max-width: 696px;
     padding: 0 36px;
   }
-  // @media (min-width: $breakpoints-l) {
-  //   max-width: 936px;
-  //   padding: 0 36px;
-  // }
-  // @media (min-width: $breakpoints-xl) {
-  //   max-width: 1216px;
-  //   padding: 0 112px;
-  // }
-  @media (min-width: $breakpoints-xxl) {
-    max-width: 1440px;
-    padding: 0 96px;
+  @media (min-width: $breakpoints-l) {
+    max-width: 936px;
+    padding: 0 36px;
   }
+  @media (min-width: $breakpoints-xl) {
+    max-width: 1200px;
+    padding: 0 60px;
+  }
+  // @media (min-width: $breakpoints-xxl) {
+  //   max-width: 1300px;max-widthmax-width
+  //   padding: 0 96px;paddingpadding
+  // }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+}
+
+body {
+  margin: 0;
 }

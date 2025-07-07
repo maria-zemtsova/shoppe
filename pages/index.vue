@@ -1,6 +1,9 @@
-<script setup lang="ts">
-definePageMeta({
+<template>
+  <div />
+</template>
 
-})
-
-</script>
+<style scoped>
+  div {
+    height: 200px;
+  }
+</style>
