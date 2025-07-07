@@ -120,14 +120,18 @@
         <LinksList
           :items="menuLinks"
           class="header__list header__list--menu"
-          list-class="header__list-inner"
-          item-class="header__item"
-          link-class="header__link"
+          :styles="{
+            list: 'header__list-inner',
+            item: 'header__item',
+            link: 'header__link',
+          }"
         />
         <LinksList
           :items="iconLinks"
           class="header__list header__list--icons"
-          list-class="header__list-inner"
+          :styles="{
+            list: 'header__list-inner',
+          }"
         />
 
         <!-- Mobile -->
@@ -147,9 +151,11 @@
       <LinksList
         :items="mobileMenuLinks"
         class="header__mobile-list"
-        list-class="header__mobile-list-inner"
-        item-class="header__mobile-item"
-        link-class="header__mobile-link"
+        :styles="{
+          list: 'header__mobile-list-inner',
+          item: 'header__mobile-item',
+          link: 'header__mobile-link',
+        }"
       />
       <ul class="user-menu">
         <li v-for="item in mobileUserLinks" :key="item.id" class="user-menu__item">
@@ -163,7 +169,7 @@
   </header>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .header {
     display: flex;
     flex-direction: column;
@@ -191,7 +197,7 @@
         gap: 24px;
         align-items: center;
 
-        .header__list-inner::after {
+        :deep(.header__list-inner)::after {
           width: 1px;
           height: 17px;
           margin-left: 24px;
@@ -205,14 +211,18 @@
       }
     }
 
-    &__list-inner {
+    :deep(.header__list-inner) {
       display: flex;
       padding: 0;
       margin: 0;
       list-style: none;
+
+      @media (width <=600px) {
+        display: none;
+      }
     }
 
-    &__link {
+    :deep(.header__link) {
       font-family: $font-dm-sans;
       font-size: 16px;
       line-height: 27px;
@@ -248,7 +258,7 @@
       list-style: none;
     }
 
-    &__mobile-link {
+    :deep(.header__mobile-link) {
       font-family: $font-dm-sans;
       font-size: 20px;
       line-height: 26px;
@@ -283,7 +293,7 @@
     }
   }
 
-  @media (width <= 600px) {
+  @media (width <=600px) {
     .header {
       &__logo {
         width: 99px;
@@ -292,11 +302,6 @@
 
       &__mobile-menu {
         display: block;
-      }
-
-      &__list--menu,
-      &__list--icons {
-        display: none;
       }
 
       &__mobile-controls {

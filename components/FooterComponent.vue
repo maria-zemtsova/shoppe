@@ -49,9 +49,11 @@
   <footer class="footer">
     <LinksList
       :items="footerLinks"
-      list-class="footer__nav"
-      item-class="footer__nav-item"
-      link-class="footer__nav-link"
+      :styles="{
+        list: 'footer__nav',
+        item: 'footer__nav-item',
+        link: 'footer__nav-link',
+      }"
     />
     <p class="footer__copyright">
       <span>© 2021 Shelly.</span> Terms of use <span>and</span> privacy policy.
@@ -75,14 +77,16 @@
       <span class="social__line" />
       <LinksList
         :items="footerSocials"
-        list-class="footer__socials"
-        link-class="footer__socials-link"
+        :styles="{
+          list: 'footer__socials',
+          link: 'footer__socials-link',
+        }"
       />
     </div>
   </footer>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .footer {
     display: grid;
     grid-template-rows: 1fr 1fr;
@@ -99,7 +103,7 @@
       gap: 35px;
     }
 
-    &__nav {
+    :deep(.footer__nav) {
       display: flex;
       grid-row: 1/2;
       grid-column: 1/2;
@@ -116,7 +120,7 @@
       }
     }
 
-    &__nav-link {
+    :deep(.footer__nav-link) {
       font-family: $font-dm-sans;
       font-size: 16px;
       color: $dark-gray;
@@ -128,10 +132,10 @@
         font-size: 12px;
         line-height: 20px;
       }
-    }
 
-    &__nav-link:hover {
-      color: $black;
+      &:hover {
+        color: $black;
+      }
     }
 
     &__copyright {
@@ -196,7 +200,7 @@
       }
     }
 
-    &__socials {
+    :deep(.footer__socials) {
       display: flex;
       grid-row: 2/3;
       grid-column: 2/3;
@@ -212,8 +216,10 @@
       }
     }
 
-    &__socials-link path:hover {
-      fill: $black;
+    :deep(.footer__socials-link path) {
+      &:hover {
+        fill: $black;
+      }
     }
   }
 

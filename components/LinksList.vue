@@ -3,16 +3,18 @@
 
   defineProps<{
     items: LinkItem[]
-    listClass?: string
-    itemClass?: string
-    linkClass?: string
+    styles?: {
+      list?: string
+      item?: string
+      link?: string
+    }
   }>()
 </script>
 
 <template>
-  <ul :class="listClass">
-    <li v-for="item in items" :key="item.id" :class="itemClass">
-      <NuxtLink :to="item.path" :class="linkClass">
+  <ul :class="styles?.list">
+    <li v-for="item in items" :key="item.id" :class="styles?.item">
+      <NuxtLink :to="item.path" :class="styles?.link">
         <component :is="item.component" v-if="item.component" />
         <span v-else>{{ item.label }}</span>
       </NuxtLink>
