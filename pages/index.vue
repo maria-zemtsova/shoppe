@@ -1,9 +1,8 @@
+<script lang="ts" setup>
+  import HomeSlider from '~/components/HomeSlider.vue'
+</script>
 <template>
-  <div />
+  <main>
+    <HomeSlider />
+  </main>
 </template>
-
-<style scoped>
-  div {
-    height: 200px;
-  }
-</style>
