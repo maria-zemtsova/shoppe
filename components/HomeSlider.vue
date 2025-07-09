@@ -70,6 +70,21 @@
     height: 600px;
     margin-top: 18px;
 
+    @media (width <=1200px) {
+      width: 100%;
+      height: auto;
+    }
+
+    @media (width <=1000px) {
+      width: 100%;
+      height: auto;
+    }
+
+    @media (width <=900px) {
+      width: 100%;
+      height: auto;
+    }
+
     &__spinner {
       display: flex;
       align-items: center;
@@ -94,6 +109,7 @@
 
     &__error {
       width: 100%;
+      padding-top: 200px;
       font-family: $font-dm-sans;
       font-size: 33px;
       color: $red;
@@ -101,14 +117,49 @@
     }
 
     &__image {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
       border: none;
       border-radius: 16px;
+
+      @media (width <=1000px) {
+        width: 620px;
+      }
+
+      @media (width <=601px) {
+        width: 320px;
+        height: 354px;
+      }
     }
 
     &__description {
       position: absolute;
       top: 226px;
       left: 39px;
+
+      @media (width <=1000px) {
+        top: 170px;
+        left: 180px;
+      }
+
+      @media (width <=900px) {
+        top: 184px;
+        left: 65px;
+      }
+
+      @media (width <=600px) {
+        top: 180px;
+        left: 32px;
+      }
+    }
+  }
+
+  @media (width <= 1000px) {
+    .swiper-slide {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
 
@@ -116,6 +167,10 @@
 
   :deep(.swiper-pagination) {
     bottom: 24px !important;
+
+    @media (width <=600px) {
+      bottom: 8px !important;
+    }
   }
 
   :deep(.swiper-pagination-bullet) {
@@ -124,6 +179,12 @@
     margin-right: 13px !important;
     background-color: $white;
     opacity: 1;
+
+    @media (width <=600px) {
+      width: 4px;
+      height: 4px;
+      margin-right: 6px !important;
+    }
   }
 
   :deep(.swiper-pagination-bullet-active) {
@@ -131,5 +192,10 @@
     height: 16px;
     background-color: transparent;
     border: 1px solid $white;
+
+    @media (width <=600px) {
+      width: 7px;
+      height: 7px;
+    }
   }
 </style>

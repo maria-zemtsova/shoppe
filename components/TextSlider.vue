@@ -6,8 +6,9 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .carousel {
+    width: 217px;
     font-family: $font-dm-sans;
     font-weight: normal;
     color: $white;
@@ -16,11 +17,22 @@
       margin-bottom: 16px;
       font-size: 33px;
       line-height: 43px;
+
+      @media (width <=1000px) {
+        margin-bottom: 3px;
+        font-size: 20px;
+        line-height: 26px;
+      }
     }
 
     &__price {
       font-size: 26px;
       line-height: 35px;
+
+      @media (width <=1000px) {
+        font-size: 14px;
+        line-height: 22px;
+      }
     }
 
     &__button {
@@ -34,6 +46,14 @@
       background-color: transparent;
       border: 2px solid $white;
       border-radius: 6px;
+
+      @media (width <=1000px) {
+        width: 92px;
+        height: 32px;
+        margin-top: 10px;
+        font-size: 12px;
+        line-height: 20px;
+      }
     }
   }
 </style>
