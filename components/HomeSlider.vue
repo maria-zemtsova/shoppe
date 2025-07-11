@@ -3,7 +3,7 @@
   import { Swiper, SwiperSlide } from 'swiper/vue'
   import { Autoplay, Pagination } from 'swiper/modules'
   import type { SwiperOptions } from 'swiper/types'
-  import TextSlider from './TextSlider.vue'
+  import SliderInfo from './SliderInfo.vue'
 
   import 'swiper/scss'
   import 'swiper/scss/navigation'
@@ -20,8 +20,11 @@
     type: 'bullets',
   }
 
+  const DEFAULT_SLIDER_IMAGE_COUNT = 10
+  const DEFAULT_SLIDER_SPEED_COUNT = 5000
+
   const autoplayConfig = {
-    delay: 5000,
+    delay: DEFAULT_SLIDER_SPEED_COUNT,
     pauseOnMouseEnter: true,
   }
 
@@ -29,7 +32,7 @@
     try {
       isLoading.value = true
       const responses = await Promise.all(
-        Array.from({ length: 10 }, async () => {
+        Array.from({ length: DEFAULT_SLIDER_IMAGE_COUNT }, async () => {
           const res = await fetch('https://picsum.photos/1000/600')
           return res.ok ? res.url : Promise.reject('Download error')
         }),
@@ -58,7 +61,7 @@
     >
       <SwiperSlide v-for="image in carouselImages">
         <img class="carousel__image" :src="image" width="1200" height="600" loading="lazy" />
-        <TextSlider class="carousel__description" />
+        <SliderInfo class="carousel__description" />
       </SwiperSlide>
     </Swiper>
   </section>
@@ -70,17 +73,12 @@
     height: 600px;
     margin-top: 18px;
 
-    @media (width <=1200px) {
+    @media (max-width: $breakpoints-xl) {
       width: 100%;
       height: auto;
     }
 
-    @media (width <=1000px) {
-      width: 100%;
-      height: auto;
-    }
-
-    @media (width <=900px) {
+    @media (max-width: $breakpoints-l) {
       width: 100%;
       height: auto;
     }
@@ -122,44 +120,22 @@
       object-fit: cover;
       border: none;
       border-radius: 16px;
-
-      @media (width <=1000px) {
-        width: 620px;
-      }
-
-      @media (width <=601px) {
-        width: 320px;
-        height: 354px;
-      }
     }
 
     &__description {
       position: absolute;
-      top: 226px;
-      left: 39px;
+      top: 38%;
+      left: 4%;
 
-      @media (width <=1000px) {
-        top: 170px;
-        left: 180px;
+      @media (max-width: $breakpoints-m) {
+        top: 24%;
+        left: 2%;
       }
 
-      @media (width <=900px) {
-        top: 184px;
-        left: 65px;
+      @media (max-width: $breakpoints-s) {
+        top: 20%;
+        left: 2%;
       }
-
-      @media (width <=600px) {
-        top: 180px;
-        left: 32px;
-      }
-    }
-  }
-
-  @media (width <= 1000px) {
-    .swiper-slide {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
   }
 

@@ -18,7 +18,7 @@
       font-size: 33px;
       line-height: 43px;
 
-      @media (width <=1000px) {
+      @media (width <=900px) {
         margin-bottom: 3px;
         font-size: 20px;
         line-height: 26px;
@@ -29,7 +29,7 @@
       font-size: 26px;
       line-height: 35px;
 
-      @media (width <=1000px) {
+      @media (width <=900px) {
         font-size: 14px;
         line-height: 22px;
       }
@@ -47,7 +47,7 @@
       border: 2px solid $white;
       border-radius: 6px;
 
-      @media (width <=1000px) {
+      @media (width <=900px) {
         width: 92px;
         height: 32px;
         margin-top: 10px;
