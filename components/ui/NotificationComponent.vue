@@ -1,0 +1,89 @@
+<script lang="ts" setup>
+  import { ref } from 'vue'
+
+  defineProps<{
+    message: string
+  }>()
+
+  const isVisible = ref(false)
+  const NOTIFICATION_DURATION = 3000
+
+  const show = () => {
+    isVisible.value = true
+    setTimeout(() => {
+      isVisible.value = false
+    }, NOTIFICATION_DURATION)
+  }
+
+  defineExpose({ show })
+</script>
+
+<template>
+  <section v-if="isVisible" class="notification">
+    <div>
+      <img src="/assets/tick.png" width="20px" height="20px" alt="tick" />
+      <p class="notification__message">{{ message }}</p>
+    </div>
+
+    <button class="notification__button">View cart</button>
+  </section>
+</template>
+
+<style lang="scss">
+  .notification {
+    position: fixed;
+    top: 107px;
+    left: 50%;
+    z-index: 2;
+    display: flex;
+    gap: 726px;
+    justify-content: center;
+    width: 86%;
+    color: $black;
+    background-color: $light-gray;
+    border-radius: 4px;
+    transform: translateX(-50%);
+    animation: fade-in-out 3s ease-in-out;
+
+    @keyframes fade-in-out {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+      }
+
+      10% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      90% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+      }
+    }
+
+    div {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    &__message {
+      font-size: 16px;
+    }
+
+    &__button {
+      font-size: 16px;
+      font-weight: bold;
+      color: $accent;
+      text-transform: uppercase;
+      background: transparent;
+      border: none;
+    }
+  }
+</style>

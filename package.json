@@ -42,7 +42,8 @@
     "stylelint": "^16.21.0",
     "stylelint-config-recess-order": "^7.1.0",
     "stylelint-config-standard-scss": "^15.0.1",
-    "stylelint-config-standard-vue": "^1.0.0"
+    "stylelint-config-standard-vue": "^1.0.0",
+    "vue-skeleton-loader": "^1.0.0"
   },
   "lint-staged": {
     "*.{js,ts,vue}": "eslint --fix",

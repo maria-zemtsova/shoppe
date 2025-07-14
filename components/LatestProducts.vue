@@ -1,6 +1,7 @@
 <script lang="ts" setup>
   import ProductCard from './ProductCard.vue'
   import { onBeforeMount, ref } from 'vue'
+  // import SkeletonLoader from 'vue-skeleton-loader'
 
   interface ProductCardItem {
     id: number
@@ -45,6 +46,18 @@
     </div>
 
     <ul class="latest__list">
+      <SkeletonLoader
+        v-if="isLoading"
+        :width="377"
+        :height="500"
+        :speed="2"
+        primary-color="#f3f3f3"
+        secondary-color="#ecebeb"
+      >
+        <rect x="0" y="0" width="377" height="380" />
+        <rect x="16" y="400" width="200" height="24" />
+        <rect x="16" y="440" width="100" height="20" />
+      </SkeletonLoader>
       <ProductCard v-for="card in productCards" :key="card.id" :product="card" />
     </ul>
   </section>
