@@ -1,7 +1,6 @@
 <script lang="ts" setup>
   import ProductCard from './ProductCard.vue'
   import { onBeforeMount, ref } from 'vue'
-  // import SkeletonLoader from 'vue-skeleton-loader'
 
   interface ProductCardItem {
     id: number
@@ -23,17 +22,12 @@
     try {
       isLoading.value = true
       const response = await fetch('https://fakestoreapi.com/products?category=jewelery&limit=6')
-      if (!response.ok) {
-        throw new Error('Unable to fetch products. Try again later')
-      }
-      const data: ProductCardItem[] = await response.json()
-      productCards.value = data
+      if (!response.ok) throw new Error('Unable to fetch products. Try again later')
+      productCards.value = await response.json()
     } catch (err) {
-      productError.value =
-        err instanceof Error ? err.message : 'Unable to fetch products. Try again later'
+      productError.value = err instanceof Error ? err.message : 'Unknown error'
     } finally {
       isLoading.value = false
-      console.log(productCards)
     }
   })
 </script>
@@ -44,21 +38,9 @@
       <h2 class="latest__title">Shop The Latest</h2>
       <NuxtLink class="latest__button" to="/catalog">View All</NuxtLink>
     </div>
-
     <ul class="latest__list">
-      <SkeletonLoader
-        v-if="isLoading"
-        :width="377"
-        :height="500"
-        :speed="2"
-        primary-color="#f3f3f3"
-        secondary-color="#ecebeb"
-      >
-        <rect x="0" y="0" width="377" height="380" />
-        <rect x="16" y="400" width="200" height="24" />
-        <rect x="16" y="440" width="100" height="20" />
-      </SkeletonLoader>
-      <ProductCard v-for="card in productCards" :key="card.id" :product="card" />
+      <li v-for="n in 6" v-if="isLoading" :key="`skeleton-${n}`" class="skeleton" />
+      <ProductCard v-for="card in productCards" v-else :key="card.id" :product="card" />
     </ul>
   </section>
 </template>
@@ -80,6 +62,11 @@
       font-weight: 500;
       line-height: 43px;
       color: $black;
+
+      @media (max-width: $breakpoints-l) {
+        font-size: 16px;
+        line-height: 27px;
+      }
     }
 
     &__button {
@@ -88,6 +75,11 @@
       line-height: 26px;
       color: $accent;
       text-decoration: none;
+
+      @media (max-width: $breakpoints-l) {
+        font-size: 14px;
+        line-height: 22px;
+      }
     }
 
     &__list {
@@ -97,6 +89,48 @@
       padding: 0;
       margin-top: 39px;
       list-style: none;
+
+      @media (max-width: $breakpoints-xl) {
+        grid-template-columns: 1fr 1fr;
+        gap: 80px 28px;
+      }
+
+      @media (max-width: $breakpoints-l) {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 80px 28px;
+      }
+
+      @media (max-width: $breakpoints-m) {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px 20px;
+      }
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      opacity: 0.2;
+    }
+
+    50% {
+      opacity: 0.4;
+    }
+
+    100% {
+      opacity: 0.6;
+    }
+  }
+
+  .skeleton {
+    width: 377px;
+    height: 380px;
+    background: $accent;
+    border-radius: 8px;
+    animation: pulse 1.5s ease-in-out infinite;
+
+    @media (max-width: $breakpoints-l) {
+      width: 136px;
+      height: 136px;
     }
   }
 </style>

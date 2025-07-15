@@ -42,17 +42,31 @@
     &__item {
       position: relative;
       width: 377px;
+
+      @media (max-width: $breakpoints-l) {
+        width: 200px;
+      }
+
+      @media (max-width: $breakpoints-m) {
+        width: 136px;
+      }
     }
 
     &__image-wrapper {
       position: relative;
       width: 377px;
       height: 380px;
+
+      @media (max-width: $breakpoints-l) {
+        width: 136px;
+        height: 136px;
+      }
     }
 
     &__image {
       width: 100%;
       height: 100%;
+      margin: 0 auto;
       cursor: pointer;
       object-fit: contain;
       border-radius: 8px;
@@ -65,6 +79,13 @@
       font-weight: 400;
       line-height: 26px;
       color: $black;
+
+      @media (max-width: $breakpoints-l) {
+        margin-top: 16px;
+        margin-bottom: 4px;
+        font-size: 14px;
+        line-height: 22px;
+      }
     }
 
     &__price {
@@ -72,6 +93,11 @@
       font-weight: 500;
       line-height: 26px;
       color: $accent;
+
+      @media (max-width: $breakpoints-l) {
+        font-size: 12px;
+        line-height: 20px;
+      }
     }
 
     &__button {
@@ -85,6 +111,7 @@
       font-size: 16px;
       font-weight: bold;
       text-transform: uppercase;
+      cursor: pointer;
       background-color: rgb(255 255 255 / 50%);
       border: none;
       border-bottom-right-radius: 4px;

@@ -21,7 +21,13 @@
 <template>
   <section v-if="isVisible" class="notification">
     <div>
-      <img src="/assets/tick.png" width="20px" height="20px" alt="tick" />
+      <img
+        class="notification__icon"
+        src="/assets/tick.png"
+        width="20px"
+        height="20px"
+        alt="tick"
+      />
       <p class="notification__message">{{ message }}</p>
     </div>
 
@@ -36,7 +42,7 @@
     left: 50%;
     z-index: 2;
     display: flex;
-    gap: 726px;
+    gap: 58%;
     justify-content: center;
     width: 86%;
     color: $black;
@@ -44,6 +50,17 @@
     border-radius: 4px;
     transform: translateX(-50%);
     animation: fade-in-out 3s ease-in-out;
+
+    @media (max-width: $breakpoints-l) {
+      left: 50%;
+      gap: 52%;
+      width: 80%;
+    }
+
+    @media (max-width: $breakpoints-m) {
+      gap: 20%;
+      width: 90%;
+    }
 
     @keyframes fade-in-out {
       0% {
@@ -71,19 +88,47 @@
       display: flex;
       gap: 16px;
       align-items: center;
+
+      @media (max-width: $breakpoints-l) {
+        gap: 8px;
+      }
+    }
+
+    &__icon {
+      width: 20px;
+      height: 20px;
+
+      @media (max-width: $breakpoints-l) {
+        width: 16px;
+        height: 16px;
+      }
     }
 
     &__message {
       font-size: 16px;
+
+      @media (max-width: $breakpoints-l) {
+        width: 135px;
+        font-size: 12px;
+        line-height: 20px;
+      }
     }
 
     &__button {
+      display: inline-block;
+      padding: 0;
       font-size: 16px;
       font-weight: bold;
       color: $accent;
       text-transform: uppercase;
       background: transparent;
       border: none;
+
+      @media (max-width: $breakpoints-l) {
+        width: 68px;
+        font-size: 12px;
+        line-height: 20px;
+      }
     }
   }
 </style>
