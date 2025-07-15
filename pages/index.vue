@@ -1,9 +1,8 @@
+<script lang="ts" setup>
+  import LatestProducts from '~/components/LatestProducts.vue'
+</script>
 <template>
-  <div />
+  <main>
+    <LatestProducts />
+  </main>
 </template>
-
-<style scoped>
-  div {
-    height: 200px;
-  }
-</style>
