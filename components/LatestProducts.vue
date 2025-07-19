@@ -1,27 +1,19 @@
 <script lang="ts" setup>
-  import ProductCard from './ProductCard.vue'
+  import ProductCard from '~/components/ProductCard.vue'
+  import BaseButton from '~/components/ui/BaseButton.vue'
   import { onBeforeMount, ref } from 'vue'
+  import type { Product } from '~/types/product'
 
-  interface ProductCardItem {
-    id: number
-    title: string
-    price: number
-    description: string
-    category: string
-    image: string
-    rating: {
-      rate: number
-      count: number
-    }
-  }
-
-  const productCards = ref<ProductCardItem[]>([])
-  const isLoading = ref<boolean>(true)
+  const productCards = ref<Product[]>([])
+  const isLoading = ref(true)
   const productError = ref<string | null>(null)
+  const DEFAULT_ITEMS_COUNT = 6
   onBeforeMount(async () => {
     try {
       isLoading.value = true
-      const response = await fetch('https://fakestoreapi.com/products?category=jewelery&limit=6')
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/products?category=jewelery&limit=${DEFAULT_ITEMS_COUNT}`,
+      )
       if (!response.ok) throw new Error('Unable to fetch products. Try again later')
       productCards.value = await response.json()
     } catch (err) {
@@ -36,10 +28,16 @@
   <section class="latest">
     <div>
       <h2 class="latest__title">Shop The Latest</h2>
-      <NuxtLink class="latest__button" to="/catalog">View All</NuxtLink>
+      <BaseButton class="latest__button" :link="'/catalog'" :text="'View all'" />
     </div>
     <ul class="latest__list">
-      <li v-for="n in 6" v-if="isLoading" :key="`skeleton-${n}`" class="skeleton" />
+      <li
+        v-for="n in DEFAULT_ITEMS_COUNT"
+        v-if="isLoading"
+        :key="`skeleton-${n}`"
+        class="skeleton"
+      />
+      <div v-else-if="productError" class="latest__error">{{ productError }}</div>
       <ProductCard v-for="card in productCards" v-else :key="card.id" :product="card" />
     </ul>
   </section>
@@ -58,14 +56,14 @@
 
     &__title {
       margin: 0;
-      font-size: 33px;
+      font-size: 34px;
       font-weight: 500;
-      line-height: 43px;
+      line-height: 44px;
       color: $black;
 
       @media (max-width: $breakpoints-l) {
         font-size: 16px;
-        line-height: 27px;
+        line-height: 28px;
       }
     }
 
@@ -85,9 +83,9 @@
     &__list {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 86px 57px;
+      gap: 86px 56px;
       padding: 0;
-      margin-top: 39px;
+      margin-top: 40px;
       list-style: none;
 
       @media (max-width: $breakpoints-xl) {
@@ -104,6 +102,15 @@
         grid-template-columns: 1fr 1fr;
         gap: 24px 20px;
       }
+    }
+
+    &__error {
+      width: 100%;
+      padding-top: 200px;
+      font-family: $font-dm-sans;
+      font-size: 34px;
+      color: $red;
+      text-align: center;
     }
   }
 
@@ -122,7 +129,7 @@
   }
 
   .skeleton {
-    width: 377px;
+    width: 378px;
     height: 380px;
     background: $accent;
     border-radius: 8px;

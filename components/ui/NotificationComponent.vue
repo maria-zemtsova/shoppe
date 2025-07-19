@@ -1,37 +1,37 @@
 <script lang="ts" setup>
-  import { ref } from 'vue'
+  import { watch } from 'vue'
+  import BaseButton from '~/components/ui/BaseButton.vue'
 
-  defineProps<{
+  const props = defineProps<{
     message: string
+    modelValue: boolean
   }>()
 
-  const isVisible = ref(false)
+  const emit = defineEmits<{
+    (e: 'update:modelValue', value: boolean): void
+  }>()
+
   const NOTIFICATION_DURATION = 3000
 
-  const show = () => {
-    isVisible.value = true
-    setTimeout(() => {
-      isVisible.value = false
-    }, NOTIFICATION_DURATION)
-  }
-
-  defineExpose({ show })
+  watch(
+    () => props.modelValue,
+    (visible) => {
+      if (visible) {
+        setTimeout(() => {
+          emit('update:modelValue', false)
+        }, NOTIFICATION_DURATION)
+      }
+    },
+  )
 </script>
 
 <template>
-  <section v-if="isVisible" class="notification">
+  <section v-if="modelValue" class="notification">
     <div>
-      <img
-        class="notification__icon"
-        src="/assets/tick.png"
-        width="20px"
-        height="20px"
-        alt="tick"
-      />
+      <img class="notification__icon" src="/assets/tick.svg" width="20" height="20" alt="tick" />
       <p class="notification__message">{{ message }}</p>
     </div>
-
-    <button class="notification__button">View cart</button>
+    <BaseButton class="notification__button" link="/cart" text="View cart" />
   </section>
 </template>
 
@@ -115,13 +115,10 @@
     }
 
     &__button {
-      display: inline-block;
-      padding: 0;
       font-size: 16px;
       font-weight: bold;
       color: $accent;
       text-transform: uppercase;
-      background: transparent;
       border: none;
 
       @media (max-width: $breakpoints-l) {

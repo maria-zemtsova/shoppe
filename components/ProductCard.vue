@@ -1,25 +1,14 @@
 <script lang="ts" setup>
   import NotificationComponent from '~/components/ui/NotificationComponent.vue'
-
+  import type { Product } from '~/types/product'
   import { ref } from 'vue'
   defineProps<{
-    product: {
-      id: number
-      title: string
-      price: number
-      description: string
-      category: string
-      image: string
-      rating: {
-        rate: number
-        count: number
-      }
-    }
+    product: Product
   }>()
 
-  const notification = ref()
+  const isNotificationVisible = ref(false)
   const addToCart = () => {
-    notification.value?.show()
+    isNotificationVisible.value = true
   }
 </script>
 
@@ -32,7 +21,10 @@
     <h3 class="latest__product-title">{{ product.title }}</h3>
     <span class="latest__price">$ {{ product.price }}</span>
   </li>
-  <NotificationComponent ref="notification" message="The item was added to your Shopping bag." />
+  <NotificationComponent
+    v-model="isNotificationVisible"
+    message="The item was added to your Shopping bag."
+  />
 </template>
 
 <style lang="scss" scoped>
@@ -41,7 +33,7 @@
 
     &__item {
       position: relative;
-      width: 377px;
+      width: 378px;
 
       @media (max-width: $breakpoints-l) {
         width: 200px;
@@ -54,7 +46,7 @@
 
     &__image-wrapper {
       position: relative;
-      width: 377px;
+      width: 378px;
       height: 380px;
 
       @media (max-width: $breakpoints-l) {
