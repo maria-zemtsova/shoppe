@@ -31,7 +31,7 @@
       <img class="notification__icon" src="/assets/tick.svg" width="20" height="20" alt="tick" />
       <p class="notification__message">{{ message }}</p>
     </div>
-    <BaseButton class="notification__button" link="/cart" text="View cart" />
+    <BaseButton class="notification__button" tag="nuxt-link" to="/cart" text="View cart" />
   </section>
 </template>
 

@@ -26,9 +26,9 @@
 
 <template>
   <section class="latest">
-    <div>
+    <div class="latest__header">
       <h2 class="latest__title">Shop The Latest</h2>
-      <BaseButton class="latest__button" :link="'/catalog'" :text="'View all'" />
+      <BaseButton class="latest__button" tag="nuxt-link" to="/catalog" :text="'View all'" />
     </div>
     <ul class="latest__list">
       <li
@@ -48,7 +48,7 @@
     margin-top: 64px;
     font-family: $font-dm-sans;
 
-    div {
+    &__header {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -105,12 +105,27 @@
     }
 
     &__error {
+      position: relative;
+      top: -50%;
+      left: 115%;
       width: 100%;
       padding-top: 200px;
       font-family: $font-dm-sans;
       font-size: 34px;
       color: $red;
       text-align: center;
+
+      @media (max-width: $breakpoints-xl) {
+        left: 50%;
+      }
+
+      @media (max-width: $breakpoints-l) {
+        left: 100%;
+      }
+
+      @media (max-width: $breakpoints-m) {
+        left: 50%;
+      }
     }
   }
 
