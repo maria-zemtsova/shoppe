@@ -18,6 +18,7 @@
       productCards.value = await response.json()
     } catch (err) {
       productError.value = err instanceof Error ? err.message : 'Unknown error'
+      throw err
     } finally {
       isLoading.value = false
     }
