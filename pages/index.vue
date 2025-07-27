@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-  import LatestProducts from '~/components/LatestProducts.vue'
+import HomeSlider from '~/components/HomeSlider.vue'
+import LatestProducts from '~/components/LatestProducts.vue'
 </script>
 <template>
-  <main>
-    <LatestProducts />
-  </main>
+<main>
+<LatestProducts />
+<HomeSlider />
+</main>
 </template>
