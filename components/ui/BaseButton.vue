@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-  import { computed, resolveComponent } from 'vue'
-
   type ButtonTag = 'button' | 'a' | 'nuxt-link'
 
   interface Props {
@@ -15,25 +13,24 @@
   const props = withDefaults(defineProps<Props>(), {
     tag: 'button',
     type: 'button',
-    disabled: false,
   })
 
-  const component = computed(() => {
-    if (props.tag === 'nuxt-link' && props.to) return resolveComponent('NuxtLink')
-    return props.tag
-  })
+  // const component = computed(() => {
+  //   if (props.tag === 'nuxt-link' && props.to) return resolveComponent('NuxtLink')
+  //   return props.tag
+  // })
 </script>
 
 <template>
-  <component
-    :is="component"
-    class="button"
-    :to="tag === 'nuxt-link' ? to : undefined"
-    :href="tag === 'a' ? href : undefined"
-    :type="tag === 'button' ? type : undefined"
-  >
+  <button v-if="props.tag === 'button'" :type="props.type" :disabled="props.disabled">
     {{ text }}
-  </component>
+  </button>
+  <a v-else-if="props.tag === 'a'" :href="props.href" :disabled="props.disabled">
+    {{ text }}
+  </a>
+  <NuxtLink v-else="props.tag = 'nuxt-link'" :to="props.to" :disabled="props.disabled">{{
+    text
+  }}</NuxtLink>
 </template>
 
 <style lang="scss">
