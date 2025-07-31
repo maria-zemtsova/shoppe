@@ -6,7 +6,7 @@
 <template>
   <div class="container">
     <HeaderComponent />
-    <NuxtPage />
+    <slot />
     <FooterComponent />
   </div>
 </template>

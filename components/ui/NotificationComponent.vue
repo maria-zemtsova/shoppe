@@ -121,6 +121,11 @@
       text-transform: uppercase;
       border: none;
 
+      &:hover,
+      &:active {
+        color: $black;
+      }
+
       @media (max-width: $breakpoints-l) {
         width: 68px;
         font-size: 12px;
