@@ -2,11 +2,13 @@
   import BaseButton from '~/components/ui/BaseButton.vue'
   import { clearError } from 'nuxt/app'
 
+  interface Error {
+    statusCode: number
+    statusMessage?: string
+  }
+
   const { error } = defineProps<{
-    error: {
-      statusCode: number
-      statusMessage?: string
-    }
+    error: Error
   }>()
 
   const handleRedirect = () => {
@@ -86,6 +88,12 @@
       background-color: transparent;
       border: 1px solid $black;
       border-radius: 4px;
+
+      &:hover,
+      &:active {
+        color: white;
+        background-color: $black;
+      }
 
       @media (max-width: $breakpoints-s) {
         width: 116px;

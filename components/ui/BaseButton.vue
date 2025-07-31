@@ -14,26 +14,30 @@
     tag: 'button',
     type: 'button',
   })
-
-  // const component = computed(() => {
-  //   if (props.tag === 'nuxt-link' && props.to) return resolveComponent('NuxtLink')
-  //   return props.tag
-  // })
 </script>
 
 <template>
-  <button v-if="props.tag === 'button'" :type="props.type" :disabled="props.disabled">
+  <button
+    v-if="props.tag === 'button'"
+    class="button"
+    :type="props.type"
+    :disabled="props.disabled"
+  >
     {{ text }}
   </button>
-  <a v-else-if="props.tag === 'a'" :href="props.href" :disabled="props.disabled">
+  <a v-else-if="props.tag === 'a'" class="button" :href="props.href" :disabled="props.disabled">
     {{ text }}
   </a>
-  <NuxtLink v-else="props.tag = 'nuxt-link'" :to="props.to" :disabled="props.disabled">{{
-    text
-  }}</NuxtLink>
+  <NuxtLink
+    v-else="props.tag = 'nuxt-link'"
+    class="button"
+    :to="props.to"
+    :disabled="props.disabled"
+    >{{ text }}</NuxtLink
+  >
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .button {
     display: flex;
     align-items: center;
