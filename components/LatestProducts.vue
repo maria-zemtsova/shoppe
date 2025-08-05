@@ -73,7 +73,11 @@
       font-weight: 500;
       line-height: 26px;
       color: $accent;
-      text-decoration: none;
+
+      &:hover,
+      &:active {
+        color: $black;
+      }
 
       @media (max-width: $breakpoints-l) {
         font-size: 14px;
