@@ -33,8 +33,8 @@
     class="button"
     :to="props.to"
     :disabled="props.disabled"
-    >{{ text }}</NuxtLink
-  >
+    >{{ text }}
+  </NuxtLink>
 </template>
 
 <style lang="scss" scoped>
@@ -46,5 +46,6 @@
     font-size: 16px;
     color: $accent;
     text-decoration: none;
+    cursor: pointer;
   }
 </style>
