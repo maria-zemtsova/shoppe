@@ -14,6 +14,11 @@ import LogoutIcon from './LogoutIcon.vue'
 import BurgerIcon from './BurgerIcon.vue'
 import CloseIcon from './CloseIcon.vue'
 
+// filters
+
+import FiltersIcon from './FiltersIcon.vue'
+import FiltersLogo from './FiltersLogo.vue'
+
 export {
   FacebookIcon,
   TwitterIcon,
@@ -24,4 +29,6 @@ export {
   BurgerIcon,
   CloseIcon,
   LogoutIcon,
+  FiltersIcon,
+  FiltersLogo,
 }

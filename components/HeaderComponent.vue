@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import HeaderLogo from './icons/HeaderLogo.vue'
   import type { LinkItem } from '~/types/links'
+  import { ref } from 'vue'
   import {
     UserIcon,
     ShoppingIcon,
@@ -20,7 +21,7 @@
   const menuLinks: LinkItem[] = [
     {
       id: 1,
-      path: '/shop',
+      path: '/catalog',
       label: 'Shop',
     },
     {
@@ -43,7 +44,7 @@
     },
     {
       id: 2,
-      path: '/shop',
+      path: '/catalog',
       label: 'Shop',
     },
     {
