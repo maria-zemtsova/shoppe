@@ -26,12 +26,12 @@
     },
     {
       id: 2,
-      path: '/blog',
+      path: '#',
       label: 'Blog',
     },
     {
       id: 3,
-      path: '/story',
+      path: '#',
       label: 'Our Story',
     },
   ]
@@ -49,27 +49,27 @@
     },
     {
       id: 3,
-      path: '/about',
+      path: '#',
       label: 'About',
     },
     {
       id: 4,
-      path: '/blog',
+      path: '#',
       label: 'Blog',
     },
     {
       id: 5,
-      path: '/help',
+      path: '#',
       label: 'Help',
     },
     {
       id: 6,
-      path: '/contact',
+      path: '#',
       label: 'Contact',
     },
     {
       id: 7,
-      path: '/search',
+      path: '#',
       label: 'Search',
     },
   ]
@@ -77,13 +77,13 @@
   const mobileUserLinks: LinkItem[] = [
     {
       id: 1,
-      path: '/account',
+      path: '#',
       label: 'My Account',
       component: UserIcon as DefineComponent,
     },
     {
       id: 2,
-      path: '/logout',
+      path: '#',
       label: 'Logout',
       component: LogoutIcon as DefineComponent,
     },
@@ -92,19 +92,19 @@
   const iconLinks: LinkItem[] = [
     {
       id: 1,
-      path: '/',
+      path: '#',
       label: 'search',
       component: SearchIcon as DefineComponent,
     },
     {
       id: 2,
-      path: '/',
+      path: '#',
       label: 'shopping',
       component: ShoppingIcon as DefineComponent,
     },
     {
       id: 3,
-      path: '/',
+      path: '#',
       label: 'user',
       component: UserIcon as DefineComponent,
     },
