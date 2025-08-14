@@ -22,8 +22,11 @@
 <template>
   <section class="product">
     <ul class="product__list">
-      <li v-for="n in itemsPerPage" v-if="isLoading" :key="`skeleton-${n}`" class="skeleton" />
-      <div v-else-if="error" class="product__error">{{ error }}</div>
+      <template v-if="isLoading">
+        <li v-for="n in itemsPerPage" :key="`skeleton-${n}`" class="skeleton" />
+      </template>
+      <li v-else-if="error" class="product__error">{{ error }}</li>
+      <li v-else-if="products.length === 0" class="product__empty">Nothing was found</li>
       <ProductCard
         v-for="card in paginatedProducts"
         v-else
@@ -33,6 +36,7 @@
       />
     </ul>
     <PaginationComponent
+      v-if="products.length > 0"
       v-model="currentPage"
       :total-items="products.length"
       :per-page="itemsPerPage"
@@ -50,16 +54,6 @@
       margin: 0;
       list-style: none;
 
-      @media (max-width: $breakpoints-xl) {
-        grid-template-columns: 1fr 1fr;
-        gap: 80px 28px;
-      }
-
-      @media (max-width: $breakpoints-l) {
-        grid-template-columns: 1fr 1fr;
-        gap: 80px 28px;
-      }
-
       @media (max-width: $breakpoints-m) {
         grid-template-columns: 1fr 1fr;
         gap: 24px 20px;
@@ -72,31 +66,24 @@
     }
 
     &__item {
-      width: 20px;
+      width: 300px;
     }
 
-    &__error {
-      position: relative;
-      top: -50%;
-      left: 115%;
-      width: 100%;
-      padding-top: 200px;
+    &__error,
+    &__empty {
+      display: flex;
+      grid-column: 1 / -1;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
       font-family: $font-dm-sans;
       font-size: 34px;
       color: $red;
       text-align: center;
+    }
 
-      @media (max-width: $breakpoints-xl) {
-        left: 50%;
-      }
-
-      @media (max-width: $breakpoints-l) {
-        left: 100%;
-      }
-
-      @media (max-width: $breakpoints-m) {
-        left: 50%;
-      }
+    &__empty {
+      color: $accent;
     }
   }
 

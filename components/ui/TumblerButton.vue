@@ -1,16 +1,9 @@
 <script lang="ts" setup>
-  const props = defineProps<{
-    modelValue: boolean
+  defineProps<{
     text?: string
   }>()
 
-  const emit = defineEmits<{
-    (e: 'update:modelValue', value: boolean): void
-  }>()
-
-  const toggle = () => {
-    emit('update:modelValue', !props.modelValue)
-  }
+  const model = defineModel<boolean>()
 </script>
 
 <template>
@@ -20,15 +13,15 @@
       class="tumbler__button"
       type="button"
       aria-label="Toggle switch"
-      :class="{ 'tumbler__button--active': props.modelValue }"
-      @click="toggle"
+      :class="{ 'tumbler__button--active': model }"
+      @click="model = !model"
     >
       <span class="tumbler__thumb" />
     </button>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .tumbler {
     display: flex;
     align-items: center;

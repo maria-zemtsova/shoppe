@@ -1,32 +1,31 @@
 <script lang="ts" setup>
   import Slider from '@vueform/slider'
   import '@vueform/slider/themes/default.css'
+  import debounce from 'lodash.debounce'
 
-  interface Props {
-    modelValue: [number, number]
-  }
+  const model = defineModel<[number, number]>({ required: true })
 
-  const props = defineProps<Props>()
-  const emit = defineEmits<{
-    (e: 'update:modelValue', value: [number, number]): void
-  }>()
+  const updateValue = debounce((value: [number, number]) => {
+    model.value = value
+  }, 300)
 
-  const formatPrice = (value: number) => '$' + Math.round(value)
+  const formattedPrice = computed(() => {
+    const format = (val: number) => '$' + Math.round(val)
+    return `${format(model.value[0])} - ${format(model.value[1])}`
+  })
 </script>
 
 <template>
   <div class="range__wrapper">
     <Slider
-      v-model="props.modelValue"
+      :model-value="model"
       class="range"
       :min="0"
       :max="1000"
       :tooltips="false"
-      @update:modelValue="emit('update:modelValue', $event)"
+      @update:modelValue="updateValue"
     />
-    <div class="range__price">
-      Price: {{ formatPrice(props.modelValue[0]) }} - {{ formatPrice(props.modelValue[1]) }}
-    </div>
+    <div class="range__price">Price: {{ formattedPrice }}</div>
   </div>
 </template>
 
@@ -60,6 +59,11 @@
     border-radius: 0;
     box-shadow: none;
     transform: translateX(-50%);
+  }
+
+  .range :deep(.slider-touch-area) {
+    width: 6px;
+    height: 20px;
   }
 
   .range :deep(.slider-connects) {

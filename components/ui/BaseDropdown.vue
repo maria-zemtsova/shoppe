@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import DropdownIcon from '~/components/icons/DropdownIcon.vue'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
 
   interface DropdownOption {
     id: number
@@ -8,38 +8,48 @@
     label: string
   }
 
-  defineProps<{
+  const props = defineProps<{
     options: DropdownOption[]
     placeholder: string
     modelValue?: string
   }>()
 
-  const emit = defineEmits<{
-    (e: 'update:modelValue', value: string): void
-  }>()
+  const model = defineModel<string | undefined>()
 
   const selectOption = (option: DropdownOption) => {
-    emit('update:modelValue', option.value)
+    model.value = option.value
     isOpen.value = false
   }
-  const isOpen = ref()
+
+  const selectedLabel = computed(() => {
+    const selected = props.options.find((o) => o.value === model.value)
+    return selected?.label || ''
+  })
+  const isOpen = ref(false)
 </script>
 <template>
   <div class="dropdown">
-    <button class="dropdown__trigger" aria-label="Open dropdown menu" @click="isOpen = !isOpen">
-      <span class="dropdown__placeholder">{{ placeholder }}</span>
+    <button
+      class="dropdown__trigger"
+      :class="{ 'dropdown__trigger--active': isOpen }"
+      aria-label="Open dropdown menu"
+      @click="isOpen = !isOpen"
+    >
+      <span class="dropdown__placeholder">{{ selectedLabel || placeholder }}</span>
       <DropdownIcon class="dropdown__icon" />
     </button>
-    <ul v-if="isOpen" class="dropdown__list">
-      <li
-        v-for="option in options"
-        :key="option.id"
-        class="dropdown__item"
-        @click="selectOption(option)"
-      >
-        {{ option.label }}
-      </li>
-    </ul>
+    <transition name="dropdown">
+      <ul v-show="isOpen" class="dropdown__list">
+        <li
+          v-for="option in options"
+          :key="option.id"
+          class="dropdown__item"
+          @click="selectOption(option)"
+        >
+          {{ option.label }}
+        </li>
+      </ul>
+    </transition>
   </div>
 </template>
 
@@ -49,12 +59,13 @@
 
     &__trigger {
       display: flex;
-      gap: 168px;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       width: 260px;
       height: 52px;
       padding: 0;
+      padding-right: 12px;
+      padding-left: 12px;
       cursor: pointer;
       background-color: transparent;
       border: 1px solid $gray;
@@ -66,6 +77,10 @@
       }
     }
 
+    &__trigger--active {
+      border: 1px solid $accent;
+    }
+
     &__placeholder {
       font-family: $font-dm-sans;
       font-size: 14px;
@@ -73,9 +88,11 @@
     }
 
     &__list {
-      padding: 0;
-      padding-left: 12px;
+      padding: 12px;
       list-style: none;
+      background-color: $white;
+      border: 1px solid $gray;
+      border-radius: 4px;
     }
 
     &__item {
@@ -90,5 +107,24 @@
     &__item:hover {
       color: $accent;
     }
+  }
+
+  .dropdown-enter-from,
+  .dropdown-leave-to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+
+  .dropdown-enter-to,
+  .dropdown-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .dropdown-enter-active,
+  .dropdown-leave-active {
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
   }
 </style>

@@ -18,6 +18,7 @@ import CloseIcon from '~/components/icons/CloseIcon.vue'
 
 import FiltersIcon from '~/components/icons/FiltersIcon.vue'
 import FiltersLogo from '~/components/icons/FiltersLogo.vue'
+import ArrowIcon from '~/components/icons/ArrowIcon.vue'
 
 export {
   FacebookIcon,
@@ -31,4 +32,5 @@ export {
   LogoutIcon,
   FiltersIcon,
   FiltersLogo,
+  ArrowIcon,
 }

@@ -7,8 +7,9 @@
   import { FiltersIcon, CloseIcon, FiltersLogo } from '~/components/icons/index'
   import { ref, computed } from 'vue'
   import debounce from 'lodash.debounce'
+  import type { Filters } from '~/types/filters'
 
-  interface ShopByItem {
+  interface DropdownOption {
     id: number
     value: string
     label: string
@@ -19,7 +20,7 @@
     isFiltersShow.value = !isFiltersShow.value
   }
 
-  const categoryList: ShopByItem[] = [
+  const categoryList: DropdownOption[] = [
     { id: 1, value: "men's clothing", label: "men's clothing" },
     { id: 2, value: 'jewelery', label: 'jewelery' },
     { id: 3, value: 'electronics', label: 'electronics' },
@@ -27,16 +28,7 @@
     { id: 5, value: '', label: 'all' },
   ]
 
-  const sortByList: ShopByItem[] = [{ id: 1, value: 'price', label: 'price' }]
-
-  interface Filters {
-    searchQuery: string
-    category: string
-    sortBy: string
-    priceRange: [number, number]
-    inStock: boolean
-    discountPercentage: number
-  }
+  const sortByList: DropdownOption[] = [{ id: 1, value: 'price', label: 'price' }]
 
   const props = defineProps<{ modelValue: Filters }>()
   const emit = defineEmits(['update:modelValue'])
@@ -45,25 +37,20 @@
     emit('update:modelValue', { ...props.modelValue, searchQuery: value })
   }, 500)
 
+  function makeComputed<K extends keyof typeof props.modelValue>(key: K) {
+    return computed({
+      get: () => props.modelValue[key],
+      set: (value) => emit('update:modelValue', { ...props.modelValue, [key]: value }),
+    })
+  }
   const searchQuery = computed({
     get: () => props.modelValue.searchQuery,
     set: (value) => updateSearch(value),
   })
-
-  const category = computed({
-    get: () => props.modelValue.category,
-    set: (value) => emit('update:modelValue', { ...props.modelValue, category: value }),
-  })
-
-  const sortBy = computed({
-    get: () => props.modelValue.sortBy,
-    set: (value) => emit('update:modelValue', { ...props.modelValue, sortBy: value }),
-  })
-
-  const priceRange = computed({
-    get: () => props.modelValue.priceRange,
-    set: (value) => emit('update:modelValue', { ...props.modelValue, priceRange: value }),
-  })
+  const category = makeComputed('category')
+  const sortBy = makeComputed('sortBy')
+  const priceRange = makeComputed('priceRange')
+  const isInStock = makeComputed('inStock')
 
   const isOnSale = computed({
     get: () => props.modelValue.discountPercentage > 0,
@@ -72,11 +59,6 @@
         ...props.modelValue,
         discountPercentage: value ? 1 : 0,
       }),
-  })
-
-  const isInStock = computed({
-    get: () => props.modelValue.inStock,
-    set: (value) => emit('update:modelValue', { ...props.modelValue, inStock: value }),
   })
 </script>
 
@@ -106,14 +88,13 @@
 <style lang="scss" scoped>
   .filters {
     &__menu {
-      display: flex;
       display: none;
       gap: 8px;
       align-items: center;
       width: 60px;
       margin-bottom: 16px;
 
-      @media (max-width: $breakpoints-m) {
+      @media (max-width: $breakpoints-xl) {
         display: flex;
       }
     }
@@ -136,7 +117,7 @@
     }
 
     &__content {
-      @media (max-width: $breakpoints-m) {
+      @media (max-width: $breakpoints-xl) {
         position: fixed;
         top: 0;
         left: 0;
@@ -145,6 +126,7 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
+        height: 100%;
         padding-top: 20px;
         padding-bottom: 40px;
         background: $white;
@@ -157,7 +139,7 @@
     }
 
     &__content--active {
-      @media (max-width: $breakpoints-m) {
+      @media (max-width: $breakpoints-xl) {
         opacity: 1;
         transform: translateY(0);
       }
@@ -168,7 +150,7 @@
       width: 288px;
       margin-bottom: 32px;
 
-      @media (max-width: $breakpoints-m) {
+      @media (max-width: $breakpoints-xl) {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -179,7 +161,7 @@
       width: 260px;
       margin-bottom: 40px;
 
-      @media (max-width: $breakpoints-m) {
+      @media (max-width: $breakpoints-xl) {
         width: 288px;
       }
 
@@ -189,7 +171,7 @@
         height: 19px;
         cursor: pointer;
         background-color: transparent;
-        background-image: url("../assets/search.svg");
+        background-image: url('../assets/search.svg');
         background-repeat: no-repeat;
         border: none;
       }
