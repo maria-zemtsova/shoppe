@@ -28,18 +28,19 @@
   <li class="card__item">
     <div class="card__image-wrapper">
       <img class="card__image" :src="product.image" :alt="product.title" />
-      <span v-if="hasBadge" class="card__badge">
-        {{ badgeText }}
-      </span>
+      <span v-if="hasBadge" class="card__badge">{{ badgeText }}</span>
       <button class="card__button" @click="addToCart">Add to cart</button>
     </div>
+
     <h3 class="card__product-title">{{ product.title }}</h3>
     <span class="card__price">$ {{ product.price }}</span>
+
+    <!-- можно оставить тут, это не второй корень, а просто потомок -->
+    <NotificationComponent
+      v-model="isNotificationVisible"
+      message="The item was added to your Shopping bag."
+    />
   </li>
-  <NotificationComponent
-    v-model="isNotificationVisible"
-    message="The item was added to your Shopping bag."
-  />
 </template>
 
 <style lang="scss" scoped>

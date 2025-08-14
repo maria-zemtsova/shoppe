@@ -35,12 +35,14 @@
         class="product__item"
       />
     </ul>
-    <PaginationComponent
-      v-if="products.length > 0"
-      v-model="currentPage"
-      :total-items="products.length"
-      :per-page="itemsPerPage"
-    />
+    <ClientOnly>
+      <PaginationComponent
+        v-if="!isLoading && products.length > 0"
+        v-model="currentPage"
+        :total-items="products.length"
+        :per-page="itemsPerPage"
+      />
+    </ClientOnly>
   </section>
 </template>
 
