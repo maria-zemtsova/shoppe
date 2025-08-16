@@ -3,12 +3,8 @@
   "compilerOptions": {
     "types": ["nuxt", "vite/client"],
     "strict": true,
-    "moduleResolution": "bundler",
-    "paths": {
-      "~/*": ["./*"],
-      "@/*": ["./*"]
-    }
+    "moduleResolution": "bundler"
   },
-  "include": ["**/*.ts", "**/*.vue", ".nuxt/types/**/*.d.ts", "types/**/*.ts"],
-  "exclude": ["node_modules", ".nuxt", ".output", "dist"]
+  "include": ["**/*.ts", "**/*.vue", ".nuxt", ".nuxt/types/**/*.d.ts", "types/**/*.ts"],
+  "exclude": ["node_modules", ".output", "dist"]
 }

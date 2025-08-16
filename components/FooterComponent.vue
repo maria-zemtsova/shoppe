@@ -8,17 +8,17 @@
   const footerLinks: LinkItem[] = [
     {
       id: 1,
-      path: '/contact',
+      path: '#',
       label: 'contact',
     },
     {
       id: 2,
-      path: '/services',
+      path: '#',
       label: 'terms of services',
     },
     {
       id: 3,
-      path: '/shipping',
+      path: '#',
       label: 'shipping and returns',
     },
   ]
@@ -27,19 +27,19 @@
       id: 1,
       component: FacebookIcon as DefineComponent,
       label: 'facebook',
-      path: '/fb',
+      path: '#',
     },
     {
       id: 2,
       component: InstagramIcon as DefineComponent,
       label: 'instagram',
-      path: '/insta',
+      path: '#',
     },
     {
       id: 3,
       component: TwitterIcon as DefineComponent,
       label: 'twwiter',
-      path: '/tw',
+      path: '#',
     },
   ]
 
