@@ -121,6 +121,22 @@
     }
   }
 
+  .product :deep(.card__image) {
+    width: 300px;
+
+    @media (max-width: $breakpoints-xl) {
+      width: 250px;
+      height: 250px;
+    }
+
+    @media (max-width: $breakpoints-l) {
+      display: flex;
+      justify-content: center;
+      width: 136px;
+      height: 136px;
+    }
+  }
+
   @keyframes pulse {
     0% {
       opacity: 0.2;

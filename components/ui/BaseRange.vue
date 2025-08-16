@@ -34,6 +34,18 @@
     width: 260px;
     margin-top: 40px;
 
+    @media (max-width: $breakpoints-xl) {
+      width: 900px;
+    }
+
+    @media (max-width: $breakpoints-xl) {
+      width: 900px;
+    }
+
+    @media (max-width: $breakpoints-l) {
+      width: 600px;
+    }
+
     @media (max-width: $breakpoints-m) {
       width: 288px;
     }

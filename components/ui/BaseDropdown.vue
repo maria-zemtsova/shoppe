@@ -71,8 +71,15 @@
       border: 1px solid $gray;
       border-radius: 4px;
 
+      @media (max-width: $breakpoints-xl) {
+        width: 440px;
+      }
+
+      @media (max-width: $breakpoints-l) {
+        width: 290px;
+      }
+
       @media (max-width: $breakpoints-m) {
-        gap: 180px;
         width: 288px;
       }
     }
@@ -89,6 +96,7 @@
 
     &__list {
       padding: 12px;
+      margin: 4px 0;
       list-style: none;
       background-color: $white;
       border: 1px solid $gray;

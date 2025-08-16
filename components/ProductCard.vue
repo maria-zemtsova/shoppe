@@ -72,8 +72,8 @@
     }
 
     &__image {
-      width: 100%;
-      height: 100%;
+      width: 300px;
+      height: 300px;
       margin: 0 auto;
       cursor: pointer;
       object-fit: contain;

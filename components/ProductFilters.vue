@@ -76,11 +76,17 @@
       <BaseInput v-model="searchQuery" class="filters__input" placeholder="Search...">
         <button />
       </BaseInput>
-      <BaseDropdown v-model="category" placeholder="Category" :options="categoryList" />
-      <BaseDropdown v-model="sortBy" placeholder="Sort By" :options="sortByList" />
+      <div class="filters__dropdown-wrapper">
+        <BaseDropdown v-model="category" placeholder="Category" :options="categoryList" />
+        <BaseDropdown v-model="sortBy" placeholder="Sort By" :options="sortByList" />
+      </div>
+
       <BaseRange v-model="priceRange" />
-      <TumblerButton v-model="isOnSale" text="On sale" />
-      <TumblerButton v-model="isInStock" text="In stock" />
+
+      <div class="filters__tumbler-wrapper">
+        <TumblerButton v-model="isOnSale" text="On sale" />
+        <TumblerButton v-model="isInStock" text="In stock" />
+      </div>
     </div>
   </section>
 </template>
@@ -147,13 +153,21 @@
 
     &__header {
       display: none;
-      width: 288px;
       margin-bottom: 32px;
 
       @media (max-width: $breakpoints-xl) {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        width: 900px;
+      }
+
+      @media (max-width: $breakpoints-l) {
+        width: 600px;
+      }
+
+      @media (max-width: $breakpoints-m) {
+        width: 288px;
       }
     }
 
@@ -162,6 +176,14 @@
       margin-bottom: 40px;
 
       @media (max-width: $breakpoints-xl) {
+        width: 900px;
+      }
+
+      @media (max-width: $breakpoints-l) {
+        width: 600px;
+      }
+
+      @media (max-width: $breakpoints-m) {
         width: 288px;
       }
 
@@ -174,6 +196,41 @@
         background-image: url('../assets/search.svg');
         background-repeat: no-repeat;
         border: none;
+      }
+    }
+
+    @media (max-width: $breakpoints-xl) {
+      &__dropdown-wrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 900px;
+      }
+
+      &__tumbler-wrapper {
+        display: flex;
+        gap: 100px;
+        justify-content: center;
+        width: 450px;
+      }
+    }
+
+    @media (max-width: $breakpoints-l) {
+      &__dropdown-wrapper {
+        width: 600px;
+      }
+    }
+
+    @media (max-width: $breakpoints-m) {
+      &__dropdown-wrapper {
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+      }
+
+      &__tumbler-wrapper {
+        flex-direction: column;
+        gap: 42px;
+        align-items: center;
       }
     }
   }
