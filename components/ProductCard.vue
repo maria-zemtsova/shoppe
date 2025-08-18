@@ -35,7 +35,6 @@
     <h3 class="card__product-title">{{ product.title }}</h3>
     <span class="card__price">$ {{ product.price }}</span>
 
-    <!-- можно оставить тут, это не второй корень, а просто потомок -->
     <NotificationComponent
       v-model="isNotificationVisible"
       message="The item was added to your Shopping bag."
@@ -99,10 +98,13 @@
     &__product-title {
       margin-top: 24px;
       margin-bottom: 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       font-size: 20px;
       font-weight: 400;
       line-height: 26px;
       color: $black;
+      white-space: nowrap;
 
       @media (max-width: $breakpoints-l) {
         margin-top: 16px;

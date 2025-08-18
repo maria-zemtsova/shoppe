@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <section>
+  <section class="custom-pagination">
     <VueAwesomePaginate
       v-model="model"
       :total-items="props.totalItems"
@@ -36,6 +36,12 @@
 </template>
 
 <style lang="scss" scoped>
+  .custom-pagination {
+    max-width: 272px;
+    margin: 0 auto;
+    margin-top: 86px;
+  }
+
   :deep(.pagination) {
     font-family: $font-dm-sans;
     color: $black;
@@ -46,7 +52,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-top: 88px;
+    margin: 0;
   }
 
   :deep(.pagination__button) {
