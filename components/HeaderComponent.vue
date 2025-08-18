@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import HeaderLogo from './icons/HeaderLogo.vue'
   import type { LinkItem } from '~/types/links'
-  import { ref } from 'vue'
   import {
     UserIcon,
     ShoppingIcon,
