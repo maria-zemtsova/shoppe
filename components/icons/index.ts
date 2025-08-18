@@ -14,6 +14,7 @@ import LogoutIcon from './LogoutIcon.vue'
 import BurgerIcon from './BurgerIcon.vue'
 import CloseIcon from './CloseIcon.vue'
 
+import BackIcon from '~/components/icons/BackIcon.vue'
 export {
   FacebookIcon,
   TwitterIcon,
@@ -24,4 +25,5 @@ export {
   BurgerIcon,
   CloseIcon,
   LogoutIcon,
+  BackIcon,
 }

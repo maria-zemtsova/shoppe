@@ -2,13 +2,19 @@
   import NotificationComponent from '~/components/ui/NotificationComponent.vue'
   import type { Product } from '~/types/product'
   import { ref } from 'vue'
-  defineProps<{
+  import { useCartStore } from '~/stores/cart'
+
+  const cart = useCartStore()
+
+  const props = defineProps<{
     product: Product
   }>()
 
   const isNotificationVisible = ref(false)
+
   const addToCart = () => {
     isNotificationVisible.value = true
+    cart.addItem(props.product)
   }
 </script>
 

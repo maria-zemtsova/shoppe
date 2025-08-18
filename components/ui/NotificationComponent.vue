@@ -1,6 +1,9 @@
 <script lang="ts" setup>
   import { watch } from 'vue'
   import BaseButton from '~/components/ui/BaseButton.vue'
+  import { useCartStore } from '~/stores/cart'
+
+  const cart = useCartStore()
 
   const props = defineProps<{
     message: string
@@ -23,6 +26,11 @@
       }
     },
   )
+
+  const openSidebar = () => {
+    cart.isSidebarOpen = true
+    emit('update:modelValue', false)
+  }
 </script>
 
 <template>
@@ -31,7 +39,7 @@
       <img class="notification__icon" src="/assets/tick.svg" width="20" height="20" alt="tick" />
       <p class="notification__message">{{ message }}</p>
     </div>
-    <BaseButton class="notification__button" tag="nuxt-link" to="/cart" text="View cart" />
+    <BaseButton class="notification__button" tag="button" text="View cart" @click="openSidebar" />
   </section>
 </template>
 

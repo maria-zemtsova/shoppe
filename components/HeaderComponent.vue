@@ -11,6 +11,8 @@
   } from '~/components/icons/index'
   import type { DefineComponent } from 'vue'
   import LinksList from '~/components/LinksList.vue'
+  import { useCartStore } from '~/stores/cart'
+  const cart = useCartStore()
 
   const isMobileMenu = ref(false)
   const toggleMobileMenu = () => {
@@ -97,9 +99,9 @@
     },
     {
       id: 2,
-      path: '/',
       label: 'shopping',
       component: ShoppingIcon as DefineComponent,
+      action: () => cart.toggleSidebar(),
     },
     {
       id: 3,

@@ -9,6 +9,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["**/*.ts", "**/*.vue", ".nuxt/types/**/*.d.ts", "types/**/*.ts"],
+  "include": ["**/*.ts", "**/*.vue", ".nuxt/types/**/*.d.ts", "types/**/*.ts", "stores/cart.ts"],
   "exclude": ["node_modules", ".nuxt", ".output", "dist"]
 }
