@@ -5,8 +5,8 @@
 
   const model = defineModel<[number, number]>({ required: true })
 
-  const updateValue = debounce((value: [number, number]) => {
-    model.value = value
+  const setValue = debounce((val: [number, number]) => {
+    model.value = val
   }, 300)
 
   const formattedPrice = computed(() => {
@@ -18,12 +18,12 @@
 <template>
   <div class="range__wrapper">
     <Slider
-      :model-value="model"
+      v-model="model"
       class="range"
       :min="0"
       :max="1000"
       :tooltips="false"
-      @update:modelValue="updateValue"
+      @update:modelValue="setValue"
     />
     <div class="range__price">Price: {{ formattedPrice }}</div>
   </div>
@@ -33,10 +33,6 @@
   .range {
     width: 260px;
     margin-top: 40px;
-
-    @media (max-width: $breakpoints-xl) {
-      width: 900px;
-    }
 
     @media (max-width: $breakpoints-xl) {
       width: 900px;
