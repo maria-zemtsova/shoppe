@@ -1,11 +1,11 @@
 <script lang="ts" setup>
   import { useCartStore } from '@/stores/cart'
-  import BaseButton from './ui/BaseButton.vue'
-  import { CloseIcon } from './icons'
+  import BaseButton from '~/components/ui/BaseButton.vue'
+  import { CloseIcon } from '~/components/icons'
   const cart = useCartStore()
   import { onMounted, onBeforeUnmount } from 'vue'
   import type { CartItem } from '@/stores/cart'
-  import { BackIcon } from './icons'
+  import { BackIcon } from '~/components/icons'
 
   const decreaseQuantity = (item: CartItem) => {
     if (item.quantity > 1) {
@@ -35,7 +35,7 @@
     <Transition name="slide">
       <aside v-if="cart.isSidebarOpen" class="cart">
         <div class="cart__header">
-          <BackIcon class="cart__back-icon" />
+          <BackIcon class="cart__back-icon" @click="cart.toggleSidebar()" />
 
           <h2 class="cart__title">Shopping bag</h2>
         </div>
@@ -240,6 +240,10 @@
       margin-left: -36px;
       background-color: $gray;
       border: none;
+
+      @media (max-width: $breakpoints-m) {
+        margin-left: -16px;
+      }
     }
 
     &__subtotal {
@@ -266,6 +270,7 @@
       border-radius: 4px;
 
       @media (max-width: $breakpoints-m) {
+        width: 100%;
         height: 32px;
         margin-top: 16px;
         font-size: 12px;

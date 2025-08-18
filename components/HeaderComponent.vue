@@ -12,6 +12,7 @@
   import type { DefineComponent } from 'vue'
   import LinksList from '~/components/LinksList.vue'
   import { useCartStore } from '~/stores/cart'
+  import { ref } from 'vue'
   const cart = useCartStore()
 
   const isMobileMenu = ref(false)
@@ -138,7 +139,7 @@
 
         <!-- Mobile -->
         <div class="header__mobile-controls">
-          <button class="header__button">
+          <button class="header__button" @click="cart.toggleSidebar()">
             <component :is="ShoppingIcon" />
           </button>
           <button class="header__button" @click="toggleMobileMenu">

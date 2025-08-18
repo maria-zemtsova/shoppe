@@ -5,5 +5,5 @@ export interface LinkItem {
   component?: DefineComponent
   label: string
   path?: string
-  action?: void
+  action?: () => void
 }
