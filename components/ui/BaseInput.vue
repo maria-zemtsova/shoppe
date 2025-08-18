@@ -2,29 +2,21 @@
   interface Props {
     type?: string
     placeholder?: string
-    modelValue?: string
     error?: string
   }
 
-  const props = defineProps<Props>()
-  const emit = defineEmits<{
-    (e: 'update:modelValue', value: string): void
-  }>()
+  defineProps<Props>()
+
+  const model = defineModel<string>()
 </script>
 
 <template>
   <div>
     <div class="input__wrapper">
-      <input
-        class="input"
-        :type="props.type"
-        :placeholder="props.placeholder"
-        :value="props.modelValue"
-        @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-      />
+      <input v-model="model" class="input" :type="type" :placeholder="placeholder" />
       <slot />
     </div>
-    <span v-if="props.error" class="error-message">{{ props.error }}</span>
+    <span v-if="error" class="error-message">{{ error }}</span>
   </div>
 </template>
 
@@ -37,7 +29,7 @@
     font-family: $font-dm-sans;
     border-bottom: 1px solid $black;
 
-    @media (width <= 600px) {
+    @media (width <=600px) {
       min-width: 288px;
       max-width: 288px;
     }
@@ -50,7 +42,7 @@
     color: $dark-gray;
     border: none;
 
-    @media (width <= 600px) {
+    @media (width <=600px) {
       font-size: 12px;
     }
   }

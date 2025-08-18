@@ -9,10 +9,16 @@ import InstagramIcon from '~/components/icons/InstagramIcon.vue'
 import SearchIcon from '~/components/icons/SearchIcon.vue'
 import ShoppingIcon from '~/components/icons/ShoppingIcon.vue'
 import UserIcon from '~/components/icons/UserIcon.vue'
-import LogoutIcon from './LogoutIcon.vue'
+import LogoutIcon from '~/components/icons/LogoutIcon.vue'
 
-import BurgerIcon from './BurgerIcon.vue'
-import CloseIcon from './CloseIcon.vue'
+import BurgerIcon from '~/components/icons/BurgerIcon.vue'
+import CloseIcon from '~/components/icons/CloseIcon.vue'
+
+// filters
+
+import FiltersIcon from '~/components/icons/FiltersIcon.vue'
+import FiltersLogo from '~/components/icons/FiltersLogo.vue'
+import ArrowIcon from '~/components/icons/ArrowIcon.vue'
 
 import BackIcon from '~/components/icons/BackIcon.vue'
 export {
@@ -26,4 +32,9 @@ export {
   CloseIcon,
   LogoutIcon,
   BackIcon,
+
+  FiltersIcon,
+  FiltersLogo,
+  ArrowIcon,
+
 }
