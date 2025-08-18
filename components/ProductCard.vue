@@ -1,8 +1,8 @@
 <script lang="ts" setup>
   import NotificationComponent from '~/components/ui/NotificationComponent.vue'
   import type { Product } from '~/types/product'
-  import { ref } from 'vue'
-  defineProps<{
+  import { ref, computed } from 'vue'
+  const props = defineProps<{
     product: Product
   }>()
 
@@ -10,25 +10,40 @@
   const addToCart = () => {
     isNotificationVisible.value = true
   }
+
+  const badgeText = computed(() => {
+    if (!props.product.inStock) {
+      return 'Sold Out'
+    }
+    if (props.product.discountPercentage && props.product.discountPercentage > 0) {
+      return `-${props.product.discountPercentage}%`
+    }
+    return null
+  })
+
+  const hasBadge = computed(() => badgeText.value !== null)
 </script>
 
 <template>
-  <li class="latest__item">
-    <div class="latest__image-wrapper">
-      <img class="latest__image" :src="product.image" :alt="product.title" />
-      <button class="latest__button" @click="addToCart">Add to cart</button>
+  <li class="card__item">
+    <div class="card__image-wrapper">
+      <img class="card__image" :src="product.image" :alt="product.title" />
+      <span v-if="hasBadge" class="card__badge">{{ badgeText }}</span>
+      <button class="card__button" @click="addToCart">Add to cart</button>
     </div>
-    <h3 class="latest__product-title">{{ product.title }}</h3>
-    <span class="latest__price">$ {{ product.price }}</span>
+
+    <h3 class="card__product-title">{{ product.title }}</h3>
+    <span class="card__price">$ {{ product.price }}</span>
+
+    <NotificationComponent
+      v-model="isNotificationVisible"
+      message="The item was added to your Shopping bag."
+    />
   </li>
-  <NotificationComponent
-    v-model="isNotificationVisible"
-    message="The item was added to your Shopping bag."
-  />
 </template>
 
 <style lang="scss" scoped>
-  .latest {
+  .card {
     font-family: $font-dm-sans;
 
     &__item {
@@ -56,21 +71,40 @@
     }
 
     &__image {
-      width: 100%;
-      height: 100%;
+      width: 300px;
+      height: 300px;
       margin: 0 auto;
       cursor: pointer;
       object-fit: contain;
       border-radius: 8px;
     }
 
+    &__badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 24px;
+      font-size: 12px;
+      line-height: 20px;
+      color: $white;
+      background-color: $accent;
+      border-radius: 4px;
+    }
+
     &__product-title {
       margin-top: 24px;
       margin-bottom: 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       font-size: 20px;
       font-weight: 400;
       line-height: 26px;
       color: $black;
+      white-space: nowrap;
 
       @media (max-width: $breakpoints-l) {
         margin-top: 16px;
