@@ -106,35 +106,29 @@
   }
 
   .product :deep(.card__image-wrapper) {
-    width: 300px;
-
-    @media (max-width: $breakpoints-xl) {
-      width: 250px;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 250px;
 
     @media (max-width: $breakpoints-l) {
       width: 200px;
+      height: 200px;
     }
 
     @media (max-width: $breakpoints-m) {
       width: 136px;
+      height: 136px;
     }
   }
 
   .product :deep(.card__image) {
-    width: 300px;
-
-    @media (max-width: $breakpoints-xl) {
-      width: 250px;
-      height: 250px;
-    }
-
-    @media (max-width: $breakpoints-l) {
-      display: flex;
-      justify-content: center;
-      width: 136px;
-      height: 136px;
-    }
+    display: block;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
   }
 
   @keyframes pulse {

@@ -3,7 +3,7 @@
   import BaseButton from '~/components/ui/BaseButton.vue'
   import { useCartStore } from '~/stores/cart'
 
-  const cart = useCartStore()
+  const cartStore = useCartStore()
 
   const props = defineProps<{
     message: string
@@ -28,7 +28,7 @@
   )
 
   const openSidebar = () => {
-    cart.isSidebarOpen = true
+    cartStore.isSidebarOpen = true
     emit('update:modelValue', false)
   }
 </script>
@@ -50,9 +50,9 @@
     left: 50%;
     z-index: 2;
     display: flex;
-    gap: 58%;
-    justify-content: center;
-    width: 86%;
+    justify-content: space-between;
+    width: 80%;
+    padding: 24px;
     color: $black;
     background-color: $light-gray;
     border-radius: 4px;
@@ -61,13 +61,11 @@
 
     @media (max-width: $breakpoints-l) {
       left: 50%;
-      gap: 52%;
-      width: 80%;
     }
 
     @media (max-width: $breakpoints-m) {
-      gap: 20%;
-      width: 90%;
+      align-items: flex-start;
+      padding: 16px;
     }
 
     @keyframes fade-in-out {
@@ -100,6 +98,10 @@
       @media (max-width: $breakpoints-l) {
         gap: 8px;
       }
+
+      @media (max-width: $breakpoints-m) {
+        align-items: flex-start;
+      }
     }
 
     &__icon {
@@ -113,6 +115,7 @@
     }
 
     &__message {
+      margin: 0;
       font-size: 16px;
 
       @media (max-width: $breakpoints-l) {
@@ -138,6 +141,11 @@
         width: 68px;
         font-size: 12px;
         line-height: 20px;
+      }
+
+      @media (max-width: $breakpoints-m) {
+        width: 100px;
+        font-weight: 400;
       }
     }
   }

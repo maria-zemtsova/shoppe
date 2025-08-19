@@ -13,7 +13,8 @@
   import LinksList from '~/components/LinksList.vue'
   import { useCartStore } from '~/stores/cart'
   import { ref } from 'vue'
-  const cart = useCartStore()
+
+  const cartStore = useCartStore()
 
   const isMobileMenu = ref(false)
   const toggleMobileMenu = () => {
@@ -103,7 +104,7 @@
       path: '#',
       label: 'shopping',
       component: ShoppingIcon as DefineComponent,
-      action: () => cart.toggleSidebar(),
+      action: () => cartStore.toggleSidebar(),
     },
     {
       id: 3,
@@ -120,27 +121,11 @@
       <HeaderLogo class="header__logo" />
 
       <nav class="header__nav">
-        <!-- Desktop  -->
-        <LinksList
-          :items="menuLinks"
-          class="header__list header__list--menu"
-          :styles="{
-            list: 'header__list-inner',
-            item: 'header__item',
-            link: 'header__link',
-          }"
-        />
-        <LinksList
-          :items="iconLinks"
-          class="header__list header__list--icons"
-          :styles="{
-            list: 'header__list-inner',
-          }"
-        />
+        <LinksList :items="menuLinks" class="header__list header__list--menu" />
+        <LinksList :items="iconLinks" class="header__list header__list--icons" />
 
-        <!-- Mobile -->
         <div class="header__mobile-controls">
-          <button class="header__button" @click="cart.toggleSidebar()">
+          <button class="header__button" @click="cartStore.toggleSidebar()">
             <component :is="ShoppingIcon" />
           </button>
           <button class="header__button" @click="toggleMobileMenu">
@@ -150,17 +135,8 @@
       </nav>
     </div>
 
-    <!-- Mobile menu -->
     <div v-if="isMobileMenu" class="header__mobile-menu">
-      <LinksList
-        :items="mobileMenuLinks"
-        class="header__mobile-list"
-        :styles="{
-          list: 'header__mobile-list-inner',
-          item: 'header__mobile-item',
-          link: 'header__mobile-link',
-        }"
-      />
+      <LinksList :items="mobileMenuLinks" class="header__mobile-list" />
       <ul class="user-menu">
         <li v-for="item in mobileUserLinks" :key="item.id" class="user-menu__item">
           <NuxtLink class="user-menu__link" :to="item.path">
@@ -173,15 +149,23 @@
   </header>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .header {
     display: flex;
     flex-direction: column;
+    width: 100%;
+
+    &__list {
+      @media (width <= 600px) {
+        display: none;
+      }
+    }
 
     &__top {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      width: 100%;
       padding-top: 48px;
     }
 
@@ -189,49 +173,11 @@
       display: flex;
       gap: 48px;
       align-items: center;
-    }
 
-    &__list {
-      display: flex;
-      padding: 0;
-      margin: 0;
-      list-style: none;
-
-      &--menu {
-        gap: 24px;
-        align-items: center;
-
-        :deep(.header__list-inner)::after {
-          width: 1px;
-          height: 17px;
-          margin-left: 24px;
-          content: '';
-          background: $dark-gray;
-        }
+      :deep(.link-list) {
+        display: flex;
+        gap: 100px;
       }
-
-      &--icons {
-        gap: 39px;
-      }
-    }
-
-    :deep(.header__list-inner) {
-      display: flex;
-      padding: 0;
-      margin: 0;
-      list-style: none;
-
-      @media (width <=600px) {
-        display: none;
-      }
-    }
-
-    :deep(.header__link) {
-      font-family: $font-dm-sans;
-      font-size: 16px;
-      line-height: 27px;
-      color: $black;
-      text-decoration: none;
     }
 
     &__mobile-controls {
@@ -261,14 +207,6 @@
       margin: 0 0 24px;
       list-style: none;
     }
-
-    :deep(.header__mobile-link) {
-      font-family: $font-dm-sans;
-      font-size: 20px;
-      line-height: 26px;
-      color: $black;
-      text-decoration: none;
-    }
   }
 
   .user-menu {
@@ -297,7 +235,7 @@
     }
   }
 
-  @media (width <=600px) {
+  @media (width <= 600px) {
     .header {
       &__logo {
         width: 99px;
@@ -312,6 +250,22 @@
         display: flex;
         gap: 20px;
       }
+    }
+  }
+
+  :deep(.link-list) {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    & li {
+      display: flex;
+      justify-content: center;
+    }
+
+    @media (width <= 600px) {
+      display: none;
     }
   }
 </style>
