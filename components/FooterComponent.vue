@@ -23,7 +23,7 @@
 
 <template>
   <footer class="footer">
-    <LinksList :items="footerLinks" className="footer__nav" />
+    <LinksList :items="footerLinks" class="footer__nav" />
     <p class="footer__copyright">
       <span>© 2021 Shelly.</span> Terms of use <span>and</span> privacy policy.
     </p>
@@ -45,7 +45,7 @@
     <div class="footer__socials-wrapper">
       <p>Follow us</p>
       <hr class="social__line" />
-      <LinksList :items="footerSocials" className="footer__social" />
+      <LinksList :items="footerSocials" class="footer__social" />
     </div>
   </footer>
 </template>

@@ -121,9 +121,8 @@
       <HeaderLogo class="header__logo" />
 
       <nav class="header__nav">
-        <LinksList :items="menuLinks" class="header__list" className="header__menu-list" />
-        <LinksList :items="iconLinks" class="header__list" className="header__icons-list" />
-
+        <LinksList :items="menuLinks" class="header__list header__menu-list" />
+        <LinksList :items="iconLinks" class="header__list header__icons-list" />
         <div class="header__mobile-controls">
           <button class="header__button" @click="cartStore.toggleSidebar()">
             <component :is="ShoppingIcon" />
@@ -149,7 +148,7 @@
   </header>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .header {
     display: flex;
     flex-direction: column;

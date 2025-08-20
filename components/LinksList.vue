@@ -3,12 +3,11 @@
 
   defineProps<{
     items: LinkItem[]
-    className?: string
   }>()
 </script>
 
 <template>
-  <ul :class="['link-list', className]">
+  <ul class="link-list">
     <li v-for="item in items" :key="item.id" class="link-list__item">
       <button v-if="item.action" class="link-list__button" @click="item.action">
         <component :is="item.component" v-if="item.component" />
