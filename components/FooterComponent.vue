@@ -23,7 +23,7 @@
 
 <template>
   <footer class="footer">
-    <LinksList :items="footerLinks" class="footer__nav" />
+    <LinksList :items="footerLinks" className="footer__nav" />
     <p class="footer__copyright">
       <span>© 2021 Shelly.</span> Terms of use <span>and</span> privacy policy.
     </p>
@@ -44,8 +44,8 @@
 
     <div class="footer__socials-wrapper">
       <p>Follow us</p>
-      <span class="social__line" />
-      <LinksList :items="footerSocials" class="footer__social" />
+      <hr class="social__line" />
+      <LinksList :items="footerSocials" className="footer__social" />
     </div>
   </footer>
 </template>
@@ -54,17 +54,34 @@
   .footer {
     display: grid;
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: 35% 32%;
-    gap: 55px 30%;
+    grid-template-columns: 44% 32%;
+    gap: 55px 24%;
     width: 100%;
     min-height: 159px;
     padding-top: 37px;
     border-top: 1px solid $light-gray;
 
-    @media (width <= 900px) {
+    @media (max-width: $breakpoints-l) {
       display: flex;
       flex-direction: column;
       gap: 35px;
+    }
+
+    &__nav {
+      gap: 40px;
+      order: 2;
+      font-size: 16px;
+      line-height: 28px;
+      color: $dark-gray;
+      text-transform: uppercase;
+
+      @media (max-width: $breakpoints-m) {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+        font-size: 12px;
+        line-height: 20px;
+      }
     }
 
     &__copyright {
@@ -76,7 +93,7 @@
       font-size: 16px;
       color: $dark-gray;
 
-      @media (width <= 600px) {
+      @media (max-width: $breakpoints-m) {
         order: 4;
         font-size: 12px;
         line-height: 20px;
@@ -91,7 +108,7 @@
       grid-row: 1/2;
       grid-column: 2/3;
 
-      @media (width <= 600px) {
+      @media (max-width: $breakpoints-m) {
         order: 1;
       }
     }
@@ -101,6 +118,10 @@
       gap: 15px;
       justify-content: flex-end;
 
+      @media (max-width: $breakpoints-l) {
+        justify-content: flex-start;
+      }
+
       p {
         display: none;
         font-family: $font-dm-sans;
@@ -108,23 +129,31 @@
         line-height: 20px;
         color: $black;
 
-        @media (width <= 600px) {
+        @media (max-width: $breakpoints-m) {
           display: block;
         }
       }
 
       .social__line {
         display: none;
-        border: 1px $black solid;
+        width: 48px;
+        height: 1px;
+        margin: 0;
+        color: $black;
+        border: none;
 
-        @media (width <= 600px) {
+        @media (max-width: $breakpoints-m) {
           display: block;
         }
       }
 
-      @media (width <= 600px) {
+      @media (max-width: $breakpoints-m) {
         order: 2;
       }
+    }
+
+    &__social {
+      gap: 30px;
     }
   }
 
@@ -138,7 +167,7 @@
       font-size: 12px;
       line-height: 20px;
 
-      @media (width <= 600px) {
+      @media (max-width: $breakpoints-m) {
         display: block;
       }
     }
@@ -158,40 +187,6 @@
       font-family: $font-dm-sans;
       font-size: 12px;
       color: #43c16b;
-    }
-  }
-
-  :deep(.link-list) {
-    display: flex;
-    gap: 40px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-
-    @media (width <= 600px) {
-      flex-direction: column;
-      gap: 8px;
-      width: 100%;
-    }
-  }
-
-  :deep(.link-list__link),
-  :deep(.link-list__button) {
-    flex: 1;
-    font-family: $font-dm-sans;
-    font-size: 16px;
-    color: $dark-gray;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
-
-    &:hover {
-      color: $black;
-    }
-
-    @media (width <= 600px) {
-      font-size: 12px;
-      line-height: 20px;
     }
   }
 </style>

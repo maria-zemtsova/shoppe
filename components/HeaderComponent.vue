@@ -121,8 +121,8 @@
       <HeaderLogo class="header__logo" />
 
       <nav class="header__nav">
-        <LinksList :items="menuLinks" class="header__list header__list--menu" />
-        <LinksList :items="iconLinks" class="header__list header__list--icons" />
+        <LinksList :items="menuLinks" class="header__list" className="header__menu-list" />
+        <LinksList :items="iconLinks" class="header__list" className="header__icons-list" />
 
         <div class="header__mobile-controls">
           <button class="header__button" @click="cartStore.toggleSidebar()">
@@ -155,12 +155,6 @@
     flex-direction: column;
     width: 100%;
 
-    &__list {
-      @media (width <= 600px) {
-        display: none;
-      }
-    }
-
     &__top {
       display: flex;
       align-items: center;
@@ -169,19 +163,47 @@
       padding-top: 48px;
     }
 
+    &__logo {
+      @media (max-width: $breakpoints-l) {
+        width: 99px;
+        height: 36px;
+      }
+    }
+
     &__nav {
       display: flex;
       gap: 48px;
       align-items: center;
+    }
 
-      :deep(.link-list) {
-        display: flex;
-        gap: 100px;
+    &__list {
+      @media (max-width: $breakpoints-l) {
+        display: none;
       }
+    }
+
+    &__menu-list {
+      gap: 64px;
+    }
+
+    &__menu-list::after {
+      width: 1px;
+      height: 17px;
+      content: '';
+      background: $dark-gray;
+    }
+
+    &__icons-list {
+      gap: 40px;
     }
 
     &__mobile-controls {
       display: none;
+
+      @media (max-width: $breakpoints-l) {
+        display: flex;
+        gap: 20px;
+      }
     }
 
     &__button {
@@ -196,12 +218,17 @@
       width: 100%;
       padding: 20px 0;
       background-color: $white;
+
+      @media (max-width: $breakpoints-l) {
+        display: block;
+      }
     }
 
     &__mobile-list {
       display: flex;
       flex-direction: column;
       gap: 24px;
+      align-items: flex-start;
       width: 100%;
       padding: 0;
       margin: 0 0 24px;
@@ -232,40 +259,6 @@
       line-height: 26px;
       color: $black;
       text-decoration: none;
-    }
-  }
-
-  @media (width <= 600px) {
-    .header {
-      &__logo {
-        width: 99px;
-        height: 36px;
-      }
-
-      &__mobile-menu {
-        display: block;
-      }
-
-      &__mobile-controls {
-        display: flex;
-        gap: 20px;
-      }
-    }
-  }
-
-  :deep(.link-list) {
-    display: flex;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-
-    & li {
-      display: flex;
-      justify-content: center;
-    }
-
-    @media (width <= 600px) {
-      display: none;
     }
   }
 </style>

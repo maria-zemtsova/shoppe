@@ -3,11 +3,12 @@
 
   defineProps<{
     items: LinkItem[]
+    className?: string
   }>()
 </script>
 
 <template>
-  <ul class="link-list">
+  <ul :class="['link-list', className]">
     <li v-for="item in items" :key="item.id" class="link-list__item">
       <button v-if="item.action" class="link-list__button" @click="item.action">
         <component :is="item.component" v-if="item.component" />
@@ -24,6 +25,7 @@
 <style lang="scss">
   .link-list {
     display: flex;
+    align-items: center;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -33,12 +35,16 @@
       display: inline-flex;
       align-items: center;
       font-family: $font-dm-sans;
-      font-size: 20px;
+      font-size: inherit;
       color: inherit;
       text-decoration: none;
       cursor: pointer;
       background: transparent;
       border: none;
+    }
+
+    &__link:hover {
+      color: $black;
     }
   }
 </style>
