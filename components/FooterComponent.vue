@@ -69,7 +69,6 @@
 
     &__nav {
       gap: 40px;
-      order: 2;
       font-size: 16px;
       line-height: 28px;
       color: $dark-gray;
@@ -79,6 +78,7 @@
         flex-direction: column;
         gap: 8px;
         align-items: flex-start;
+        order: 2;
         font-size: 12px;
         line-height: 20px;
       }
