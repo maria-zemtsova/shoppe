@@ -96,6 +96,7 @@
       justify-content: center;
       width: 46px;
       height: 24px;
+      font-family: $font-dm-sans;
       font-size: 12px;
       line-height: 20px;
       color: $white;
