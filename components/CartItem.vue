@@ -2,6 +2,7 @@
   import { useCartStore, type CartItemType } from '@/stores/cart'
   import BaseButton from '~/components/ui/BaseButton.vue'
   import { RemoveIcon } from '~/components/icons'
+  import { computed } from 'vue'
 
   const props = defineProps<{
     item: CartItemType
@@ -14,8 +15,10 @@
   }
 
   const handleIncrease = () => {
-    cartStore.addItem(props.item)
+    cartStore.increaseQuantity(props.item)
   }
+
+  const itemPriceFormatted = computed(() => props.item.price.toFixed(2))
 </script>
 
 <template>
@@ -25,7 +28,7 @@
       <div class="cart__info">
         <h3 class="cart__product-title">{{ item.title }}</h3>
         <p class="cart__description">{{ item.category }}</p>
-        <p class="cart__price">$ {{ item.price.toFixed(2) }}</p>
+        <p class="cart__price">$ {{ itemPriceFormatted }}</p>
       </div>
       <div class="cart__actions">
         <button class="cart__remove" @click="cartStore.removeItem(item.id)">
@@ -46,8 +49,9 @@
       position: relative;
       display: grid;
       grid-template-columns: 136px 152px;
-      gap: 8px;
+      gap: 6px;
       margin-bottom: 22px;
+      letter-spacing: 0.4px;
     }
 
     &__image {
@@ -60,6 +64,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      width: 144px;
     }
 
     &__info {

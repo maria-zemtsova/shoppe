@@ -4,18 +4,6 @@ $font-dm-sans: 'DM Sans', sans-serif;
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 400;
-  src:
-    url('../fonts/dm-sans-400.woff2') format('woff2'),
-    url('../fonts/dm-sans-400.woff') format('woff');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'DM Sans';
-  font-style: normal;
-  font-weight: 700;
-  src:
-    url('../fonts/dm-sans-700.woff2') format('woff2'),
-    url('../fonts/dm-sans-700.woff') format('woff');
+  src: url('../fonts/dm-sans.ttf') format('truetype');
   font-display: swap;
 }

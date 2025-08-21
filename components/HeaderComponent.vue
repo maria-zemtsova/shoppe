@@ -160,6 +160,10 @@
       justify-content: space-between;
       width: 100%;
       padding-top: 48px;
+
+      @media (max-width: $breakpoints-s) {
+        width: 320px;
+      }
     }
 
     &__logo {

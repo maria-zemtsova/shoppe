@@ -1,12 +1,10 @@
 <script lang="ts" setup>
   import NotificationComponent from '~/components/ui/NotificationComponent.vue'
   import type { Product } from '~/types/product'
-
+  import { ref, computed } from 'vue'
   import { useCartStore } from '~/stores/cart'
 
   const cart = useCartStore()
-
-  import { ref, computed } from 'vue'
 
   const props = defineProps<{
     product: Product
@@ -16,7 +14,7 @@
 
   const addToCart = () => {
     isNotificationVisible.value = true
-    cart.addItem(props.product)
+    cart.increaseQuantity(props.product)
   }
 
   const badgeText = computed(() => {

@@ -53,6 +53,7 @@
     justify-content: space-between;
     width: 80%;
     padding: 24px;
+    font-family: $font-dm-sans;
     color: $black;
     background-color: $light-gray;
     border-radius: 4px;
@@ -111,6 +112,7 @@
       @media (max-width: $breakpoints-l) {
         width: 16px;
         height: 16px;
+        padding-top: 2px;
       }
     }
 

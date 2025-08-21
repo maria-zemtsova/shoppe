@@ -39,20 +39,25 @@
       <hr class="cart__line" />
       <div class="cart__subtotal">
         <p>Subtotal ({{ cartStore.totalItems }} items)</p>
-        <p>{{ cartStore.totalPrice.toFixed(2) }}</p>
+        <p>$ {{ cartStore.totalPrice }}</p>
       </div>
       <BaseButton class="cart__link" text="checkout" tag="nuxt-link" to="#" />
     </aside>
+  </Transition>
+  <Transition name="fade">
+    <div v-if="cartStore.isSidebarOpen" class="cart-overlay" @click="closeSidebar"></div>
   </Transition>
 </template>
 
 <style lang="scss" scoped>
   .cart {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
-    z-index: 2;
+    z-index: 3;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     width: 360px;
     height: 100%;
     padding: 72px 36px;
@@ -60,7 +65,12 @@
     background-color: $white;
     border: solid 1px $gray;
 
-    @media (max-width: $breakpoints-m) {
+    @media (max-width: $breakpoints-s) {
+      top: 0;
+      left: 0;
+      box-sizing: content-box;
+      width: 320px;
+      height: 100%;
       padding: 12px 16px;
     }
 
@@ -100,7 +110,10 @@
     }
 
     &__list {
+      flex: 1;
       padding: 0;
+      margin: 0;
+      overflow-y: auto;
       list-style: none;
     }
 
@@ -113,24 +126,34 @@
       border: none;
 
       @media (max-width: $breakpoints-m) {
-        margin-left: -16px;
+        width: 320px;
+        margin: 0;
+        margin-left: 0;
       }
     }
 
     &__subtotal {
       display: flex;
+      flex-shrink: 0;
       justify-content: space-between;
       margin-top: 22px;
       font-size: 16px;
+      font-weight: 600;
       line-height: 28px;
+      letter-spacing: 1px;
 
       @media (max-width: $breakpoints-m) {
         font-size: 12px;
         line-height: 20px;
+
+        p {
+          margin: 0;
+        }
       }
     }
 
     &__link {
+      flex-shrink: 0;
       width: 288px;
       height: 54px;
       margin-top: 22px;
@@ -176,5 +199,35 @@
   .slide-enter-active,
   .slide-leave-active {
     transition: transform 0.3s ease;
+  }
+
+  .cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: calc(100% - 360px);
+    height: 100%;
+    background-color: rgb(0 0 0 / 50%);
+    backdrop-filter: blur(2px);
+
+    @media (max-width: $breakpoints-s) {
+      display: none;
+    }
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+  }
+
+  .fade-enter-to,
+  .fade-leave-from {
+    opacity: 1;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s ease;
   }
 </style>
