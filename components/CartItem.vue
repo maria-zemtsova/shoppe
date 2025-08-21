@@ -51,7 +51,6 @@
       grid-template-columns: 136px 152px;
       gap: 6px;
       margin-bottom: 22px;
-      letter-spacing: 0.4px;
     }
 
     &__image {

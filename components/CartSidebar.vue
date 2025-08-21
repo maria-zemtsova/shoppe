@@ -62,6 +62,7 @@
     height: 100%;
     padding: 72px 36px;
     font-family: $font-dm-sans;
+    letter-spacing: 0.4px;
     background-color: $white;
     border: solid 1px $gray;
 
@@ -138,9 +139,9 @@
       justify-content: space-between;
       margin-top: 22px;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 500;
       line-height: 28px;
-      letter-spacing: 1px;
+      letter-spacing: 16;
 
       @media (max-width: $breakpoints-m) {
         font-size: 12px;
