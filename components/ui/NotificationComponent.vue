@@ -48,7 +48,7 @@
     position: fixed;
     top: 107px;
     left: 50%;
-    z-index: 2;
+    z-index: 3;
     display: flex;
     justify-content: space-between;
     width: 80%;
@@ -119,11 +119,13 @@
     &__message {
       margin: 0;
       font-size: 16px;
+      font-weight: 400;
 
       @media (max-width: $breakpoints-l) {
         width: 135px;
         font-size: 12px;
         line-height: 20px;
+        letter-spacing: 0.2px;
       }
     }
 

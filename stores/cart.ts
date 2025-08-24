@@ -8,7 +8,7 @@ export interface CartItemType extends Product {
 
 export const useCartStore = defineStore('cart', {
   state: (): { items: CartItemType[]; isSidebarOpen: boolean } => ({
-    items: [] as CartItemType[],
+    items: [],
     isSidebarOpen: false,
   }),
   getters: {
@@ -20,22 +20,33 @@ export const useCartStore = defineStore('cart', {
     init() {
       if (!process.client) return
       const data = localStorage.getItem('cart')
-      if (data) this.items = JSON.parse(data)
-      this.$subscribe(
-        debounce(async (_mutation, state) => {
-          localStorage.setItem('cart', JSON.stringify(state.items))
-          try {
-            await fetch('https://fakestoreapi.com/carts', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(this.items),
-            })
-          } catch (error) {
-            console.error('Error saving cart', error)
-          }
-        }),
-      )
+      if (data) {
+        try {
+          this.items = JSON.parse(data)
+        } catch (error) {
+          console.error('Error parsing cart data from localStorage', error)
+          this.items = []
+        }
+      }
+      const debouncedSave = debounce(async (items: CartItemType[]) => {
+        localStorage.setItem('cart', JSON.stringify(items))
+        try {
+          await fetch('https://fakestoreapi.com/carts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(items),
+          })
+        } catch (error) {
+          console.error('Error saving cart to server', error)
+        }
+      }, 500)
+      this.$subscribe((mutation, state) => {
+        if (mutation.type === 'direct' && mutation.events?.key === 'items') {
+          debouncedSave(state.items)
+        }
+      })
     },
+
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen
     },

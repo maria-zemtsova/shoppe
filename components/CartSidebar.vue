@@ -48,7 +48,6 @@
     <div v-if="cartStore.isSidebarOpen" class="cart-overlay" @click="closeSidebar"></div>
   </Transition>
 </template>
-
 <style lang="scss" scoped>
   .cart {
     position: fixed;
@@ -66,32 +65,46 @@
     background-color: $white;
     border: solid 1px $gray;
 
-    @media (max-width: $breakpoints-s) {
-      top: 0;
-      left: 0;
-      box-sizing: content-box;
-      width: 320px;
-      height: 100%;
-      padding: 12px 16px;
+    @media (width <= 768px) {
+      width: 100%;
+      max-width: 100%;
+      padding: 60px 150px;
+      border: none;
+    }
+
+    @media (max-width: $breakpoints-m) {
+      padding: 60px;
+    }
+
+    @media (width <= 400px) {
+      padding: 48px 16px 16px;
     }
 
     &__header {
       margin: 0;
 
-      @media (max-width: $breakpoints-m) {
+      @media (width <= 768px) {
         display: flex;
-        gap: 84px;
+        gap: 34%;
         align-items: center;
-        justify-content: start;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: $breakpoints-s) {
+        gap: 84px;
       }
     }
 
     &__back-icon {
       display: none;
-      fill: $black;
+      cursor: pointer;
 
-      @media (max-width: $breakpoints-m) {
+      @media (width <= 768px) {
         display: block;
+        width: 24px;
+        height: 24px;
+        fill: $black;
       }
     }
 
@@ -126,9 +139,9 @@
       background-color: $gray;
       border: none;
 
-      @media (max-width: $breakpoints-m) {
-        width: 320px;
-        margin: 0;
+      @media (width <= 768px) {
+        width: 100%;
+        margin: 20px 0;
         margin-left: 0;
       }
     }
@@ -143,9 +156,10 @@
       line-height: 28px;
       letter-spacing: 16;
 
-      @media (max-width: $breakpoints-m) {
-        font-size: 12px;
-        line-height: 20px;
+      @media (width <= 768px) {
+        margin-top: 16px;
+        font-size: 14px;
+        line-height: 24px;
 
         p {
           margin: 0;
@@ -164,10 +178,15 @@
       border: 1px solid $black;
       border-radius: 4px;
 
-      @media (max-width: $breakpoints-m) {
+      @media (width <= 768px) {
         width: 100%;
-        height: 32px;
+        height: 48px;
         margin-top: 16px;
+        font-size: 14px;
+      }
+
+      @media (max-width: $breakpoints-m) {
+        height: 44px;
         font-size: 12px;
       }
     }
@@ -212,8 +231,15 @@
     background-color: rgb(0 0 0 / 50%);
     backdrop-filter: blur(2px);
 
-    @media (max-width: $breakpoints-s) {
-      display: none;
+    @media (width <= 768px) {
+      width: 100%;
+      background-color: rgb(0 0 0 / 30%);
+    }
+
+    @media (max-width: $breakpoints-m) {
+      display: block;
+
+      /* Показываем оверлей на мобильных */
     }
   }
 
@@ -230,5 +256,24 @@
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity 0.3s ease;
+  }
+
+  /* Добавляем адаптацию для Transition на мобильных */
+  @media (width <= 768px) {
+    .slide-enter-from {
+      transform: translateX(100%);
+    }
+
+    .slide-enter-to {
+      transform: translateX(0);
+    }
+
+    .slide-leave-from {
+      transform: translateX(0);
+    }
+
+    .slide-leave-to {
+      transform: translateX(100%);
+    }
   }
 </style>

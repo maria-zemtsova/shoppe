@@ -51,6 +51,14 @@
       grid-template-columns: 136px 152px;
       gap: 6px;
       margin-bottom: 22px;
+
+      @media (width <= 768px) {
+        gap: 26px;
+      }
+
+      @media (max-width: $breakpoints-m) {
+        gap: 6px;
+      }
     }
 
     &__image {
@@ -64,6 +72,14 @@
       flex-direction: column;
       justify-content: space-between;
       width: 144px;
+
+      @media (width <= 768px) {
+        width: 200px;
+      }
+
+      @media (max-width: $breakpoints-m) {
+        width: 144px;
+      }
     }
 
     &__info {
