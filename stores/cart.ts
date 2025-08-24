@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import type { Product } from '~/types/product'
 import debounce from 'lodash.debounce'
+import isEqual from 'lodash.isequal'
 
 export interface CartItemType extends Product {
   quantity: number
@@ -19,6 +20,7 @@ export const useCartStore = defineStore('cart', {
   actions: {
     init() {
       if (!process.client) return
+
       const data = localStorage.getItem('cart')
       if (data) {
         try {
@@ -28,7 +30,13 @@ export const useCartStore = defineStore('cart', {
           this.items = []
         }
       }
+
+      let lastItems: CartItemType[] = [...this.items]
+
       const debouncedSave = debounce(async (items: CartItemType[]) => {
+        if (isEqual(items, lastItems)) return
+        lastItems = [...items]
+
         localStorage.setItem('cart', JSON.stringify(items))
         try {
           await fetch('https://fakestoreapi.com/carts', {
@@ -36,43 +44,71 @@ export const useCartStore = defineStore('cart', {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(items),
           })
-        } catch (error) {
-          console.error('Error saving cart to server', error)
+        } catch (err) {
+          console.error(err)
         }
       }, 500)
-      this.$onAction(({ name, after }) => {
-        if (name !== 'toggleSidebar') {
-          after(() => {
-            debouncedSave(this.items)
-          })
-        }
-      })
+      this.$subscribe(
+        (mutation, state) => {
+          const events = Array.isArray(mutation.events) ? mutation.events : [mutation.events]
+          if (events.some((e) => e.key === 'items')) {
+            debouncedSave(state.items)
+          }
+        },
+        { detached: true },
+      )
     },
 
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen
     },
+
     increaseQuantity(product: Product) {
       const existing = this.items.find((item) => item.id === product.id)
-      if (existing) existing.quantity++
-      else this.items.push({ ...product, quantity: 1 })
-    },
-    removeItem(productId: number) {
-      this.items = this.items.filter((item) => item.id !== productId)
-    },
-    decreaseQuantity(productId: number) {
-      const item = this.items.find((item) => item.id === productId)
-      if (!item) return
-      if (item.quantity > 1) {
-        item.quantity--
+      if (existing) {
+        this.$patch((state) => {
+          state.items = state.items.map((i) =>
+            i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i,
+          )
+        })
       } else {
+        this.$patch((state) => {
+          state.items.push({ ...product, quantity: 1 })
+        })
+      }
+    },
+
+    decreaseQuantity(productId: number) {
+      const item = this.items.find((i) => i.id === productId)
+      if (!item) return
+
+      if (item.quantity > 1) {
+        this.$patch((state) => {
+          state.items = state.items.map((i) =>
+            i.id === productId ? { ...i, quantity: i.quantity - 1 } : i,
+          )
+        })
+      } else {
+        this.removeItem(productId)
+      }
+    },
+
+    updateQuantity(productId: number, newQuantity: number) {
+      if (newQuantity < 1) {
         this.removeItem(productId)
         return
       }
+      this.$patch((state) => {
+        state.items = state.items.map((i) =>
+          i.id === productId ? { ...i, quantity: newQuantity } : i,
+        )
+      })
     },
-    updateQuantity(productId: number, newQuantity: number) {
-      const item = this.items.find((item) => item.id === productId)
-      if (item) item.quantity = newQuantity
+
+    removeItem(productId: number) {
+      this.$patch((state) => {
+        state.items = state.items.filter((i) => i.id !== productId)
+      })
     },
   },
 })
