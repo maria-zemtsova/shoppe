@@ -40,9 +40,11 @@ export const useCartStore = defineStore('cart', {
           console.error('Error saving cart to server', error)
         }
       }, 500)
-      this.$subscribe((mutation, state) => {
-        if (mutation.type === 'direct' && mutation.events?.key === 'items') {
-          debouncedSave(state.items)
+      this.$onAction(({ name, after }) => {
+        if (name !== 'toggleSidebar') {
+          after(() => {
+            debouncedSave(this.items)
+          })
         }
       })
     },
