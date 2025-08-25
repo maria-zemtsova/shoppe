@@ -20,6 +20,8 @@ import FiltersIcon from '~/components/icons/FiltersIcon.vue'
 import FiltersLogo from '~/components/icons/FiltersLogo.vue'
 import ArrowIcon from '~/components/icons/ArrowIcon.vue'
 
+import BackIcon from '~/components/icons/BackIcon.vue'
+import RemoveIcon from '~/components/icons/RemoveIcon.vue'
 export {
   FacebookIcon,
   TwitterIcon,
@@ -30,6 +32,8 @@ export {
   BurgerIcon,
   CloseIcon,
   LogoutIcon,
+  BackIcon,
+  RemoveIcon,
   FiltersIcon,
   FiltersLogo,
   ArrowIcon,

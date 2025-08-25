@@ -2,6 +2,7 @@
   import Slider from '@vueform/slider'
   import '@vueform/slider/themes/default.css'
   import debounce from 'lodash.debounce'
+  import { computed } from 'vue'
 
   const model = defineModel<[number, number]>({ required: true })
 

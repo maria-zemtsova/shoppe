@@ -32,14 +32,18 @@
       <BaseButton class="latest__button" tag="nuxt-link" to="/catalog" :text="'View all'" />
     </div>
     <ul class="latest__list">
-      <li
-        v-for="n in DEFAULT_ITEMS_COUNT"
-        v-if="isLoading"
-        :key="`skeleton-${n}`"
-        class="skeleton"
+      <template v-if="isLoading">
+        <li v-for="n in DEFAULT_ITEMS_COUNT" :key="`skeleton-${n}`" class="skeleton" />
+      </template>
+      <li v-else-if="productError" class="product__error">{{ productError }}</li>
+      <li v-else-if="productCards.length === 0" class="product__empty">Nothing was found</li>
+      <ProductCard
+        v-for="card in productCards"
+        v-else
+        :key="card.id"
+        :product="card"
+        class="product__item"
       />
-      <div v-else-if="productError" class="latest__error">{{ productError }}</div>
-      <ProductCard v-for="card in productCards" v-else :key="card.id" :product="card" />
     </ul>
   </section>
 </template>
@@ -94,11 +98,6 @@
       list-style: none;
 
       @media (max-width: $breakpoints-xl) {
-        grid-template-columns: 1fr 1fr;
-        gap: 80px 28px;
-      }
-
-      @media (max-width: $breakpoints-l) {
         grid-template-columns: 1fr 1fr 1fr;
         gap: 80px 28px;
       }
@@ -132,6 +131,36 @@
         left: 50%;
       }
     }
+  }
+
+  .latest:deep(.card__image-wrapper) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 250px;
+
+    @media (max-width: $breakpoints-l) {
+      width: 200px;
+      height: 200px;
+    }
+
+    @media (max-width: $breakpoints-m) {
+      width: 136px;
+      height: 136px;
+    }
+  }
+
+  .latest :deep(.card__image) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .latest :deep(.card__badge) {
+    width: 60px;
   }
 
   @keyframes pulse {

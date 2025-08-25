@@ -97,7 +97,7 @@
     }
 
     @media (max-width: $breakpoints-l) {
-      width: 200px;
+      width: 170px;
     }
 
     @media (max-width: $breakpoints-m) {
@@ -106,35 +106,30 @@
   }
 
   .product :deep(.card__image-wrapper) {
-    width: 300px;
-
-    @media (max-width: $breakpoints-xl) {
-      width: 250px;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 250px;
 
     @media (max-width: $breakpoints-l) {
-      width: 200px;
+      max-width: 200px;
+      max-height: 200px;
     }
 
     @media (max-width: $breakpoints-m) {
-      width: 136px;
+      max-width: 136px;
+      max-height: 136px;
     }
   }
 
   .product :deep(.card__image) {
-    width: 300px;
-
-    @media (max-width: $breakpoints-xl) {
-      width: 250px;
-      height: 250px;
-    }
-
-    @media (max-width: $breakpoints-l) {
-      display: flex;
-      justify-content: center;
-      width: 136px;
-      height: 136px;
-    }
+    display: block;
+    max-width: 90%;
+    height: auto;
+    max-height: 100%;
+    margin: 0;
+    object-fit: contain;
   }
 
   @keyframes pulse {

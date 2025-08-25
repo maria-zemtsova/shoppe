@@ -2,13 +2,19 @@
   import NotificationComponent from '~/components/ui/NotificationComponent.vue'
   import type { Product } from '~/types/product'
   import { ref, computed } from 'vue'
+  import { useCartStore } from '~/stores/cart'
+
+  const cart = useCartStore()
+
   const props = defineProps<{
     product: Product
   }>()
 
   const isNotificationVisible = ref(false)
+
   const addToCart = () => {
     isNotificationVisible.value = true
+    cart.increaseQuantity(props.product)
   }
 
   const badgeText = computed(() => {
@@ -88,6 +94,7 @@
       justify-content: center;
       width: 46px;
       height: 24px;
+      font-family: $font-dm-sans;
       font-size: 12px;
       line-height: 20px;
       color: $white;

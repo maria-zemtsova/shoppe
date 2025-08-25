@@ -1,6 +1,9 @@
 <script lang="ts" setup>
   import { watch } from 'vue'
   import BaseButton from '~/components/ui/BaseButton.vue'
+  import { useCartStore } from '~/stores/cart'
+
+  const cartStore = useCartStore()
 
   const props = defineProps<{
     message: string
@@ -23,6 +26,11 @@
       }
     },
   )
+
+  const openSidebar = () => {
+    cartStore.isSidebarOpen = true
+    emit('update:modelValue', false)
+  }
 </script>
 
 <template>
@@ -31,7 +39,7 @@
       <img class="notification__icon" src="/assets/tick.svg" width="20" height="20" alt="tick" />
       <p class="notification__message">{{ message }}</p>
     </div>
-    <BaseButton class="notification__button" tag="nuxt-link" to="/cart" text="View cart" />
+    <BaseButton class="notification__button" tag="button" text="View cart" @click="openSidebar" />
   </section>
 </template>
 
@@ -40,11 +48,12 @@
     position: fixed;
     top: 107px;
     left: 50%;
-    z-index: 2;
+    z-index: 3;
     display: flex;
-    gap: 58%;
-    justify-content: center;
-    width: 86%;
+    justify-content: space-between;
+    width: 80%;
+    padding: 24px;
+    font-family: $font-dm-sans;
     color: $black;
     background-color: $light-gray;
     border-radius: 4px;
@@ -53,13 +62,11 @@
 
     @media (max-width: $breakpoints-l) {
       left: 50%;
-      gap: 52%;
-      width: 80%;
     }
 
     @media (max-width: $breakpoints-m) {
-      gap: 20%;
-      width: 90%;
+      align-items: flex-start;
+      padding: 16px;
     }
 
     @keyframes fade-in-out {
@@ -92,6 +99,10 @@
       @media (max-width: $breakpoints-l) {
         gap: 8px;
       }
+
+      @media (max-width: $breakpoints-m) {
+        align-items: flex-start;
+      }
     }
 
     &__icon {
@@ -101,16 +112,20 @@
       @media (max-width: $breakpoints-l) {
         width: 16px;
         height: 16px;
+        padding-top: 2px;
       }
     }
 
     &__message {
+      margin: 0;
       font-size: 16px;
+      font-weight: 400;
 
       @media (max-width: $breakpoints-l) {
         width: 135px;
         font-size: 12px;
         line-height: 20px;
+        letter-spacing: 0.2px;
       }
     }
 
@@ -130,6 +145,11 @@
         width: 68px;
         font-size: 12px;
         line-height: 20px;
+      }
+
+      @media (max-width: $breakpoints-m) {
+        width: 100px;
+        font-weight: 400;
       }
     }
   }

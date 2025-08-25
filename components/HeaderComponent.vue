@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import HeaderLogo from './icons/HeaderLogo.vue'
   import type { LinkItem } from '~/types/links'
-  import { ref } from 'vue'
   import {
     UserIcon,
     ShoppingIcon,
@@ -12,6 +11,10 @@
   } from '~/components/icons/index'
   import type { DefineComponent } from 'vue'
   import LinksList from '~/components/LinksList.vue'
+  import { useCartStore } from '~/stores/cart'
+  import { ref } from 'vue'
+
+  const cartStore = useCartStore()
 
   const isMobileMenu = ref(false)
   const toggleMobileMenu = () => {
@@ -101,6 +104,7 @@
       path: '#',
       label: 'shopping',
       component: ShoppingIcon as DefineComponent,
+      action: () => cartStore.toggleSidebar(),
     },
     {
       id: 3,
@@ -117,27 +121,10 @@
       <HeaderLogo class="header__logo" />
 
       <nav class="header__nav">
-        <!-- Desktop  -->
-        <LinksList
-          :items="menuLinks"
-          class="header__list header__list--menu"
-          :styles="{
-            list: 'header__list-inner',
-            item: 'header__item',
-            link: 'header__link',
-          }"
-        />
-        <LinksList
-          :items="iconLinks"
-          class="header__list header__list--icons"
-          :styles="{
-            list: 'header__list-inner',
-          }"
-        />
-
-        <!-- Mobile -->
+        <LinksList :items="menuLinks" class="header__list header__menu-list" />
+        <LinksList :items="iconLinks" class="header__list header__icons-list" />
         <div class="header__mobile-controls">
-          <button class="header__button">
+          <button class="header__button" @click="cartStore.toggleSidebar()">
             <component :is="ShoppingIcon" />
           </button>
           <button class="header__button" @click="toggleMobileMenu">
@@ -147,17 +134,8 @@
       </nav>
     </div>
 
-    <!-- Mobile menu -->
     <div v-if="isMobileMenu" class="header__mobile-menu">
-      <LinksList
-        :items="mobileMenuLinks"
-        class="header__mobile-list"
-        :styles="{
-          list: 'header__mobile-list-inner',
-          item: 'header__mobile-item',
-          link: 'header__mobile-link',
-        }"
-      />
+      <LinksList :items="mobileMenuLinks" class="header__mobile-list" />
       <ul class="user-menu">
         <li v-for="item in mobileUserLinks" :key="item.id" class="user-menu__item">
           <NuxtLink class="user-menu__link" :to="item.path">
@@ -174,12 +152,25 @@
   .header {
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     &__top {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      width: 100%;
       padding-top: 48px;
+
+      @media (max-width: $breakpoints-s) {
+        width: 320px;
+      }
+    }
+
+    &__logo {
+      @media (max-width: $breakpoints-l) {
+        width: 99px;
+        height: 36px;
+      }
     }
 
     &__nav {
@@ -189,50 +180,33 @@
     }
 
     &__list {
-      display: flex;
-      padding: 0;
-      margin: 0;
-      list-style: none;
-
-      &--menu {
-        gap: 24px;
-        align-items: center;
-
-        :deep(.header__list-inner)::after {
-          width: 1px;
-          height: 17px;
-          margin-left: 24px;
-          content: '';
-          background: $dark-gray;
-        }
-      }
-
-      &--icons {
-        gap: 39px;
-      }
-    }
-
-    :deep(.header__list-inner) {
-      display: flex;
-      padding: 0;
-      margin: 0;
-      list-style: none;
-
-      @media (width <=600px) {
+      @media (max-width: $breakpoints-l) {
         display: none;
       }
     }
 
-    :deep(.header__link) {
-      font-family: $font-dm-sans;
-      font-size: 16px;
-      line-height: 27px;
-      color: $black;
-      text-decoration: none;
+    &__menu-list {
+      gap: 64px;
+    }
+
+    &__menu-list::after {
+      width: 1px;
+      height: 17px;
+      content: '';
+      background: $dark-gray;
+    }
+
+    &__icons-list {
+      gap: 40px;
     }
 
     &__mobile-controls {
       display: none;
+
+      @media (max-width: $breakpoints-l) {
+        display: flex;
+        gap: 20px;
+      }
     }
 
     &__button {
@@ -247,24 +221,21 @@
       width: 100%;
       padding: 20px 0;
       background-color: $white;
+
+      @media (max-width: $breakpoints-l) {
+        display: block;
+      }
     }
 
     &__mobile-list {
       display: flex;
       flex-direction: column;
       gap: 24px;
+      align-items: flex-start;
       width: 100%;
       padding: 0;
       margin: 0 0 24px;
       list-style: none;
-    }
-
-    :deep(.header__mobile-link) {
-      font-family: $font-dm-sans;
-      font-size: 20px;
-      line-height: 26px;
-      color: $black;
-      text-decoration: none;
     }
   }
 
@@ -291,24 +262,6 @@
       line-height: 26px;
       color: $black;
       text-decoration: none;
-    }
-  }
-
-  @media (width <=600px) {
-    .header {
-      &__logo {
-        width: 99px;
-        height: 36px;
-      }
-
-      &__mobile-menu {
-        display: block;
-      }
-
-      &__mobile-controls {
-        display: flex;
-        gap: 20px;
-      }
     }
   }
 </style>

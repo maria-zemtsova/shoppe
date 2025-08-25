@@ -5,6 +5,8 @@
     "strict": true,
     "moduleResolution": "bundler"
   },
-  "include": ["**/*.ts", "**/*.vue", ".nuxt", ".nuxt/types/**/*.d.ts", "types/**/*.ts"],
-  "exclude": ["node_modules", ".output", "dist"]
+
+  "include": ["**/*.ts", "**/*.vue", ".nuxt/types/**/*.d.ts", "types/**/*.ts", "stores/cart.ts"],
+  "exclude": ["node_modules", ".nuxt", ".output", "dist"]
+
 }

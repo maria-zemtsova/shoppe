@@ -4,5 +4,6 @@ export interface LinkItem {
   id: number
   component?: DefineComponent
   label: string
-  path: string
+  path?: string
+  action?: () => void
 }
