@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  // import type { CartItemType } from '@/stores/cart'
   import type { DefineComponent } from 'vue'
   import { ref } from 'vue'
   import { useCartStore } from '@/stores/cart'
@@ -13,11 +12,11 @@
     ShareIcon,
     MoreIcon,
   } from '~/components/icons/index'
-  import LinksList from './LinksList.vue'
-  import QuantityCounter from './ui/QuantityCounter.vue'
-  import BaseButton from './ui/BaseButton.vue'
-  import RatingComponent from './ui/RatingComponent.vue'
-  import NotificationComponent from './ui/NotificationComponent.vue'
+  import LinksList from '~/components/LinksList.vue'
+  import QuantityCounter from '~/components/ui/QuantityCounter.vue'
+  import BaseButton from '~/components/ui/BaseButton.vue'
+  import RatingComponent from '~/components/ui/RatingComponent.vue'
+  import NotificationComponent from '~/components/ui/NotificationComponent.vue'
 
   const quantity = ref(1)
 
@@ -51,25 +50,18 @@
       <span class="info__price">$ {{ product.price }}</span>
       <ShareIcon class="info__icon" />
     </div>
-
-    <!-- Рейтинг на десктопе -->
     <RatingComponent class="info__rating info__rating--desktop" :rating="product.rating.rate" />
-
     <div class="info__actions">
       <QuantityCounter v-model:quantity="quantity" class="info__counter" />
       <BaseButton class="info__button" text="Add to cart" tag="button" @click="addToCart" />
     </div>
-
     <div class="info__content">
       <p class="info__description" :class="{ 'info__description--expanded': isExpanded }">
         {{ product.description }}
       </p>
-
-      <!-- Контент для мобильного раскрытия -->
+      >
       <div class="info__collapsible" :class="{ 'info__collapsible--expanded': isExpanded }">
-        <!-- Рейтинг на мобильном -->
         <RatingComponent class="info__rating info__rating--mobile" :rating="product.rating.rate" />
-
         <div class="info__additional">
           <LinksList class="info__socials" :items="productSocials" />
           <p class="info__sku">

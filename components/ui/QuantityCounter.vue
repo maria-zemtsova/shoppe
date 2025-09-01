@@ -3,8 +3,8 @@
   import { useCartStore } from '@/stores/cart'
 
   const props = defineProps<{
-    quantity?: number // локальный режим
-    itemId?: number // корзина
+    quantity?: number
+    itemId?: number
   }>()
 
   const emit = defineEmits<{
@@ -13,17 +13,14 @@
 
   const cartStore = useCartStore()
 
-  // локальная переменная для локального режима (fallback)
   let localQuantity = props.quantity ?? 1
 
   const currentQuantity = () => {
-    // если передан quantity (v-model) — берем его, иначе локальный
     return props.quantity ?? localQuantity
   }
 
   const handleDecrease = () => {
     if (props.itemId != null) {
-      // корзина
       cartStore.decreaseQuantity(props.itemId)
     } else {
       if (localQuantity > 1) localQuantity--
