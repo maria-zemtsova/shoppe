@@ -44,41 +44,60 @@
 
 <template>
   <section v-if="product" class="info">
-    <h3 class="info__title">{{ product.title }}</h3>
-
-    <div class="info__price-wrapper">
-      <span class="info__price">$ {{ product.price }}</span>
-      <ShareIcon class="info__icon" />
-    </div>
-    <RatingComponent class="info__rating info__rating--desktop" :rating="product.rating.rate" />
-    <div class="info__actions">
-      <QuantityCounter v-model:quantity="quantity" class="info__counter" />
-      <BaseButton class="info__button" text="Add to cart" tag="button" @click="addToCart" />
-    </div>
-    <div class="info__content">
-      <p class="info__description" :class="{ 'info__description--expanded': isExpanded }">
+    <div class="info__layout--desktop">
+      <h3 class="info__title">{{ product.title }}</h3>
+      <div class="info__price-wrapper">
+        <span class="info__price">$ {{ product.price }}</span>
+        <ShareIcon class="info__icon" />
+      </div>
+      <RatingComponent class="info__rating" :rating="product.rating.rate" />
+      <p class="info__description">
         {{ product.description }}
       </p>
-      >
-      <div class="info__collapsible" :class="{ 'info__collapsible--expanded': isExpanded }">
-        <RatingComponent class="info__rating info__rating--mobile" :rating="product.rating.rate" />
-        <div class="info__additional">
-          <LinksList class="info__socials" :items="productSocials" />
-          <p class="info__sku">
-            Sku: <span>{{ product.rating.count }}</span>
-          </p>
-          <p class="info__category">
-            Categories: <span>{{ product.category }}</span>
-          </p>
-        </div>
+      <div class="info__actions">
+        <QuantityCounter v-model:quantity="quantity" class="info__counter" />
+        <BaseButton class="info__button" text="Add to cart" tag="button" @click="addToCart" />
       </div>
+      <LinksList class="info__socials" :items="productSocials" />
+      <p class="info__sku">
+        Sku: <span>{{ product.rating.count }}</span>
+      </p>
+      <p class="info__category">
+        Categories: <span>{{ product.category }}</span>
+      </p>
     </div>
 
-    <button class="info__toggle" @click="isExpanded = !isExpanded">
-      {{ isExpanded ? 'View less' : 'View more' }}
-      <MoreIcon :class="{ rotated: isExpanded }" />
-    </button>
-
+    <div class="info__layout--mobile">
+      <h3 class="info__title">{{ product.title }}</h3>
+      <div class="info__price-wrapper">
+        <span class="info__price">$ {{ product.price }}</span>
+        <ShareIcon class="info__icon" />
+      </div>
+      <div class="info__content">
+        <p class="info__description" :class="{ 'info__description--expanded': isExpanded }">
+          {{ product.description }}
+        </p>
+        <div class="info__collapsible" :class="{ 'info__collapsible--expanded': isExpanded }">
+          <RatingComponent
+            class="info__rating info__rating--mobile"
+            :rating="product.rating.rate"
+          />
+          <div class="info__additional">
+            <LinksList class="info__socials" :items="productSocials" />
+            <p class="info__sku">
+              Sku: <span>{{ product.rating.count }}</span>
+            </p>
+            <p class="info__category">
+              Categories: <span>{{ product.category }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <button class="info__toggle" @click="isExpanded = !isExpanded">
+        {{ isExpanded ? 'View less' : 'View more' }}
+        <MoreIcon :class="{ rotated: isExpanded }" />
+      </button>
+    </div>
     <NotificationComponent
       v-model="isNotificationVisible"
       message="The item was added to your Shopping bag."
@@ -95,9 +114,21 @@
     }
 
     @media (max-width: $breakpoints-l) {
-      display: flex;
-      flex-direction: column;
       width: 100%;
+    }
+
+    &__layout--desktop {
+      @media (max-width: $breakpoints-l) {
+        display: none;
+      }
+    }
+
+    &__layout--mobile {
+      display: none;
+
+      @media (max-width: $breakpoints-l) {
+        display: block;
+      }
     }
 
     &__title {
@@ -155,21 +186,13 @@
       }
     }
 
-    &__rating--desktop {
-      margin-top: 64px;
-      margin-bottom: 20px;
+    &__rating {
+      margin-top: 60px;
+      margin-bottom: 18px;
 
       @media (max-width: $breakpoints-xl) {
         margin-top: 40px;
       }
-
-      @media (max-width: $breakpoints-l) {
-        display: none;
-      }
-    }
-
-    &__rating--mobile {
-      display: none;
 
       @media (max-width: $breakpoints-l) {
         display: flex;
@@ -226,6 +249,11 @@
       }
     }
 
+    &__button:hover {
+      color: $white;
+      background-color: $black;
+    }
+
     &__content {
       @media (max-width: $breakpoints-l) {
         order: 4;
@@ -234,7 +262,7 @@
 
     &__description {
       margin-top: 0;
-      margin-bottom: 0;
+      margin-bottom: 48px;
       font-size: 16px;
       line-height: 26px;
       color: $dark-gray;
@@ -331,6 +359,10 @@
       svg {
         position: relative;
         top: 1.4px;
+
+        @media (max-width: $breakpoints-m) {
+          top: 0;
+        }
       }
 
       @media (max-width: $breakpoints-l) {

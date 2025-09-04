@@ -92,7 +92,7 @@
     &__main {
       flex: 1;
       width: 540px;
-      height: 600px;
+      height: 628px;
 
       @media (max-width: $breakpoints-l) {
         width: 100%;
@@ -100,12 +100,12 @@
 
       @media (max-width: $breakpoints-xl) {
         width: 460px;
-        height: 520px;
+        height: 548px;
       }
 
       @media (max-width: $breakpoints-m) {
         width: 288px;
-        height: 374px;
+        height: 402px;
       }
 
       .swiper-wrapper,
@@ -119,18 +119,30 @@
 
     &__main-image {
       width: 540px;
-      height: 600px;
+      height: 628px;
       object-fit: contain;
+
+      .swiper-horizontal > .swiper-scrollbar,
+      .swiper-scrollbar.swiper-scrollbar-horizontal {
+        top: 24px !important;
+      }
 
       @media (max-width: $breakpoints-xl) {
         width: 460px;
-        height: 520px;
+        height: 548px;
       }
 
       @media (max-width: $breakpoints-m) {
         width: 288px;
-        height: 374px;
+        height: 402px;
       }
     }
+  }
+</style>
+
+<style lang="scss">
+  .swiper-horizontal > .swiper-scrollbar,
+  .swiper-scrollbar.swiper-scrollbar-horizontal {
+    bottom: 0 !important;
   }
 </style>

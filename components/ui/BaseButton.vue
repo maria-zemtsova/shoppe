@@ -24,6 +24,7 @@
     :disabled="props.disabled"
   >
     {{ text }}
+    <slot />
   </button>
   <a v-else-if="props.tag === 'a'" class="button" :href="props.href" :disabled="props.disabled">
     {{ text }}
