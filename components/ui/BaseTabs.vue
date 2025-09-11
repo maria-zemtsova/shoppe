@@ -1,18 +1,16 @@
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import type { Component } from 'vue'
+
   interface TabItem {
     title: string
+    component: Component
   }
+
   const props = defineProps<{
-    items?: TabItem[]
+    items: TabItem[]
   }>()
 
   const activeTab = defineModel<number>('modelValue', { default: 0 })
-
-  const normalizedTabs = computed<TabItem[]>(() => {
-    if (props.items) return props.items
-    return []
-  })
 
   function selectTab(index: number) {
     activeTab.value = index
@@ -23,9 +21,10 @@
   <section class="tab">
     <div class="tab__header">
       <button
-        v-for="(tab, idx) in normalizedTabs"
+        v-for="(tab, idx) in props.items"
         :key="idx"
         :class="['tab__button', { 'tab__button--active': idx === activeTab }]"
+        type="button"
         @click="selectTab(idx)"
       >
         {{ tab.title }}
@@ -33,7 +32,9 @@
     </div>
 
     <div class="tab__body">
-      <slot :name="`item-${activeTab}`" />
+      <div v-for="(tab, idx) in props.items" :key="idx">
+        <component :is="tab.component" v-show="idx === activeTab" />
+      </div>
     </div>
   </section>
 </template>

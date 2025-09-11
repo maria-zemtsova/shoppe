@@ -15,9 +15,10 @@
   const similars = ref<Product[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
-
   const modules = [Autoplay]
-
+  const SWIPER_AUTOPLAY_DELAY = 2500
+  const SWIPER_BRAKEPOINT = 12
+  const SWIPER_BRAKEPOINT_XL = 54
   const fetchSimilars = async () => {
     if (!props.category) return
     loading.value = true
@@ -37,7 +38,9 @@
     }
   }
 
-  onMounted(fetchSimilars)
+  onMounted(async () => {
+    await fetchSimilars()
+  })
   watch(() => props.category, fetchSimilars)
 </script>
 
@@ -51,12 +54,12 @@
       v-else
       :modules="modules"
       :loop="true"
-      :autoplay="{ delay: 2500, disableOnInteraction: false }"
-      :spaceBetween="12"
+      :autoplay="{ delay: SWIPER_AUTOPLAY_DELAY, disableOnInteraction: false }"
+      :spaceBetween="SWIPER_BRAKEPOINT"
       :slidesPerView="'auto'"
       :breakpoints="{
-        600: { spaceBetween: 12 },
-        1200: { spaceBetween: 54 },
+        600: { spaceBetween: SWIPER_BRAKEPOINT },
+        1200: { spaceBetween: SWIPER_BRAKEPOINT_XL },
       }"
     >
       <SwiperSlide v-for="item in similars" :key="item.id" class="similars__slide">
@@ -94,7 +97,10 @@
       align-items: flex-start;
       justify-content: center;
       width: 380px;
-      height: 472px;
+
+      @media (max-width: $breakpoints-l) {
+        width: 200px;
+      }
 
       @media (max-width: $breakpoints-m) {
         width: 136px;
@@ -104,16 +110,25 @@
 
     :deep(.card__image-wrapper) {
       position: relative;
-      width: 100%;
-      height: 100%;
+      width: 380px;
+      height: 380px;
       overflow: hidden;
-      background-color: $gray;
+
+      @media (max-width: $breakpoints-l) {
+        width: 200px;
+        height: 200px;
+      }
+
+      @media (max-width: $breakpoints-m) {
+        width: 136px;
+        height: 136px;
+      }
     }
 
     :deep(.card__image) {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     :deep(.card__badge) {
@@ -121,8 +136,11 @@
     }
 
     :deep(.card__product-title) {
-      margin-top: 6px;
-      text-align: center;
+      margin-top: 24px;
+
+      @media (max-width: $breakpoints-m) {
+        margin-top: 6px;
+      }
     }
 
     &__empty {

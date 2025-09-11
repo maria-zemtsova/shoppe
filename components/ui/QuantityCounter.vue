@@ -1,48 +1,21 @@
 <script setup lang="ts">
   import BaseButton from '~/components/ui/BaseButton.vue'
-  import { useCartStore } from '@/stores/cart'
 
-  const props = defineProps<{
-    quantity?: number
-    itemId?: number
-  }>()
-
-  const emit = defineEmits<{
-    (e: 'update:quantity', value: number): void
-  }>()
-
-  const cartStore = useCartStore()
-
-  let localQuantity = props.quantity ?? 1
-
-  const currentQuantity = () => {
-    return props.quantity ?? localQuantity
-  }
+  const quantity = defineModel<number>('quantity', { default: 1 })
 
   const handleDecrease = () => {
-    if (props.itemId != null) {
-      cartStore.decreaseQuantity(props.itemId)
-    } else {
-      if (localQuantity > 1) localQuantity--
-      emit('update:quantity', localQuantity)
-    }
+    if (quantity.value > 1) quantity.value--
   }
 
   const handleIncrease = () => {
-    if (props.itemId != null) {
-      const item = cartStore.items.find((i) => i.id === props.itemId)
-      if (item) cartStore.increaseQuantity(item)
-    } else {
-      localQuantity++
-      emit('update:quantity', localQuantity)
-    }
+    quantity.value++
   }
 </script>
 
 <template>
   <div class="quantity">
     <BaseButton class="quantity__button" text="-" @click="handleDecrease" />
-    <p>{{ currentQuantity() }}</p>
+    <p>{{ quantity }}</p>
     <BaseButton class="quantity__button" text="+" @click="handleIncrease" />
   </div>
 </template>

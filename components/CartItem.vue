@@ -8,12 +8,7 @@
     item: CartItemType
   }>()
   const cartStore = useCartStore()
-  const itemPriceFormatted = computed(() => {
-    if (!props.item || props.item.price === undefined || props.item.price === null) {
-      return '0.00'
-    }
-    return props.item.price.toFixed(2)
-  })
+  const itemPriceFormatted = computed(() => (props.item?.price ?? 0).toFixed(2))
 </script>
 
 <template>
@@ -29,7 +24,7 @@
         <button class="cart__remove" @click="cartStore.removeItem(item.id)">
           <RemoveIcon class="cart__icon" />
         </button>
-        <QuantityCounter class="cart__quantity" :item-id="item.id" :quantity="item.quantity" />
+        <QuantityCounter v-model:quantity="item.quantity" class="cart__quantity" />
       </div>
     </div>
   </li>

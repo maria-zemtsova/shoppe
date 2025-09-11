@@ -1,19 +1,17 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { StarIconEmpty, StarIconFill } from '~/components/icons/index'
+  import { StarIconEmpty, StarIconFill } from '~/components/icons'
 
+  const rating = defineModel<number>('modelValue', { required: true })
   const props = defineProps<{
-    modelValue: number
     max?: number
   }>()
-
-  const emit = defineEmits(['update:modelValue'])
 
   const maxStars = props.max ?? 5
   const hoverValue = ref(0)
 
   const setRating = (value: number) => {
-    emit('update:modelValue', value)
+    rating.value = value
   }
 
   const onHover = (value: number) => {
@@ -37,9 +35,7 @@
     >
       <component
         :is="
-          hoverValue >= star || (hoverValue === 0 && props.modelValue >= star)
-            ? StarIconFill
-            : StarIconEmpty
+          hoverValue >= star || (hoverValue === 0 && rating >= star) ? StarIconFill : StarIconEmpty
         "
       />
     </button>

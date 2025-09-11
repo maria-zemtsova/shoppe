@@ -1,8 +1,7 @@
 <script setup lang="ts">
   import ProductGallery from '~/components/ProductGallery.vue'
   import ProductInfo from '~/components/ProductInfo.vue'
-
-  import { ref, onMounted, computed } from 'vue'
+  import { ref, onMounted, computed, h, defineComponent } from 'vue'
   import { useRoute } from 'vue-router'
   import type { Product } from '~/types/product'
   import BaseTabs from '~/components/ui/BaseTabs.vue'
@@ -15,14 +14,19 @@
   const loading = ref(true)
   const error = ref<string | null>(null)
 
-  const reviewTabRef = ref<InstanceType<typeof ReviewTab> | null>(null)
-  const activeTab = ref(0)
-
   const fetchProduct = async () => {
     loading.value = true
     error.value = null
+    const id = Number(route.params.id)
+
+    if (!id || Number.isNaN(id) || id <= 0) {
+      error.value = 'Invalid product id'
+      loading.value = false
+      return
+    }
+
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/products/${route.params.id}`)
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/products/${id}`)
       if (!res.ok) throw new Error('Failed to fetch product')
       product.value = await res.json()
     } catch (err) {
@@ -32,20 +36,41 @@
     }
   }
 
-  onMounted(() => {
-    fetchProduct()
+  onMounted(fetchProduct)
+
+  const descriptionContent = defineComponent({
+    setup: () => () => h('p', product.value?.description ?? ''),
   })
 
+  const infoContent = defineComponent({
+    setup: () => () =>
+      h('ul', [
+        h('li', 'Weight: 0.3 kg'),
+        h('li', 'Dimensions: 15 x 10 x 1 cm'),
+        h('li', 'Colours: Black, Browns, White'),
+        h('li', 'Material: Metal'),
+      ]),
+  })
+
+  const reviewTabRef = ref<InstanceType<typeof ReviewTab> | null>(null)
   const reviewsCount = computed(() => reviewTabRef.value?.reviewsCount ?? 0)
 
+  const reviewsContent = defineComponent({
+    setup: () => () =>
+      h(ReviewTab, {
+        ref: reviewTabRef,
+        productId: product.value?.id ?? 0,
+        productTitle: product.value?.title ?? '',
+      }),
+  })
+
   const tabs = computed(() => [
-    { title: 'Description' },
-    { title: 'Additional information' },
-    { title: `Reviews (${reviewsCount.value})` },
+    { title: 'Description', component: descriptionContent },
+    { title: 'Additional information', component: infoContent },
+    { title: `Reviews (${reviewsCount.value})`, component: reviewsContent },
   ])
 
-  const productId = computed(() => product.value?.id ?? 0)
-  const productTitle = computed(() => product.value?.title ?? '')
+  const activeTab = ref(0)
 </script>
 
 <template>
@@ -60,45 +85,9 @@
       <ProductInfo :product="product" class="product__info" />
     </div>
 
-    <BaseTabs v-model="activeTab" class="product__tabs" :items="tabs">
-      <template #item-0>
-        <p>{{ product?.description }}</p>
-      </template>
+    <BaseTabs v-model="activeTab" class="product__tabs" :items="tabs" />
+    <BaseAccordeon class="product__accordeon" :items="tabs" />
 
-      <template #item-1>
-        <ul>
-          <li>Weight: 0.3 kg</li>
-          <li>Dimensions: 15 x 10 x 1 cm</li>
-          <li>Colours: Black, Browns, White</li>
-          <li>Material: Metal</li>
-        </ul>
-      </template>
-
-      <template #item-2>
-        <ReviewTab
-          v-if="product"
-          ref="reviewTabRef"
-          :product-id="productId"
-          :product-title="productTitle"
-        />
-      </template>
-    </BaseTabs>
-    <BaseAccordeon class="product__accordeon" :items="tabs">
-      <template #item-0>
-        <p>{{ product?.description }}</p>
-      </template>
-      <template #item-1>
-        <ul>
-          <li>Weight: 0.3 kg</li>
-          <li>Dimensions: 15 x 10 x 1 cm</li>
-          <li>Colours: Black, Browns, White</li>
-          <li>Material: Metal</li>
-        </ul>
-      </template>
-      <template #item-2>
-        <ReviewTab :product-id="productId" :product-title="productTitle" />
-      </template>
-    </BaseAccordeon>
     <SimilarProducts v-if="product" :category="product.category" :current-id="product.id" />
   </section>
 </template>

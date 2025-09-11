@@ -12,7 +12,7 @@ export const useEmailSubscribe = (storageKey: string) => {
   watch(email, (val) => {
     const trimmed = val.trim()
     if (!trimmed) {
-      errorMessage.value = 'Required field.'
+      errorMessage.value = 'Required field'
     } else if (!isValidEmail(trimmed)) {
       errorMessage.value = 'Invalid address'
     } else {
@@ -26,7 +26,7 @@ export const useEmailSubscribe = (storageKey: string) => {
     isSuccess.value = false
 
     if (!trimmedEmail) {
-      errorMessage.value = 'Required field.'
+      errorMessage.value = 'Required field'
       return
     }
     if (!isValidEmail(trimmedEmail)) {

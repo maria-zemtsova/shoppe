@@ -1,68 +1,45 @@
 <script setup lang="ts">
-  import { ref, watch } from 'vue'
+  import type { Component } from 'vue'
   import BaseButton from '~/components/ui/BaseButton.vue'
   import { MoreIcon } from '~/components/icons/index'
 
   interface AccordionItem {
     title: string
+    component: Component
   }
 
   const props = defineProps<{
     items: AccordionItem[]
-    multiple?: boolean
-    modelValue?: number | number[]
   }>()
 
-  const emit = defineEmits<{
-    (e: 'update:modelValue', value: number | number[]): void
-  }>()
+  const activeIndex = defineModel<number | null>('modelValue', { default: null })
 
-  const active = ref(props.modelValue ?? (props.multiple ? [] : -1))
-
-  watch(
-    () => props.modelValue,
-    (val) => {
-      if (val !== undefined) active.value = val
-    },
-  )
-
-  const isOpen = (index: number) => {
-    if (props.multiple && Array.isArray(active.value)) {
-      return active.value.includes(index)
-    }
-    return active.value === index
-  }
-
-  const toggle = (index: number) => {
-    if (props.multiple && Array.isArray(active.value)) {
-      if (active.value.includes(index)) {
-        active.value = active.value.filter((i) => i !== index)
-      } else {
-        active.value = [...active.value, index]
-      }
-    } else {
-      active.value = active.value === index ? -1 : index
-    }
-
-    emit('update:modelValue', active.value)
+  const toggle = (i: number) => {
+    activeIndex.value = activeIndex.value === i ? null : i
   }
 </script>
+
 <template>
   <div class="accordeon">
     <div v-for="(item, i) in props.items" :key="i" class="accordeon__item">
       <BaseButton
         tag="button"
-        :text="item.title"
         class="accordeon__header"
-        :aria-expanded="isOpen(i)"
+        :aria-expanded="activeIndex === i"
         @click="toggle(i)"
       >
-        <MoreIcon class="accordeon__icon" :class="{ 'accordeon__icon--opened': isOpen(i) }" />
+        {{ item.title }}
+        <MoreIcon
+          class="accordeon__icon"
+          :class="{ 'accordeon__icon--opened': activeIndex === i }"
+        />
       </BaseButton>
 
-      <div v-show="isOpen(i)" class="accordeon__content">
-        <slot :name="`item-${i}`" />
-      </div>
+      <Transition name="accordeon">
+        <div v-show="activeIndex === i" class="accordeon__content">
+          <component :is="item.component" />
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -109,9 +86,14 @@
 
     &__content {
       padding: 0 16px;
+      overflow: hidden;
       font-size: 16px;
       line-height: 20px;
       color: $dark-gray;
+      transition:
+        max-height 0.3s ease,
+        opacity 0.3s ease,
+        padding 0.3s ease;
 
       p {
         margin: 0;
@@ -122,5 +104,31 @@
         line-height: 20px;
       }
     }
+  }
+
+  // animation
+
+  .accordeon-enter-from,
+  .accordeon-leave-to {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+  }
+
+  .accordeon-enter-to,
+  .accordeon-leave-from {
+    max-height: 500px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    opacity: 1;
+  }
+
+  .accordeon-enter-active,
+  .accordeon-leave-active {
+    transition:
+      max-height 0.3s ease,
+      opacity 0.3s ease,
+      padding 0.3s ease;
   }
 </style>

@@ -1,17 +1,8 @@
 <script setup lang="ts">
   import { ref, watch, onMounted, computed } from 'vue'
   import ReviewForm from '~/components/ReviewForm.vue'
-  import { StarIconEmpty, StarIconFill } from '~/components/icons/index'
-
-  type Review = {
-    id: number
-    name: string
-    email: string
-    text: string
-    rating: number
-    date: string
-  }
-
+  import type { Review } from '~/types/review'
+  import RatingComponent from '~/components/ui/RatingComponent.vue'
   const props = defineProps<{
     productId: string | number
     productTitle: string
@@ -69,9 +60,7 @@
             <span class="review__date">{{ review.date }}</span>
           </div>
           <div class="review__rating">
-            <span v-for="i in 5" :key="i">
-              <component :is="i <= review.rating ? StarIconFill : StarIconEmpty" />
-            </span>
+            <RatingComponent :rating="review.rating" />
           </div>
           <p class="review__text">{{ review.text }}</p>
         </li>

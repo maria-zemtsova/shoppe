@@ -2,7 +2,7 @@
   type ButtonTag = 'button' | 'a' | 'nuxt-link'
 
   interface Props {
-    text: string
+    text?: string
     tag?: ButtonTag
     to?: string
     href?: string
@@ -23,18 +23,30 @@
     :type="props.type"
     :disabled="props.disabled"
   >
-    {{ text }}
-    <slot />
+    <template v-if="$slots.default">
+      <slot />
+    </template>
+    <template v-else>
+      {{ props.text }}
+    </template>
   </button>
+
   <a v-else-if="props.tag === 'a'" class="button" :href="props.href" :disabled="props.disabled">
-    {{ text }}
+    <template v-if="$slots.default">
+      <slot />
+    </template>
+    <template v-else>
+      {{ props.text }}
+    </template>
   </a>
-  <NuxtLink
-    v-else="props.tag = 'nuxt-link'"
-    class="button"
-    :to="props.to"
-    :disabled="props.disabled"
-    >{{ text }}
+
+  <NuxtLink v-else class="button" :to="props.to" :disabled="props.disabled">
+    <template v-if="$slots.default">
+      <slot />
+    </template>
+    <template v-else>
+      {{ props.text }}
+    </template>
   </NuxtLink>
 </template>
 

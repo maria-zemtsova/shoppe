@@ -1,21 +1,19 @@
 <script setup lang="ts">
-  const props = defineProps<{
-    modelValue: boolean
-    label?: string
+  defineProps<{
+    label: string
   }>()
-
-  const emit = defineEmits(['update:modelValue'])
+  const modelValue = defineModel<boolean>('modelValue', { default: false })
 
   const toggle = () => {
-    emit('update:modelValue', !props.modelValue)
+    modelValue.value = !modelValue.value
   }
 </script>
 
 <template>
   <label class="checkbox">
-    <input type="checkbox" class="checkbox__input" :checked="props.modelValue" @change="toggle" />
+    <input type="checkbox" class="checkbox__input" :checked="modelValue" @change="toggle" />
     <span class="checkbox__custom"></span>
-    <span class="checkbox__label">{{ props.label }}</span>
+    <span class="checkbox__label">{{ label }}</span>
   </label>
 </template>
 

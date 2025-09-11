@@ -30,16 +30,16 @@
 
 <template>
   <li class="card__item">
-    <NuxtLink :to="`/product/${props.product.id}`" class="card__image-wrapper">
+    <NuxtLink :to="`/product/${product.id}`" class="card__image-wrapper">
       <div class="card__image-container">
-        <img class="card__image" :src="props.product.image" :alt="props.product.title" />
+        <img class="card__image" :src="product.image" :alt="product.title" />
       </div>
       <span v-if="hasBadge" class="card__badge">{{ badgeText }}</span>
       <button class="card__button" @click="addToCart">Add to cart</button>
     </NuxtLink>
 
-    <h3 class="card__product-title">{{ props.product.title }}</h3>
-    <span class="card__price">$ {{ props.product.price }}</span>
+    <h3 class="card__product-title">{{ product.title }}</h3>
+    <span class="card__price">$ {{ product.price }}</span>
 
     <NotificationComponent
       v-model="isNotificationVisible"

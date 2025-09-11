@@ -10,21 +10,15 @@
   const maxStars = props.max ?? 5
 
   const stars = computed(() => {
-    const fullStars = Math.floor(props.rating)
-    const partialStar = props.rating - fullStars
-    const emptyStars = maxStars - fullStars - (partialStar > 0 ? 1 : 0)
-    return { fullStars, partialStar, emptyStars }
+    const fullStars = Math.floor(Math.min(Math.max(props.rating, 0), maxStars))
+    const emptyStars = maxStars - fullStars
+    return { fullStars, emptyStars }
   })
 </script>
 
 <template>
   <div class="rating">
     <StarIconFill v-for="n in stars.fullStars" :key="'full-' + n" class="rating__icon" />
-    <StarIconFill
-      v-if="stars.partialStar > 0"
-      class="rating__icon"
-      :style="{ clipPath: `inset(0 ${100 - stars.partialStar * 100}% 0 0)` }"
-    />
     <StarIconEmpty v-for="n in stars.emptyStars" :key="'empty-' + n" class="rating__icon" />
   </div>
 </template>
