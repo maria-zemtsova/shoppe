@@ -56,8 +56,8 @@
         padding-right: 2px;
 
         svg {
-          width: 10px;
-          height: 10px;
+          width: 15px;
+          height: 15px;
         }
       }
     }

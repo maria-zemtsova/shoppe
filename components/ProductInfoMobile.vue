@@ -5,45 +5,48 @@
   import { MoreIcon, ShareIcon } from '~/components/icons/index'
   import type { Product } from '~/types/product'
 
+  defineProps<Props>()
+  interface Props {
+    product: Product
+  }
+
   const isExpanded = ref(false)
   const isNotificationVisible = ref(false)
   const markNotificationVisible = () => {
     isNotificationVisible.value = true
   }
-  interface Props {
-    product: Product
-  }
-  defineProps<Props>()
 </script>
 
 <template>
-  <h3 class="info__title">{{ product.title }}</h3>
-  <div class="info__price-wrapper">
-    <span class="info__price">$ {{ product.price }}</span>
-    <ShareIcon class="info__icon" />
-  </div>
-  <ProductDetailActions :product="product" @added="markNotificationVisible" />
-  <div class="info__content">
-    <p class="info__description" :class="{ 'info__description--expanded': isExpanded }">
-      {{ product.description }}
-    </p>
-    <div class="info__collapsible" :class="{ 'info__collapsible--expanded': isExpanded }">
-      <RatingComponent class="info__rating info__rating--mobile" :rating="product.rating.rate" />
-      <div class="info__additional">
-        <p class="info__sku">
-          Sku: <span>{{ product.rating.count }}</span>
-        </p>
-        <p class="info__category">
-          Categories: <span>{{ product.category }}</span>
-        </p>
+  <div class="info__layout--mobile">
+    <h3 class="info__title">{{ product.title }}</h3>
+    <div class="info__price-wrapper">
+      <span class="info__price">$ {{ product.price }}</span>
+      <ShareIcon class="info__icon" />
+    </div>
+    <ProductDetailActions :product="product" @added="markNotificationVisible" />
+    <div class="info__content">
+      <p class="info__description" :class="{ 'info__description--expanded': isExpanded }">
+        {{ product.description }}
+      </p>
+      <div class="info__collapsible" :class="{ 'info__collapsible--expanded': isExpanded }">
+        <RatingComponent class="info__rating info__rating--mobile" :rating="product.rating.rate" />
+        <div class="info__additional">
+          <p class="info__sku">
+            Sku: <span>{{ product.rating.count }}</span>
+          </p>
+          <p class="info__category">
+            Categories: <span>{{ product.category }}</span>
+          </p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <button class="info__toggle" @click="isExpanded = !isExpanded">
-    {{ isExpanded ? 'View less' : 'View more' }}
-    <MoreIcon :class="{ rotated: isExpanded }" />
-  </button>
+    <button class="info__toggle" @click="isExpanded = !isExpanded">
+      {{ isExpanded ? 'View less' : 'View more' }}
+      <MoreIcon :class="{ rotated: isExpanded }" />
+    </button>
+  </div>
 </template>
 <style lang="scss" scoped>
   .info {

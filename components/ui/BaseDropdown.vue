@@ -2,12 +2,6 @@
   import DropdownIcon from '~/components/icons/DropdownIcon.vue'
   import { ref, computed } from 'vue'
 
-  interface DropdownOption {
-    id: number
-    value: string
-    label: string
-  }
-
   const props = defineProps<{
     options: DropdownOption[]
     placeholder: string
@@ -15,6 +9,12 @@
   }>()
 
   const model = defineModel<string | undefined>()
+
+  interface DropdownOption {
+    id: number
+    value: string
+    label: string
+  }
 
   const selectOption = (option: DropdownOption) => {
     model.value = option.value

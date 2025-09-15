@@ -1,16 +1,16 @@
 <script setup lang="ts">
   import type { Component } from 'vue'
 
-  interface TabItem {
-    title: string
-    component: Component
-  }
-
-  const props = defineProps<{
+  defineProps<{
     items: TabItem[]
   }>()
 
   const activeTab = defineModel<number>('modelValue', { default: 0 })
+
+  interface TabItem {
+    title: string
+    component: Component
+  }
 
   function selectTab(index: number) {
     activeTab.value = index
@@ -21,7 +21,7 @@
   <section class="tab">
     <div class="tab__header">
       <button
-        v-for="(tab, idx) in props.items"
+        v-for="(tab, idx) in items"
         :key="idx"
         :class="['tab__button', { 'tab__button--active': idx === activeTab }]"
         type="button"
@@ -32,7 +32,7 @@
     </div>
 
     <div class="tab__body">
-      <div v-for="(tab, idx) in props.items" :key="idx">
+      <div v-for="(tab, idx) in items" :key="idx">
         <component :is="tab.component" v-show="idx === activeTab" />
       </div>
     </div>

@@ -1,13 +1,12 @@
 <script setup lang="ts">
+  defineProps<Props>()
+  const model = defineModel<string>()
+
   interface Props {
     type?: string
     placeholder?: string
     error?: string
   }
-
-  defineProps<Props>()
-
-  const model = defineModel<string>()
 </script>
 
 <template>

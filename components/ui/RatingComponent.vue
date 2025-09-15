@@ -32,6 +32,11 @@
     &__icon {
       width: 18px;
       height: 18px;
+
+      @media (max-width: $breakpoints-m) {
+        width: 15px;
+        height: 15px;
+      }
     }
   }
 </style>

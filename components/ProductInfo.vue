@@ -6,7 +6,10 @@
   import { FacebookIcon, TwitterIcon, InstagramIcon, EmailIcon } from '~/components/icons/index'
   import ProductInfoDesktop from '~/components/ProductInfoDesktop.vue'
   import ProductInfoMobile from '~/components/ProductInfoMobile.vue'
-  defineProps<{ product: Product | null }>()
+  defineProps<{
+    product: Product | null
+    productSocials?: LinkItem
+  }>()
 
   const isMobile = ref(false)
   const BRAKEPOINT_L = 900

@@ -3,14 +3,13 @@
   import BaseButton from '~/components/ui/BaseButton.vue'
   import { MoreIcon } from '~/components/icons/index'
 
+  defineProps<{
+    items: AccordionItem[]
+  }>()
   interface AccordionItem {
     title: string
     component: Component
   }
-
-  const props = defineProps<{
-    items: AccordionItem[]
-  }>()
 
   const activeIndex = defineModel<number | null>('modelValue', { default: null })
 
@@ -21,7 +20,7 @@
 
 <template>
   <div class="accordeon">
-    <div v-for="(item, i) in props.items" :key="i" class="accordeon__item">
+    <div v-for="(item, i) in items" :key="i" class="accordeon__item">
       <BaseButton
         tag="button"
         class="accordeon__header"

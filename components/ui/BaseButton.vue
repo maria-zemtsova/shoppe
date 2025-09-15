@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+  import { computed, useSlots } from 'vue'
+
   type ButtonTag = 'button' | 'a' | 'nuxt-link'
 
   interface Props {
@@ -10,43 +12,29 @@
     disabled?: boolean
   }
 
-  const props = withDefaults(defineProps<Props>(), {
+  withDefaults(defineProps<Props>(), {
     tag: 'button',
     type: 'button',
   })
+
+  const slots = useSlots()
+  const hasSlot = computed(() => !!slots.default)
 </script>
 
 <template>
-  <button
-    v-if="props.tag === 'button'"
-    class="button"
-    :type="props.type"
-    :disabled="props.disabled"
-  >
-    <template v-if="$slots.default">
-      <slot />
-    </template>
-    <template v-else>
-      {{ props.text }}
-    </template>
+  <button v-if="tag === 'button'" class="button" :type="type" :disabled="disabled">
+    <slot v-if="hasSlot" />
+    <template v-else>{{ text }}</template>
   </button>
 
-  <a v-else-if="props.tag === 'a'" class="button" :href="props.href" :disabled="props.disabled">
-    <template v-if="$slots.default">
-      <slot />
-    </template>
-    <template v-else>
-      {{ props.text }}
-    </template>
+  <a v-else-if="tag === 'a'" class="button" :href="href" :disabled="disabled">
+    <slot v-if="hasSlot" />
+    <template v-else>{{ text }}</template>
   </a>
 
-  <NuxtLink v-else class="button" :to="props.to" :disabled="props.disabled">
-    <template v-if="$slots.default">
-      <slot />
-    </template>
-    <template v-else>
-      {{ props.text }}
-    </template>
+  <NuxtLink v-else class="button" :to="to" :disabled="disabled">
+    <slot v-if="hasSlot" />
+    <template v-else>{{ text }}</template>
   </NuxtLink>
 </template>
 

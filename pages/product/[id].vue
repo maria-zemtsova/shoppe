@@ -8,12 +8,14 @@
   import ReviewTab from '~/components/ReviewTab.vue'
   import BaseAccordeon from '~/components/ui/BaseAccordeon.vue'
   import SimilarProducts from '~/components/SimilarProducts.vue'
+  import ProductInfoDetails from '~/components/ProductInfoDetails.vue'
+  import { useRuntimeConfig } from 'nuxt/app'
 
   const route = useRoute()
   const product = ref<Product | null>(null)
   const loading = ref(true)
   const error = ref<string | null>(null)
-
+  const config = useRuntimeConfig()
   const fetchProduct = async () => {
     loading.value = true
     error.value = null
@@ -26,7 +28,7 @@
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/products/${id}`)
+      const res = await fetch(`${config.public.apiBase}/products/${id}`)
       if (!res.ok) throw new Error('Failed to fetch product')
       product.value = await res.json()
     } catch (err) {
@@ -37,19 +39,9 @@
   }
 
   onMounted(fetchProduct)
-
+  console.log(config.public.apiBase)
   const descriptionContent = defineComponent({
     setup: () => () => h('p', product.value?.description ?? ''),
-  })
-
-  const infoContent = defineComponent({
-    setup: () => () =>
-      h('ul', [
-        h('li', 'Weight: 0.3 kg'),
-        h('li', 'Dimensions: 15 x 10 x 1 cm'),
-        h('li', 'Colours: Black, Browns, White'),
-        h('li', 'Material: Metal'),
-      ]),
   })
 
   const reviewTabRef = ref<InstanceType<typeof ReviewTab> | null>(null)
@@ -66,7 +58,7 @@
 
   const tabs = computed(() => [
     { title: 'Description', component: descriptionContent },
-    { title: 'Additional information', component: infoContent },
+    { title: 'Additional information', component: ProductInfoDetails },
     { title: `Reviews (${reviewsCount.value})`, component: reviewsContent },
   ])
 
@@ -77,7 +69,7 @@
   <div v-if="loading" class="product__spinner">
     <div></div>
   </div>
-  <div v-else-if="error">Ошибка: {{ error }}</div>
+  <div v-else-if="error" class="product__error">{{ error }}</div>
 
   <section v-else class="product">
     <div class="product__content">
@@ -133,6 +125,16 @@
           transform: rotate(360deg);
         }
       }
+    }
+
+    &__error {
+      width: 100%;
+      height: 200px;
+      margin-top: 25%;
+      font-family: $font-dm-sans;
+      font-size: 20px;
+      color: $red;
+      text-align: center;
     }
 
     &__tabs {

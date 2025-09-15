@@ -6,16 +6,16 @@
   import type { LinkItem } from '~/types/links'
   import type { Product } from '~/types/product'
 
-  const isNotificationVisible = ref(false)
-  const markNotificationVisible = () => {
-    isNotificationVisible.value = true
-  }
+  defineProps<Props>()
   interface Props {
     product: Product
     productSocials: LinkItem[]
   }
 
-  defineProps<Props>()
+  const isNotificationVisible = ref(false)
+  const markNotificationVisible = () => {
+    isNotificationVisible.value = true
+  }
 </script>
 
 <template>
