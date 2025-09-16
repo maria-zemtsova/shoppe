@@ -11,31 +11,35 @@
     type?: 'button' | 'submit' | 'reset'
     disabled?: boolean
   }
-
-  withDefaults(defineProps<Props>(), {
+  const props = withDefaults(defineProps<Props>(), {
     tag: 'button',
     type: 'button',
   })
 
   const slots = useSlots()
   const hasSlot = computed(() => !!slots.default)
+
+  const componentProps = computed(() => {
+    const baseProps = { class: 'button', disabled: props.disabled }
+
+    switch (props.tag) {
+      case 'button':
+        return { ...baseProps, type: props.type }
+      case 'a':
+        return { ...baseProps, href: props.href }
+      case 'nuxt-link':
+        return { ...baseProps, to: props.to }
+      default:
+        return baseProps
+    }
+  })
 </script>
 
 <template>
-  <button v-if="tag === 'button'" class="button" :type="type" :disabled="disabled">
+  <component :is="tag" v-bind="componentProps">
     <slot v-if="hasSlot" />
     <template v-else>{{ text }}</template>
-  </button>
-
-  <a v-else-if="tag === 'a'" class="button" :href="href" :disabled="disabled">
-    <slot v-if="hasSlot" />
-    <template v-else>{{ text }}</template>
-  </a>
-
-  <NuxtLink v-else class="button" :to="to" :disabled="disabled">
-    <slot v-if="hasSlot" />
-    <template v-else>{{ text }}</template>
-  </NuxtLink>
+  </component>
 </template>
 
 <style lang="scss" scoped>

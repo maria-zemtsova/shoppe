@@ -22,20 +22,20 @@
     if (savedName) form.name.value = savedName
     if (savedEmail) form.email.value = savedEmail
   })
-  const FIELD_ERROR = 'Required field'
+  const REQUIRED_FIELD_ERROR = 'Required field'
   const validateForm = () => {
     form.review.error = ''
     form.name.error = ''
     form.email.error = ''
     form.rating.error = ''
     if (!form.review.value.trim()) {
-      form.review.error = FIELD_ERROR
+      form.review.error = REQUIRED_FIELD_ERROR
     }
     if (!form.name.value.trim()) {
-      form.name.error = FIELD_ERROR
+      form.name.error = REQUIRED_FIELD_ERROR
     }
     if (!form.email.value.trim()) {
-      form.email.error = FIELD_ERROR
+      form.email.error = REQUIRED_FIELD_ERROR
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value)) {
       form.email.error = 'Invalid address'
     }
