@@ -1,13 +1,12 @@
 <script setup lang="ts">
+  defineProps<Props>()
+  const model = defineModel<string>()
+
   interface Props {
     type?: string
     placeholder?: string
     error?: string
   }
-
-  defineProps<Props>()
-
-  const model = defineModel<string>()
 </script>
 
 <template>
@@ -29,7 +28,7 @@
     font-family: $font-dm-sans;
     border-bottom: 1px solid $black;
 
-    @media (width <=600px) {
+    @media (max-width: $breakpoints-m) {
       min-width: 288px;
       max-width: 288px;
     }
@@ -42,7 +41,7 @@
     color: $dark-gray;
     border: none;
 
-    @media (width <=600px) {
+    @media (max-width: $breakpoints-m) {
       font-size: 12px;
     }
   }

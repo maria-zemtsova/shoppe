@@ -1,40 +1,45 @@
 <script lang="ts" setup>
+  import { computed, useSlots } from 'vue'
+
   type ButtonTag = 'button' | 'a' | 'nuxt-link'
 
   interface Props {
-    text: string
+    text?: string
     tag?: ButtonTag
     to?: string
     href?: string
     type?: 'button' | 'submit' | 'reset'
     disabled?: boolean
   }
-
   const props = withDefaults(defineProps<Props>(), {
     tag: 'button',
     type: 'button',
   })
+
+  const slots = useSlots()
+  const hasSlot = computed(() => !!slots.default)
+
+  const componentProps = computed(() => {
+    const baseProps = { class: 'button', disabled: props.disabled }
+
+    switch (props.tag) {
+      case 'button':
+        return { ...baseProps, type: props.type }
+      case 'a':
+        return { ...baseProps, href: props.href }
+      case 'nuxt-link':
+        return { ...baseProps, to: props.to }
+      default:
+        return baseProps
+    }
+  })
 </script>
 
 <template>
-  <button
-    v-if="props.tag === 'button'"
-    class="button"
-    :type="props.type"
-    :disabled="props.disabled"
-  >
-    {{ text }}
-  </button>
-  <a v-else-if="props.tag === 'a'" class="button" :href="props.href" :disabled="props.disabled">
-    {{ text }}
-  </a>
-  <NuxtLink
-    v-else="props.tag = 'nuxt-link'"
-    class="button"
-    :to="props.to"
-    :disabled="props.disabled"
-    >{{ text }}
-  </NuxtLink>
+  <component :is="tag" v-bind="componentProps">
+    <slot v-if="hasSlot" />
+    <template v-else>{{ text }}</template>
+  </component>
 </template>
 
 <style lang="scss" scoped>

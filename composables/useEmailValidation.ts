@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export const useEmailSubscribe = (storageKey: string) => {
   const email = ref('')
@@ -9,13 +9,24 @@ export const useEmailSubscribe = (storageKey: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   }
 
+  watch(email, (val) => {
+    const trimmed = val.trim()
+    if (!trimmed) {
+      errorMessage.value = 'Required field'
+    } else if (!isValidEmail(trimmed)) {
+      errorMessage.value = 'Invalid address'
+    } else {
+      errorMessage.value = ''
+    }
+  })
+
   const handleSubmit = (): void => {
     const trimmedEmail = email.value.trim()
     errorMessage.value = ''
     isSuccess.value = false
 
     if (!trimmedEmail) {
-      errorMessage.value = 'Required field.'
+      errorMessage.value = 'Required field'
       return
     }
     if (!isValidEmail(trimmedEmail)) {

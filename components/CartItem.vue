@@ -1,24 +1,14 @@
 <script lang="ts" setup>
   import { useCartStore, type CartItemType } from '@/stores/cart'
-  import BaseButton from '~/components/ui/BaseButton.vue'
+  import QuantityCounter from '~/components/ui/QuantityCounter.vue'
   import { RemoveIcon } from '~/components/icons'
   import { computed } from 'vue'
 
   const props = defineProps<{
     item: CartItemType
   }>()
-
   const cartStore = useCartStore()
-
-  const handleDecrease = () => {
-    cartStore.decreaseQuantity(props.item.id)
-  }
-
-  const handleIncrease = () => {
-    cartStore.increaseQuantity(props.item)
-  }
-
-  const itemPriceFormatted = computed(() => props.item.price.toFixed(2))
+  const itemPriceFormatted = computed(() => (props.item?.price ?? 0).toFixed(2))
 </script>
 
 <template>
@@ -34,11 +24,7 @@
         <button class="cart__remove" @click="cartStore.removeItem(item.id)">
           <RemoveIcon class="cart__icon" />
         </button>
-        <div class="cart__quantity">
-          <BaseButton class="cart__button" text="-" @click="handleDecrease" />
-          <p>{{ item.quantity }}</p>
-          <BaseButton class="cart__button" text="+" @click="handleIncrease" />
-        </div>
+        <QuantityCounter v-model:quantity="item.quantity" class="cart__quantity" />
       </div>
     </div>
   </li>
@@ -52,7 +38,7 @@
       gap: 6px;
       margin-bottom: 22px;
 
-      @media (width <= 768px) {
+      @media (width <=768px) {
         gap: 26px;
       }
 
@@ -73,7 +59,7 @@
       justify-content: space-between;
       width: 144px;
 
-      @media (width <= 768px) {
+      @media (width <=768px) {
         width: 200px;
       }
 

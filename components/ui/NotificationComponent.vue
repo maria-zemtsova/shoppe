@@ -3,8 +3,6 @@
   import BaseButton from '~/components/ui/BaseButton.vue'
   import { useCartStore } from '~/stores/cart'
 
-  const cartStore = useCartStore()
-
   const props = defineProps<{
     message: string
     modelValue: boolean
@@ -14,6 +12,7 @@
     (e: 'update:modelValue', value: boolean): void
   }>()
 
+  const cartStore = useCartStore()
   const NOTIFICATION_DURATION = 3000
 
   watch(

@@ -12,18 +12,16 @@
 
   const isNotificationVisible = ref(false)
 
-  const addToCart = () => {
+  const addToCart = (event: Event) => {
+    event.preventDefault()
     isNotificationVisible.value = true
     cart.increaseQuantity(props.product)
   }
 
   const badgeText = computed(() => {
-    if (!props.product.inStock) {
-      return 'Sold Out'
-    }
-    if (props.product.discountPercentage && props.product.discountPercentage > 0) {
+    if (!props.product.inStock) return 'Sold Out'
+    if (props.product.discountPercentage && props.product.discountPercentage > 0)
       return `-${props.product.discountPercentage}%`
-    }
     return null
   })
 
@@ -32,11 +30,13 @@
 
 <template>
   <li class="card__item">
-    <div class="card__image-wrapper">
-      <img class="card__image" :src="product.image" :alt="product.title" />
+    <NuxtLink :to="`/product/${product.id}`" class="card__image-wrapper">
+      <div class="card__image-container">
+        <img class="card__image" :src="product.image" :alt="product.title" />
+      </div>
       <span v-if="hasBadge" class="card__badge">{{ badgeText }}</span>
       <button class="card__button" @click="addToCart">Add to cart</button>
-    </div>
+    </NuxtLink>
 
     <h3 class="card__product-title">{{ product.title }}</h3>
     <span class="card__price">$ {{ product.price }}</span>
@@ -67,8 +67,10 @@
 
     &__image-wrapper {
       position: relative;
+      display: block;
       width: 378px;
       height: 380px;
+      overflow: hidden;
 
       @media (max-width: $breakpoints-l) {
         width: 136px;
@@ -76,11 +78,17 @@
       }
     }
 
+    &__image-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
     &__image {
-      width: 300px;
-      height: 300px;
-      margin: 0 auto;
-      cursor: pointer;
+      max-width: 100%;
+      max-height: 100%;
       object-fit: contain;
       border-radius: 8px;
     }

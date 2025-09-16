@@ -22,6 +22,14 @@ import ArrowIcon from '~/components/icons/ArrowIcon.vue'
 
 import BackIcon from '~/components/icons/BackIcon.vue'
 import RemoveIcon from '~/components/icons/RemoveIcon.vue'
+
+import StarIconFill from '~/components/icons/StarIconFill.vue'
+import StarIconEmpty from '~/components/icons/StarIconEmpty.vue'
+import EmailIcon from '~/components/icons/EmailIcon.vue'
+
+import ShareIcon from '~/components/icons/ShareIcon.vue'
+import MoreIcon from '~/components/icons/MoreIcon.vue'
+
 export {
   FacebookIcon,
   TwitterIcon,
@@ -37,4 +45,9 @@ export {
   FiltersIcon,
   FiltersLogo,
   ArrowIcon,
+  StarIconFill,
+  StarIconEmpty,
+  EmailIcon,
+  ShareIcon,
+  MoreIcon,
 }

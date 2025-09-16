@@ -18,4 +18,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxt/eslint', '@nuxt/fonts', '@pinia/nuxt'],
   css: ['~/assets/scss/main.scss'],
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.VITE_API_BASE_URL || 'http://localhost:3000',
+    },
+  },
 })
