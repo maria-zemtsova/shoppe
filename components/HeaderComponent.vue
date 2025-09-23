@@ -12,13 +12,28 @@
   import type { DefineComponent } from 'vue'
   import LinksList from '~/components/LinksList.vue'
   import { useCartStore } from '~/stores/cart'
-  import { ref } from 'vue'
+  import { useAuthStore } from '~/stores/auth'
+  import AuthIcon from '~/components/icons/AuthIcon.vue'
+  import { ref, onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
 
   const cartStore = useCartStore()
+  const authStore = useAuthStore()
+  const router = useRouter()
+
+  // Инициализируем auth store при загрузке компонента
+  onMounted(() => {
+    authStore.checkAuth()
+  })
 
   const isMobileMenu = ref(false)
   const toggleMobileMenu = () => {
     isMobileMenu.value = !isMobileMenu.value
+  }
+
+  const handleLogout = async () => {
+    await authStore.logout()
+    router.push('/')
   }
 
   const menuLinks: LinkItem[] = [
@@ -80,7 +95,7 @@
   const mobileUserLinks: LinkItem[] = [
     {
       id: 1,
-      path: '#',
+      path: '/account',
       label: 'My Account',
       component: UserIcon as DefineComponent,
     },
@@ -89,6 +104,7 @@
       path: '#',
       label: 'Logout',
       component: LogoutIcon as DefineComponent,
+      action: handleLogout,
     },
   ]
 
@@ -106,12 +122,6 @@
       component: ShoppingIcon as DefineComponent,
       action: () => cartStore.toggleSidebar(),
     },
-    {
-      id: 3,
-      path: '#',
-      label: 'user',
-      component: UserIcon as DefineComponent,
-    },
   ]
 </script>
 
@@ -122,7 +132,17 @@
 
       <nav class="header__nav">
         <LinksList :items="menuLinks" class="header__list header__menu-list" />
-        <LinksList :items="iconLinks" class="header__list header__icons-list" />
+        <div class="header__list header__icons-list">
+          <LinksList :items="iconLinks" class="header__icons-list" />
+
+          <div class="header__user">
+            <NuxtLink to="/account" class="header__user-link">
+              <AuthIcon v-if="authStore.isLoggedIn" class="header__user-indicator" />
+              <UserIcon />
+            </NuxtLink>
+          </div>
+        </div>
+
         <div class="header__mobile-controls">
           <button class="header__button" @click="cartStore.toggleSidebar()">
             <component :is="ShoppingIcon" />
@@ -138,10 +158,14 @@
       <LinksList :items="mobileMenuLinks" class="header__mobile-list" />
       <ul class="user-menu">
         <li v-for="item in mobileUserLinks" :key="item.id" class="user-menu__item">
-          <NuxtLink class="user-menu__link" :to="item.path">
+          <NuxtLink v-if="item.path !== '#'" class="user-menu__link" :to="item.path">
             <component :is="item.component" class="user-menu__icon" />
             <span class="user-menu__text">{{ item.label }}</span>
           </NuxtLink>
+          <button v-else class="user-menu__link user-menu__button" @click="item.action">
+            <component :is="item.component" class="user-menu__icon" />
+            <span class="user-menu__text">{{ item.label }}</span>
+          </button>
         </li>
       </ul>
     </div>
@@ -197,7 +221,13 @@
     }
 
     &__icons-list {
+      display: flex;
       gap: 40px;
+      align-items: center;
+
+      @media (max-width: $breakpoints-l) {
+        display: none;
+      }
     }
 
     &__mobile-controls {
@@ -237,6 +267,25 @@
       margin: 0 0 24px;
       list-style: none;
     }
+
+    &__user {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    &__user-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    &__user-indicator {
+      position: absolute;
+      top: -2px;
+      right: 18px;
+    }
   }
 
   .user-menu {
@@ -262,6 +311,17 @@
       line-height: 26px;
       color: $black;
       text-decoration: none;
+    }
+
+    &__button {
+      padding: 0;
+      font-family: $font-dm-sans;
+      font-size: 20px;
+      line-height: 26px;
+      color: $black;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
     }
   }
 </style>
