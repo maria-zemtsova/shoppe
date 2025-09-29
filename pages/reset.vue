@@ -9,7 +9,7 @@
   const email = ref('')
   const emailError = ref('')
   const isNotificationVisible = ref(false)
-
+  const DELAY_BEFORE_ROUTING = 1500
   const validateEmail = () => {
     emailError.value = ''
     if (!email.value.trim()) {
@@ -24,7 +24,7 @@
     if (!validateEmail()) return
     setTimeout(() => {
       router.push('/')
-    }, 1500)
+    }, DELAY_BEFORE_ROUTING)
     isNotificationVisible.value = true
   }
 </script>

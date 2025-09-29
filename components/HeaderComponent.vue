@@ -14,18 +14,12 @@
   import { useCartStore } from '~/stores/cart'
   import { useAuthStore } from '~/stores/auth'
   import AuthIcon from '~/components/icons/AuthIcon.vue'
-  import { ref, onMounted } from 'vue'
+  import { ref } from 'vue'
   import { useRouter } from 'vue-router'
 
   const cartStore = useCartStore()
   const authStore = useAuthStore()
   const router = useRouter()
-
-  // Инициализируем auth store при загрузке компонента
-  onMounted(() => {
-    authStore.checkAuth()
-  })
-
   const isMobileMenu = ref(false)
   const toggleMobileMenu = () => {
     isMobileMenu.value = !isMobileMenu.value

@@ -1,10 +1,11 @@
 <script setup lang="ts">
+  import { ref } from 'vue'
   import type { DefineComponent } from 'vue'
   import LinksList from '~/components/LinksList.vue'
   import type { LinkItem } from '~/types/links'
   import BaseInput from '~/components/ui/BaseInput.vue'
   import { FacebookIcon, TwitterIcon, InstagramIcon } from '~/components/icons/index'
-  import { useEmailSubscribe } from '~/composables/useEmailValidation'
+  import { useFormValidation } from '~/composables/useFormValidation'
 
   const footerLinks: LinkItem[] = [
     { id: 1, path: '#', label: 'contact' },
@@ -18,7 +19,31 @@
     { id: 3, component: TwitterIcon as DefineComponent, label: 'twitter', path: '#' },
   ]
 
-  const { email, errorMessage, isSuccess, handleSubmit } = useEmailSubscribe('newsletterEmails')
+  // Конфигурация валидации для подписки на рассылку
+  const formConfig = {
+    email: { required: true, email: true },
+  }
+
+  const { form, errorMessage, successMessage, validateForm } = useFormValidation(formConfig)
+  const isSuccess = ref(false)
+
+  const handleSubmit = () => {
+    if (!validateForm()) return
+
+    const storedEmails = JSON.parse(localStorage.getItem('newsletterEmails') || '[]')
+    const email = form.email.value.trim()
+
+    if (storedEmails.includes(email)) {
+      errorMessage.value = 'The email address already exists'
+      return
+    }
+
+    storedEmails.push(email)
+    localStorage.setItem('newsletterEmails', JSON.stringify(storedEmails))
+    form.email.value = ''
+    successMessage.value = 'The email has been successfully sent.'
+    isSuccess.value = true
+  }
 </script>
 
 <template>
@@ -30,11 +55,11 @@
 
     <form class="footer__form" @submit.prevent="handleSubmit">
       <BaseInput
-        v-model="email"
+        v-model="form.email.value"
         class="newsletter"
         type="email"
         placeholder="Give an email, get the newsletter."
-        :error="errorMessage"
+        :error="form.email.error"
       >
         <button class="newsletter__button" formnovalidate />
       </BaseInput>

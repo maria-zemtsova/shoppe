@@ -77,7 +77,7 @@
       <ProductInfo :product="product" class="product__info" />
     </div>
 
-    <BaseTabs v-model="activeTab" class="product__tabs" :items="tabs" />
+    <BaseTabs v-model="activeTab" class="product__tabs" :items="tabs" type="default" />
     <BaseAccordeon class="product__accordeon" :items="tabs" />
 
     <SimilarProducts v-if="product" :category="product.category" :current-id="product.id" />

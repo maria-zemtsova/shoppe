@@ -1,29 +1,41 @@
 <script setup lang="ts">
   import type { Component } from 'vue'
 
-  defineProps<{
-    items: TabItem[]
-  }>()
-
-  const activeTab = defineModel<number>('modelValue', { default: 0 })
-
   interface TabItem {
     title: string
     component: Component
   }
 
+  const props = defineProps<{
+    items: TabItem[]
+    type?: 'default' | 'switch'
+  }>()
+
+  const activeTab = defineModel<number | boolean>('modelValue', { default: 0 })
+
   function selectTab(index: number) {
-    activeTab.value = index
+    if (props.type === 'switch') {
+      activeTab.value = index === 1
+    } else {
+      activeTab.value = index
+    }
+  }
+
+  const isActive = (index: number) => {
+    if (props.type === 'switch') {
+      return (activeTab.value as boolean) === (index === 1)
+    }
+    return (activeTab.value as number) === index
   }
 </script>
 
 <template>
-  <section class="tab">
+  <section :class="['tab', { 'tab--switch': type === 'switch' }]">
     <div class="tab__header">
       <button
         v-for="(tab, idx) in items"
         :key="idx"
-        :class="['tab__button', { 'tab__button--active': idx === activeTab }]"
+        :class="['tab__button', { 'tab__button--active': isActive(idx) }]"
         type="button"
         @click="selectTab(idx)"
       >
@@ -33,7 +45,7 @@
 
     <div class="tab__body">
       <div v-for="(tab, idx) in items" :key="idx">
-        <component :is="tab.component" v-show="idx === activeTab" />
+        <component :is="tab.component" v-show="isActive(idx)" />
       </div>
     </div>
   </section>
@@ -88,6 +100,7 @@
       width: 500px;
       height: 60px !important;
       height: auto;
+      margin-bottom: 126px;
       overflow: hidden;
       background: $light-gray;
       border-bottom: none;
@@ -96,6 +109,7 @@
       @media (max-width: $breakpoints-m) {
         width: 288px;
         height: 32px !important;
+        margin-bottom: 86px;
       }
     }
 

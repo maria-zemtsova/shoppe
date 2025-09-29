@@ -3,95 +3,124 @@
   import BaseChecbox from '~/components/ui/BaseChecbox.vue'
   import BaseButton from '~/components/ui/BaseButton.vue'
   import NotificationComponent from '~/components/ui/NotificationComponent.vue'
-  import { reactive, ref } from 'vue'
+  import { ref } from 'vue'
   import { useAuthStore } from '~/stores/auth'
   import { useRouter } from 'vue-router'
+  import { useFormValidation } from '~/composables/useFormValidation'
+  import { NuxtLink } from '#components'
 
   const authStore = useAuthStore()
   const router = useRouter()
+  const DELAY_BEFORE_ROUTING = 1500
+  const formConfig = {
+    email: { required: true, email: true },
+    password: { required: true },
+  }
 
-  const form = reactive({
-    email: { value: '', error: '' },
-    password: { value: '', error: '' },
-    rememberMe: false,
-  })
-  const successMessage = ref('')
-  const errorMessage = ref('')
+  const { form, errorMessage, validateForm } = useFormValidation(formConfig)
+  const rememberMe = ref(false)
   const isNotificationVisible = ref(false)
-  const REQUIRED_FIELD_ERROR = 'Required field'
-  const validateForm = () => {
-    form.email.error = ''
-    form.password.error = ''
-    errorMessage.value = ''
+  const isLoading = ref(false)
 
-    if (!form.password.value.trim()) {
-      form.password.error = REQUIRED_FIELD_ERROR
-    }
-    if (!form.email.value.trim()) {
-      form.email.error = REQUIRED_FIELD_ERROR
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value)) {
-      form.email.error = 'Invalid address'
-    }
-    return !Object.values(form).some(
-      (item) => typeof item === 'object' && 'error' in item && !!item.error,
-    )
+  const hashPassword = async (password: string): Promise<string> => {
+    const encoder = new TextEncoder()
+    const data = encoder.encode(password)
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
   }
 
   const handleSubmit = async () => {
     if (!validateForm()) {
       return
     }
+    isLoading.value = true
+    try {
+      const hashedPassword = await hashPassword(form.password.value)
+      const result = await authStore.login({
+        email: form.email.value,
+        password: hashedPassword,
+        rememberMe: rememberMe.value,
+      })
 
-    const result = await authStore.login({
-      email: form.email.value,
-      password: form.password.value,
-      rememberMe: form.rememberMe,
-    })
-
-    if (result.success) {
-      isNotificationVisible.value = true
-      errorMessage.value = ''
-      setTimeout(() => {
-        router.push('/')
-      }, 1500)
-    } else {
-      errorMessage.value = result.error || 'Authentication failed'
-      successMessage.value = ''
+      if (result.success) {
+        isNotificationVisible.value = true
+        errorMessage.value = ''
+        setTimeout(() => {
+          router.push('/')
+        }, DELAY_BEFORE_ROUTING)
+      } else {
+        errorMessage.value = result.error || 'Authentication failed'
+      }
+    } finally {
+      isLoading.value = false
     }
   }
 </script>
 
 <template>
   <form class="account__form" @submit.prevent="handleSubmit">
-    <BaseInput
-      v-model="form.email.value"
-      placeholder="Email"
-      class="account__input"
-      :error="form.email.error"
-    />
-    <BaseInput
-      v-model="form.password.value"
-      placeholder="Password"
-      type="password"
-      class="account__input"
-      :error="form.password.error"
-    />
-    <BaseChecbox v-model="form.rememberMe" label="Remember me" class="account__checkbox" />
+    <div v-if="isLoading" class="account__spinner">
+      <div></div>
+    </div>
+    <template v-else>
+      <BaseInput
+        v-model="form.email.value"
+        placeholder="Email"
+        class="account__input"
+        :error="form.email.error"
+      />
+      <BaseInput
+        v-model="form.password.value"
+        placeholder="Password"
+        type="password"
+        class="account__input"
+        :error="form.password.error"
+      />
+      <BaseChecbox v-model="rememberMe" label="Remember me" class="account__checkbox" />
 
-    <NotificationComponent
-      v-model="isNotificationVisible"
-      class="account__success"
-      message="You have been successfully logged in."
-    />
-    <p v-if="errorMessage" class="account__error">{{ errorMessage }}</p>
+      <NotificationComponent
+        v-model="isNotificationVisible"
+        class="account__success"
+        message="You have been successfully logged in."
+      />
+      <p v-if="errorMessage" class="account__error">{{ errorMessage }}</p>
 
-    <BaseButton text="Sing in" type="submit" class="account__button" />
-    <BaseButton text="Have forgotten your password?" tag="a" class="account__link" href="/reset" />
+      <BaseButton text="Sing in" type="submit" class="account__button" />
+      <BaseButton
+        text="Have forgotten your password?"
+        :tag="NuxtLink"
+        to="/reset"
+        class="account__link"
+      />
+    </template>
   </form>
 </template>
 
 <style lang="scss" scoped>
   .account {
+    &__spinner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 50px;
+
+      div {
+        width: 50px;
+        height: 50px;
+        border: 4px solid $light-gray;
+        border-top-color: $accent;
+        border-radius: 50%;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    }
+
     &__input {
       margin-top: 46px;
     }
@@ -147,6 +176,10 @@
         font-size: 12px;
         line-height: 20px;
       }
+    }
+
+    &__link:hover {
+      color: $dark-gray;
     }
 
     &__error {
