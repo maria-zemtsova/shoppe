@@ -65,7 +65,7 @@
     background-color: $white;
     border: solid 1px $gray;
 
-    @media (width <= 768px) {
+    @media (width <=768px) {
       width: 100%;
       max-width: 100%;
       padding: 60px 150px;
@@ -76,14 +76,14 @@
       padding: 60px;
     }
 
-    @media (width <= 400px) {
+    @media (width <=400px) {
       padding: 48px 16px 16px;
     }
 
     &__header {
       margin: 0;
 
-      @media (width <= 768px) {
+      @media (width <=768px) {
         display: flex;
         gap: 34%;
         align-items: center;
@@ -100,7 +100,7 @@
       display: none;
       cursor: pointer;
 
-      @media (width <= 768px) {
+      @media (width <=768px) {
         display: block;
         width: 24px;
         height: 24px;
@@ -139,7 +139,7 @@
       background-color: $gray;
       border: none;
 
-      @media (width <= 768px) {
+      @media (width <=768px) {
         width: 100%;
         margin: 20px 0;
         margin-left: 0;
@@ -156,7 +156,7 @@
       line-height: 28px;
       letter-spacing: 16;
 
-      @media (width <= 768px) {
+      @media (width <=768px) {
         margin-top: 16px;
         font-size: 14px;
         line-height: 24px;
@@ -178,7 +178,7 @@
       border: 1px solid $black;
       border-radius: 4px;
 
-      @media (width <= 768px) {
+      @media (width <=768px) {
         width: 100%;
         height: 48px;
         margin-top: 16px;
@@ -231,7 +231,7 @@
     background-color: rgb(0 0 0 / 50%);
     backdrop-filter: blur(2px);
 
-    @media (width <= 768px) {
+    @media (width <=768px) {
       width: 100%;
       background-color: rgb(0 0 0 / 30%);
     }
@@ -259,7 +259,7 @@
   }
 
   /* Добавляем адаптацию для Transition на мобильных */
-  @media (width <= 768px) {
+  @media (width <=768px) {
     .slide-enter-from {
       transform: translateX(100%);
     }
