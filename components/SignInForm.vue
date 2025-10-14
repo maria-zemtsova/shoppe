@@ -3,6 +3,7 @@
   import BaseChecbox from '~/components/ui/BaseChecbox.vue'
   import BaseButton from '~/components/ui/BaseButton.vue'
   import NotificationComponent from '~/components/ui/NotificationComponent.vue'
+  import BaseSpinner from '~/components/ui/BaseSpinner.vue'
   import { ref } from 'vue'
   import { useAuthStore } from '~/stores/auth'
   import { useRouter } from 'vue-router'
@@ -60,9 +61,7 @@
 
 <template>
   <form class="account__form" @submit.prevent="handleSubmit">
-    <div v-if="isLoading" class="account__spinner">
-      <div></div>
-    </div>
+    <BaseSpinner v-if="isLoading" height="50px" />
     <template v-else>
       <BaseInput
         v-model="form.email.value"
@@ -99,28 +98,6 @@
 
 <style lang="scss" scoped>
   .account {
-    &__spinner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 50px;
-
-      div {
-        width: 50px;
-        height: 50px;
-        border: 4px solid $light-gray;
-        border-top-color: $accent;
-        border-radius: 50%;
-        animation: spin 1s ease-in-out infinite;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-    }
-
     &__input {
       margin-top: 46px;
     }
@@ -128,7 +105,7 @@
     &__checkbox {
       margin-top: 16px;
 
-      @media (max-width: $breakpoints-l) {
+      @media (max-width: $breakpoints-m) {
         margin-top: 22px;
       }
     }
@@ -149,7 +126,7 @@
       border: none;
       border-radius: 4px;
 
-      @media (max-width: $breakpoints-l) {
+      @media (max-width: $breakpoints-m) {
         width: 100%;
         height: 32px;
         margin-top: 12px;
@@ -171,7 +148,7 @@
       line-height: 28px;
       color: $black;
 
-      @media (max-width: $breakpoints-l) {
+      @media (max-width: $breakpoints-m) {
         margin-top: 16px;
         font-size: 12px;
         line-height: 20px;
@@ -199,7 +176,7 @@
     line-height: 28px;
     color: $black;
 
-    @media (max-width: $breakpoints-l) {
+    @media (max-width: $breakpoints-m) {
       font-size: 12px;
       line-height: 20px;
     }

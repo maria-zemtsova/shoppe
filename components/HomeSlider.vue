@@ -3,7 +3,8 @@
   import { Swiper, SwiperSlide } from 'swiper/vue'
   import { Autoplay, Pagination } from 'swiper/modules'
   import type { SwiperOptions } from 'swiper/types'
-  import SliderInfo from './SliderInfo.vue'
+  import SliderInfo from '~/components/SliderInfo.vue'
+  import BaseSpinner from '~/components/ui/BaseSpinner.vue'
 
   import 'swiper/scss'
   import 'swiper/scss/navigation'
@@ -47,9 +48,7 @@
 </script>
 <template>
   <section class="carousel">
-    <div v-if="isLoading" class="carousel__spinner">
-      <div></div>
-    </div>
+    <BaseSpinner v-if="isLoading" height="600px" />
     <div v-else-if="carouselError" class="carousel__error">{{ carouselError }}</div>
     <Swiper
       v-else="carouselImages.length > 0"
@@ -81,28 +80,6 @@
     @media (max-width: $breakpoints-l) {
       width: 100%;
       height: auto;
-    }
-
-    &__spinner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 600px;
-
-      div {
-        width: 50px;
-        height: 50px;
-        border: 4px solid $light-gray;
-        border-top-color: $accent;
-        border-radius: 50%;
-        animation: spin 1s ease-in-out infinite;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
     }
 
     &__error {
