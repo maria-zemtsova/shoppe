@@ -1,20 +1,23 @@
 <script setup lang="ts">
-  import { ref, onMounted, reactive } from 'vue'
+  import { ref, onMounted } from 'vue'
   import BaseInput from '~/components/ui/BaseInput.vue'
   import BaseChecbox from '~/components/ui/BaseChecbox.vue'
   import StarScore from '~/components/ui/StarScore.vue'
   import BaseButton from '~/components/ui/BaseButton.vue'
+  import { useFormValidation } from '~/composables/useFormValidation'
+
   const emit = defineEmits(['submit-review'])
 
-  const form = reactive({
-    review: { value: '', error: '' },
-    name: { value: '', error: '' },
-    email: { value: '', error: '' },
-    rating: { value: 0, error: '' },
-    rememberMe: false,
-  })
+  const formConfig = {
+    review: { required: true },
+    name: { required: true },
+    email: { required: true, email: true },
+  }
 
-  const successMessage = ref('')
+  const { form, successMessage, validateForm } = useFormValidation(formConfig)
+  const rating = ref(0)
+  const ratingError = ref('')
+  const rememberMe = ref(false)
 
   onMounted(() => {
     const savedName = localStorage.getItem('reviewer_name')
@@ -22,34 +25,31 @@
     if (savedName) form.name.value = savedName
     if (savedEmail) form.email.value = savedEmail
   })
-  const REQUIRED_FIELD_ERROR = 'Required field'
-  const validateForm = () => {
-    form.review.error = ''
-    form.name.error = ''
-    form.email.error = ''
-    form.rating.error = ''
-    if (!form.review.value.trim()) {
-      form.review.error = REQUIRED_FIELD_ERROR
+
+  const validateReviewForm = () => {
+    ratingError.value = ''
+
+    if (!validateForm()) {
+      return false
     }
-    if (!form.name.value.trim()) {
-      form.name.error = REQUIRED_FIELD_ERROR
+
+    if (rating.value <= 0) {
+      ratingError.value = 'Rating is required'
+      return false
     }
-    if (!form.email.value.trim()) {
-      form.email.error = REQUIRED_FIELD_ERROR
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value)) {
-      form.email.error = 'Invalid address'
-    }
-    if (form.rating.value <= 0) {
-      form.rating.error = 'Rating is required'
-    }
-    return !Object.values(form).some((item) => !!item)
+
+    return true
   }
   const handleSubmit = () => {
-    if (!validateForm()) return
+    if (!validateReviewForm()) return
 
-    emit('submit-review', { ...form })
+    emit('submit-review', {
+      ...form,
+      rating: rating.value,
+      rememberMe: rememberMe.value,
+    })
 
-    if (form.rememberMe) {
+    if (rememberMe.value) {
       localStorage.setItem('reviewer_name', form.name.value)
       localStorage.setItem('reviewer_email', form.email.value)
     } else {
@@ -57,11 +57,11 @@
       localStorage.removeItem('reviewer_email')
       form.name.value = ''
       form.email.value = ''
-      form.rememberMe = false
+      rememberMe.value = false
     }
 
     form.review.value = ''
-    form.rating.value = 0
+    rating.value = 0
     successMessage.value = 'Your review has been submitted successfully!'
   }
 </script>
@@ -94,14 +94,14 @@
         :error="form.email.error"
       />
       <BaseChecbox
-        v-model="form.rememberMe"
+        v-model="rememberMe"
         label="Save my name, email, and website in this browser for the next time I comment"
         class="review__checkbox"
       />
       <div class="review__score">
         <p>Your Rating*</p>
-        <StarScore v-model="form.rating.value" class="review__star" />
-        <span v-if="form.rating.error" class="review__error">{{ form.rating.error }}</span>
+        <StarScore v-model="rating" class="review__star" />
+        <span v-if="ratingError" class="review__error">{{ ratingError }}</span>
       </div>
       <p v-if="successMessage" class="review__success">{{ successMessage }}</p>
       <BaseButton text="Submit" type="submit" class="review__button" formnoValidate />

@@ -9,6 +9,7 @@
   import BaseAccordeon from '~/components/ui/BaseAccordeon.vue'
   import SimilarProducts from '~/components/SimilarProducts.vue'
   import ProductInfoDetails from '~/components/ProductInfoDetails.vue'
+  import BaseSpinner from '~/components/ui/BaseSpinner.vue'
   import { useRuntimeConfig } from 'nuxt/app'
 
   const route = useRoute()
@@ -66,9 +67,7 @@
 </script>
 
 <template>
-  <div v-if="loading" class="product__spinner">
-    <div></div>
-  </div>
+  <BaseSpinner v-if="loading" height="600px" />
   <div v-else-if="error" class="product__error">{{ error }}</div>
 
   <section v-else class="product">
@@ -77,7 +76,7 @@
       <ProductInfo :product="product" class="product__info" />
     </div>
 
-    <BaseTabs v-model="activeTab" class="product__tabs" :items="tabs" />
+    <BaseTabs v-model="activeTab" class="product__tabs" :items="tabs" type="default" />
     <BaseAccordeon class="product__accordeon" :items="tabs" />
 
     <SimilarProducts v-if="product" :category="product.category" :current-id="product.id" />
@@ -103,28 +102,6 @@
     @media (max-width: $breakpoints-l) {
       display: block;
       margin-top: 50px;
-    }
-
-    &__spinner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 600px;
-
-      div {
-        width: 50px;
-        height: 50px;
-        border: 4px solid $light-gray;
-        border-top-color: $accent;
-        border-radius: 50%;
-        animation: spin 1s ease-in-out infinite;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
     }
 
     &__error {

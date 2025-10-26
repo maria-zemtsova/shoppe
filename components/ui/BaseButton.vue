@@ -1,7 +1,8 @@
 <script lang="ts" setup>
   import { computed, useSlots } from 'vue'
+  import { NuxtLink } from '#components'
 
-  type ButtonTag = 'button' | 'a' | 'nuxt-link'
+  type ButtonTag = 'button' | 'a' | typeof NuxtLink
 
   interface Props {
     text?: string
@@ -11,6 +12,7 @@
     type?: 'button' | 'submit' | 'reset'
     disabled?: boolean
   }
+
   const props = withDefaults(defineProps<Props>(), {
     tag: 'button',
     type: 'button',
@@ -27,7 +29,7 @@
         return { ...baseProps, type: props.type }
       case 'a':
         return { ...baseProps, href: props.href }
-      case 'nuxt-link':
+      case NuxtLink:
         return { ...baseProps, to: props.to }
       default:
         return baseProps

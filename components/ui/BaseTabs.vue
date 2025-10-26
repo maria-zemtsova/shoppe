@@ -1,39 +1,42 @@
 <script setup lang="ts">
+  import { computed } from 'vue'
   import type { Component } from 'vue'
-
-  defineProps<{
-    items: TabItem[]
-  }>()
-
-  const activeTab = defineModel<number>('modelValue', { default: 0 })
 
   interface TabItem {
     title: string
     component: Component
   }
 
+  defineProps<{
+    items: TabItem[]
+  }>()
+
+  const START_INDEX = 0
+  const activeTab = defineModel<number>('modelValue', { default: START_INDEX })
+
   function selectTab(index: number) {
     activeTab.value = index
   }
+  const isActive = computed(() => (index: number) => activeTab.value === index)
 </script>
 
 <template>
   <section class="tab">
     <div class="tab__header">
       <button
-        v-for="(tab, idx) in items"
-        :key="idx"
-        :class="['tab__button', { 'tab__button--active': idx === activeTab }]"
+        v-for="(tab, index) in items"
+        :key="index"
+        :class="['tab__button', { 'tab__button--active': isActive(index) }]"
         type="button"
-        @click="selectTab(idx)"
+        @click="selectTab(index)"
       >
         {{ tab.title }}
       </button>
     </div>
 
     <div class="tab__body">
-      <div v-for="(tab, idx) in items" :key="idx">
-        <component :is="tab.component" v-show="idx === activeTab" />
+      <div v-for="(tab, index) in items" :key="index">
+        <component :is="tab.component" v-show="isActive(index)" />
       </div>
     </div>
   </section>
