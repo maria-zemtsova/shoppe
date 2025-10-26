@@ -1,7 +1,11 @@
 import { mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import QuantityCounter from '~/components/ui/QuantityCounter.vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
+
+vi.mock('#components', () => ({
+  NuxtLink: { template: '<a><slot /></slot></a>' },
+}))
 
 describe('QuantityCounter.vue', () => {
   it('increments and decrements the quantity', async () => {

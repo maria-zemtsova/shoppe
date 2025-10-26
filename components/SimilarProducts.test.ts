@@ -16,6 +16,10 @@ const product: Product = {
   discountPercentage: 10,
 }
 
+vi.mock('#components', () => ({
+  NuxtLink: { template: '<a><slot /></slot></a>' },
+}))
+
 vi.stubGlobal(
   'fetch',
   vi.fn(() =>

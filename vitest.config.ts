@@ -10,7 +10,6 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./setup.ts'],
     alias: {
-      '#components': path.resolve(__dirname, '.nuxt/components'),
       '~': path.resolve(__dirname, './'),
       '@': path.resolve(__dirname, './'),
     },
