@@ -59,6 +59,11 @@ jobs:
             echo "TypeScript config not found, skipping type check"
           fi
 
+      - name: Run Vitest tests
+        run: npm run test
+        env:
+          CI: true
+
   build:
     name: Build project
     runs-on: ubuntu-latest
