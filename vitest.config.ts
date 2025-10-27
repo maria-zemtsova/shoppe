@@ -12,7 +12,7 @@ export default defineConfig({
     alias: {
       '~': path.resolve(__dirname, './'),
       '@': path.resolve(__dirname, './'),
-      '#components': '/fake/path',
+      '#components': path.resolve(__dirname, './tests/mocks/components'),
     },
   },
 })
